@@ -5,23 +5,11 @@
 
 using namespace std;
 typedef long long ll;
+typedef unsigned long long ull;
 const int maxn = 7e5 + 77;
+const int inf = 1e9;
 
-struct node {
-    ll x, k;
-
-    bool operator<(const node &T) const {
-        return x < T.x;
-    }
-};
-
-ll ans, tmp;
-ll n, m;
-node a[maxn];
-
-inline void addNode(const ll &p, const ll &k) {
-    a[m++] = {p, k};
-}
+int Kase;
 
 
 int main() {
@@ -29,67 +17,50 @@ int main() {
     cin.tie(nullptr);
     cout.tie(nullptr);
 
+    //cin >> Kase;
+    //while (Kase--) {
+    int n;
     cin >> n;
+    vector<ull> a(n);
+    map<ull, bool> mp;
 
-    for (ll u, v, i = 0; i < n; ++i) {
-        cin >> u >> v;
-        //if (u > v)swap(u, v);
-        tmp += abs(v - u);
-
-        if (u >= 0 && v >= 0) {//==?
-            if (u * 2 < v) {
-                addNode(u * 2, -1);
-                addNode(v, 2);
-                addNode(v * 2 - u * 2, -1);
-            }
-        } else if (u < 0 && v < 0) {
-            if (u * 2 > v) {
-                addNode(v * 2 - u * 2, -1);
-                addNode(v, 2);
-                addNode(u * 2, -1);
-            }
-        } else {
-            addNode(0, -1);
-            addNode(v, 2);
-            addNode(v * 2, -1);
+    int mxexp = 0;
+    ull tmp = inf;
+    for (auto &ai:a) {
+        cin >> ai;
+        mp[ai] = true;
+        ull t = ai;
+        int exp = 0;
+        while (t % 3 == 0llu) {
+            t /= 3;
+            exp++;
         }
-    }
-    sort(a, a + m);
-    vector<node> dots;
-
-    for (ll i = 0; i < m; ++i) {
-        if (dots.empty() || dots.rbegin()->x != a[i].x) {
-            dots.emplace_back(a[i]);
-        } else {
-            dots.rbegin()->k += a[i].k;
+        if (exp > mxexp) {
+            tmp = ai;
+        } else if (exp == mxexp) {
+            tmp = min(tmp, ai);
         }
     }
 
-    ans = tmp;
-    ll lasK = 0;
-    ll curPos;
-    ll lasPos = LLONG_MIN;
-
-    for (const auto &dot:dots) {
-        curPos = dot.x;
-        tmp += lasK * (curPos - lasPos);
-        lasPos = curPos;
-        lasK += dot.k;
-        ans = min(ans, tmp);
+    cout << tmp;
+    while ((tmp % 3 == 0 && mp[tmp / 3]) || mp[tmp * 2]) {
+        if (tmp % 3 == 0 && mp[tmp / 3]) {
+            tmp /= 3;
+        } else {
+            tmp *= 2;
+        }
+        cout << " " << tmp;
     }
-
-    cout << ans << endl;
+    //}
     return 0;
 }
 
+
 /*
- 3
--5 -7
--3 10
--2 7
+2
+10000 30000
 
- //10
 
- * */
+ */
 
 
