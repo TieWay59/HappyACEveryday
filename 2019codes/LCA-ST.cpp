@@ -1,7 +1,7 @@
 /*
  * src: https://codeforces.com/gym/101808/problem/K
  * use: LCA + ST
- *
+ * 
  */
 
 #define _debug(x) cerr<<#x<<" = "<<(x)<<endl;fflush(stdout)
