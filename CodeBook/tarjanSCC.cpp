@@ -1,3 +1,4 @@
+//http://poj.org/status?problem_id=&user_id=tieway59&result=&language=
 #define myDebug(x) cerr<<#x<<" "<<x<<endl
 
 #include <string.h>
@@ -21,8 +22,7 @@ inline void addEdge(int u, int v) {
     head[u] = cntEd++;
 }
 
-int ind[MAXN], oud[MAXN];
-int Xind[MAXN], Xoud[MAXN];
+//-----tarjan
 int dfn[MAXN], low[MAXN], scc[MAXN], stk[MAXN], index = 0, sccnum = 0, top = 0;
 
 void tarjan(int root) {
@@ -47,7 +47,9 @@ void tarjan(int root) {
         }
     }
 }
+//---------
 
+int ind[MAXN], oud[MAXN];
 
 int main() {
     memset(head, -1, sizeof head);

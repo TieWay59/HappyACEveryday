@@ -76,7 +76,7 @@ void update(int root, int l, int r, int v) {
     if (r < L || R < l)return;
     else if (L <= l && r <= R) {
         add[root] += v;
-        tree[root] += v;
+        tree[root] += v * (l - r + 1);
         return;
     }
 

@@ -3,4 +3,4 @@ project(DeleteThis)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(DeleteThis main.cpp)
+add_executable(DeleteThis main.cpp CodeBook/linklist.cpp CodeBook/tarjanSCC.cpp)
