@@ -1,4 +1,4 @@
-
+//没实现负数
 const int BUF_SIZE = (int) 1e4 + 10;
 
 struct fastIO {
