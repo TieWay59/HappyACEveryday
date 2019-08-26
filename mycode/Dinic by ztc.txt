@@ -155,11 +155,11 @@ int main()
         Dij.Get_Dist(1);
         for (int i = 0; i < Dij.cntE; i++)
         {
-            Edge &e = Dij.E[i];
-            if (Dij.dist[e.from] + e.cost == Dij.dist[e.to])
+            Edge &ed = Dij.E[i];
+            if (Dij.dist[ed.from] + ed.cost == Dij.dist[ed.to])
             {
-                Din.addE(e.from, e.to, e.cost);
-                Din.addE(e.to, e.from, 0);
+                Din.addE(ed.from, ed.to, ed.cost);
+                Din.addE(ed.to, ed.from, 0);
             }
         }
         printf("%lld\n",Din.dinic(1,n,n));
