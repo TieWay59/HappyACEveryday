@@ -79,34 +79,3 @@ int main() {
     puts("");
     return 0;
 }
-/*
-python
-78 ms
-7976 KB
-
-a=int(input())
-b=int(input())
-print(a*b)
-
-*/
-
-/*
-JAVA
-375 ms
-21124 KB
-
-import java.util.*;
-import java.math.*;
-
-public class Main {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Scanner in = new Scanner(System.in);
-		BigInteger a = in.nextBigInteger();
-		BigInteger b = in.nextBigInteger();
-		System.out.println(a.multiply(b));
-	}
-
-}
-*/
