@@ -2,7 +2,7 @@
 /* Author: bnfcc -> tc2000731 -> tieway59
  * Description:
  *  维护下凸包，对于每个x维护f(x)=k*x+b的最大值。
- *  find max value within all f(x) functions.
+ *  query max value within all f(x) functions.
  * Problems:
  *  https://nanti.jisuanke.com/t/41306
  *
