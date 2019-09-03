@@ -3,6 +3,7 @@
  * Description:
  *  维护下凸包，对于每个x维护f(x)=k*x+b的最大值。
  *  query max value within all f(x) functions.
+ *  c++11 features included.
  * Problems:
  *  https://nanti.jisuanke.com/t/41306
  *
