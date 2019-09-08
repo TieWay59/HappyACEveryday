@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+main.cpp
+.idea
+cmake-build-debug
+defcode*.cpp
