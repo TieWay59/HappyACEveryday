@@ -9,151 +9,69 @@
 #define  _debug(x) cerr<<#x<<" = "<<x<<endl
 using namespace std;
 typedef long long ll;
-const int MAXN = 1e6 + 59;
+const int MAXN = 1e2 + 59;
 const int MAXM = 2e6 + 59;
 const ll MOD = 998244353;
 const ll INF = 1e6;
 
-
-class Matrix {
-public:
-    int r{}, c{};
-    vector<vector<int> > mat;
-
-    Matrix() : r(5), c(5) {
-        vector<int> t(5, 0);
-        for (int i = 1; i <= 5; i++)
-            mat.emplace_back(t);
-    }
-
-    void init(int _r, int _c) {
-        mat.resize(_r);
-        for (auto &v:mat) {
-            v.resize(_c, 0);
-        }
-    }
-
-    int operator()(const int &_r, const int &_c) const {
-
-        return this->mat[_r][_c];
-    }
-
-    void operator()(const int &_r, const int &_c, const int &v) {
-        //_debug(this->mat.size());
-        this->mat[_r][_c] = v;
-    }
-
-    Matrix operator*(const Matrix &rht) {
-        if (c != rht.r || rht.mat[0].empty() || this->mat.empty()) {
-            cerr << "error" << endl;
-            exit(0);
-        }
-        int n = c;
-        Matrix &lft = *this;
-        Matrix ret;
-        ret.init(5, 5);
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                int t = INF;
-                for (int k = 0; k < n; ++k) {
-                    t = min(t, lft(i, k) + rht(k, j));
-                }
-                ret(i, j, t);
-            }
-        }
-        return ret;
-    }
-};
-
-int n, q;
-string s;
-
-
-#define lson o<<1
-#define rson o<<1|1
-
-Matrix tree[MAXN << 2];
-
-void update(int o, int l, int r, const int &pos, const Matrix &v) {
-    if (l > r)return;
-    if (l == r && l == pos) {
-        tree[o] = v;
-        return;
-    }
-    int m = (l + r) >> 1;
-
-    if (pos <= m)update(lson, l, m, pos, v);
-    else update(rson, m + 1, r, pos, v);
-    tree[o] = tree[lson] * tree[rson];
-}
-
-Matrix query(int o, int l, int r, const int &L, const int &R) {
-    if (L <= l && r <= R)
-        return tree[o];
-    int m = (l + r) >> 1;
-    Matrix ret;
-    if (r <= m)ret = query(lson, l, m, L, R);
-    else if (m < l)ret = query(rson, m + 1, r, L, R);
-    else ret = query(lson, l, m, L, R) * query(rson, m + 1, r, L, R);
-    return ret;
-}
-
-
-Matrix a[10], tmp, ans;
+int n, s, sizn;
+int ps, pu;
+int nm[1 << 10 | 1];
+int dp[55][1 << 10];
+int ans;
+int a[MAXN];
+int psa[MAXN];
+int pua[MAXN];
+int sum;
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    tmp.mat = {{0,   INF, INF, INF, INF},
-               {INF, 0,   INF, INF, INF},
-               {INF, INF, 0,   INF, INF},
-               {INF, INF, INF, 0,   INF},
-               {INF, INF, INF, INF, 0}};
-    a[3].mat = {{0,   INF, INF, INF, INF},
-                {INF, 0,   INF, INF, INF},
-                {INF, INF, 0,   INF, INF},
-                {INF, INF, INF, 0,   INF},
-                {INF, INF, INF, INF, 0}};
-    a[2].mat = {{1,   0,   INF, INF, INF},
-                {INF, 0,   INF, INF, INF},
-                {INF, INF, 0,   INF, INF},
-                {INF, INF, INF, 0,   INF},
-                {INF, INF, INF, INF, 0}};
-    a[0].mat = {{0,   INF, INF, INF, INF},
-                {INF, 1,   0,   INF, INF},
-                {INF, INF, 0,   INF, INF},
-                {INF, INF, INF, 0,   INF},
-                {INF, INF, INF, INF, 0}};
-    a[1].mat = {{0,   INF, INF, INF, INF},
-                {INF, 0,   INF, INF, INF},
-                {INF, INF, 1,   0,   INF},
-                {INF, INF, INF, 0,   INF},
-                {INF, INF, INF, INF, 0}};
-    a[7].mat = {{0,   INF, INF, INF, INF},
-                {INF, 0,   INF, INF, INF},
-                {INF, INF, 0,   INF, INF},
-                {INF, INF, INF, 1,   0},
-                {INF, INF, INF, INF, 0}};
-    a[6].mat = {{0,   INF, INF, INF, INF},
-                {INF, 0,   INF, INF, INF},
-                {INF, INF, 0,   INF, INF},
-                {INF, INF, INF, 0,   INF},
-                {INF, INF, INF, INF, 1}};
-    a[4] = a[5] = a[8] = a[9] = a[3];
 
+    cin >> n >> s;
+    sizn = 2 * n * (s + 1);
+    for (int i = 1; i <= sizn; ++i) cin >> a[i];
 
-    cin >> n >> q >> s;
+    cin >> ps;
+    for (int i = 1; i <= ps; ++i)cin >> psa[i], sum += psa[i];
+    sort(psa + 1, psa + 1 + n, greater<int>());
 
-    for (int i = 0, j; i < n; i++) {
-        j = s[i] - '0';
-        update(1, 1, n, i + 1, a[j]);
+    cin >> pu;
+    for (int i = 1; i <= pu; ++i)cin >> pua[i], sum += pua[i];
+    sort(pua + 1, pua + 1 + n, greater<int>());
+
+    int states = 1 << (2 * n);
+
+    for (int i = 1; i < states; i++)
+        nm[i] = nm[i >> 1] + (i & 1);
+
+    for (int i = 0; i < states; ++i) {
+        dp[0][i] = -1e9;
     }
-    int l, r;
-    while (q--) {
-        cin >> l >> r;
-        ans = tmp * query(1, 1, n, l, r);
-        cout << ans(4, 4) << endl;
+
+    for (int i = 1, m; i <= sizn; ++i) {
+        m = 1 << (a[i] - 1);
+        _debug(i);
+        for (int s = 0; s < states; ++s) {
+            _debug(bitset<2>(s));
+
+            if (m & s) {
+                if (a[i] <= n)
+                    dp[i][s] = max(dp[i - 1][s ^ m] + pua[nm[s ^ m]],
+                                   dp[i - 1][s] + psa[i - nm[s]]);
+                else
+                    dp[i][s] = min(dp[i - 1][s ^ m] - pua[nm[s ^ m]],
+                                   dp[i - 1][s] - psa[i - nm[s]]);
+
+            } else {
+                if (a[i] <= n)dp[i][s] = dp[i - 1][s] + psa[i - nm[s]];
+                else dp[i][s] = dp[i - 1][s] - psa[i - nm[s]];
+            }
+        }
+        _debug(dp[i][s]);
     }
+    ans = dp[n][states - 1];
+    cout << ans << endl;
 
     return 0;
 }
