@@ -4,8 +4,13 @@
 [ACM-ICPC 2015 Shenyang Preliminary Contest(3/13)](https://www.jisuanke.com/contest/3112?view=challenges)
 
 
+
+
 [//]: # (
     todo: + Heavy-light Decomposition
+    todo: solution for https://nanti.jisuanke.com/t/41402
+    todo: solution for  https://codeforc.es/problemset/problem/750/E
+    
 )
 
 ## Heavy-light Decomposition

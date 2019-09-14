@@ -1,155 +1,113 @@
 /*
-*  https://codeforc.es/problemset/problem/750/E
+*  https://nanti.jisuanke.com/t/41402
 *
 */
 //#include <bits/stdc++.h>
-#include <stdio.h>
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <string.h>
+#include <tuple>
 
 #define  _debug(x) cerr<<#x<<" = "<<x<<endl
 using namespace std;
 typedef long long ll;
-const int MAXN = 2e5 + 59; //todo change the size
-
-const int MAXM = 2e6 + 59;
+const int MAXN = 1e5 + 59;
+const int MAXM = 2e5 + 59;
 const ll MOD = 998244353;
 const ll INF = 0x0f0f0f0f;
 
+int fa[MAXN];
+int sz[MAXN];
 
-struct Matrix {
-    int mat[5][5]{};
-
-    Matrix() = default;
-
-    void init(int _r, int _c) { memset(mat, 0, sizeof mat); }
-
-    int operator()(const int &_r, const int &_c) const {
-        return this->mat[_r][_c];
+int findf(int x) {
+    if (x == fa[x])return x;
+    else {
+        sz[fa[x]] += sz[x];
+        sz[x] = 0;
+        return fa[x] = findf(fa[x]);
     }
-
-    void operator()(const int &_r, const int &_c, const int &v) {
-        //_debug(this->mat.size());
-        this->mat[_r][_c] = v;
-    }
-
-    Matrix operator*(const Matrix &rht) {
-
-        int n = 5;
-        Matrix &lft = *this;
-        Matrix ret;
-        //ret.init(5, 5);
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                int t = INF;
-                for (int k = 0; k < n; ++k) {
-                    t = min(t, lft(i, k) + rht(k, j));
-                }
-                ret(i, j, t);
-            }
-        }
-        return ret;
-    }
-
-//    void show() {
-//        for (int _r = 0; _r < 5; ++_r) {
-//            for (int _c = 0; _c < 5; ++_c) {
-//                if (mat[_r][_c] < INF)cout << mat[_r][_c] << "\t";
-//                else cout << "INF\t";
-//            }
-//            cout << endl;
-//        }
-//    }
-};
-
-int n, q;
-char s[MAXN];
-
-
-#define lson o<<1
-#define rson o<<1|1
-
-Matrix tree[MAXN << 2];
-
-void update(int o, int l, int r, const int &pos, const Matrix &v) {
-    if (l > r)return;
-    if (l == r && l == pos) {
-        tree[o] = v;
-        return;
-    }
-    int m = (l + r) >> 1;
-
-    if (pos <= m)update(lson, l, m, pos, v);
-    else update(rson, m + 1, r, pos, v);
-    tree[o] = tree[lson] * tree[rson];
 }
 
-Matrix query(int o, int l, int r, const int &L, const int &R) {
-    if (L <= l && r <= R)
-        return tree[o];
-
-    int M = (l + r) >> 1;
-    Matrix ret;
-    if (R <= M)ret = query(lson, l, M, L, R);
-    else if (M < L)ret = query(rson, M + 1, r, L, R);
-    else ret = query(lson, l, M, L, R) * query(rson, M + 1, r, L, R);
-    return ret;
+void mergf(int x, int y) {
+    int fx = findf(x);
+    int fy = findf(y);
+    if (fx == fy)return;
+    if (sz[fx] <= sz[fy]) {
+        sz[fx] += sz[fy];
+        sz[fy] = 0;
+        fa[fy] = fx;
+    } else {
+        sz[fy] += sz[fx];
+        sz[fx] = 0;
+        fa[fx] = fy;
+    }
 }
 
 
-Matrix a[10], tmp, ans;
-
-/*
-
-
- */
-
+int Kase;
+int n, m, k;
+pair<int, int> e[MAXM];
+int a[MAXN];
+bool tag[MAXN];
+bool vis[MAXN];
+vector<int> g[MAXN];
 
 int main() {
-//    ios_base::sync_with_stdio(false);
-//    cin.tie(nullptr);
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    vector<int> index = {2, 0, 1, 7, 6, 3, 4, 5, 8, 9};
-    for (int i = 0, j = 0; i < 10; i++) {
-        j = index[i];
-        memset(a[j].mat, INF, sizeof a[j].mat);
-        for (int k = 0; k < 5; k++) {
-            a[j].mat[k][k] = (i == k);
-            if (i == k && k < 4)a[j].mat[k][k + 1] = 0;
+    cin >> Kase;
+    while (Kase--) {
+        cin >> n >> m >> k;
+        for (int i = 1; i <= n; ++i) {
+            fa[i] = i;
+            sz[i] = 1;
+            tag[i] = false;
+            vis[i] = false;
+            g[i].clear();
         }
-        //a[j].show();
-    }
-//    tmp = a[3];
-    a[6].mat[3][3] = 1;
-    //memset(tmp.mat, 0, sizeof(tmp.mat));
-//    for (int m = 0; m < 5; ++m) {
-//        tmp.mat[m][m] = 0;
-//
-//    }
-    tmp = a[3];
-//    ans = tmp * a[2] * a[0] * a[1] * a[6] * a[6] * a[7] * a[6] * a[6];
-//    ans.show();
+        for (int i = 1; i <= m; ++i) {
+            cin >> e[i].first >> e[i].second;
+        }
+        for (int i = 1; i <= k; ++i) {
+            cin >> a[i];
+            tag[a[i]] = true;
+            sz[a[i]] = 0;
+        }
+        for (int i = 1; i <= m; ++i) {
+            if (tag[e[i].first] == 0 && tag[e[i].second] == 0) {
+                mergf(e[i].first, e[i].second);
+            }
+        }
+        for (int u, v, i = 1; i <= m; ++i) {
+            tie(u, v) = e[i];
 
+            v = findf(v);
+            u = findf(u);
 
-    scanf("%d%d%s", &n, &q, s);
-//    cin >> n >> q >> s;
+            if (tag[u] || tag[v]) {
+                g[u].emplace_back(v);
+                g[v].emplace_back(u);
+            }
+        }
 
-    for (int i = 0, j; i < n; i++) {
-        j = s[i] - '0';
-        update(1, 1, n, i + 1, a[j]);
-    }
+        int start = findf(1);
+        double ans = sz[start];
+        double tmp = 0;
 
-    int l, r, out;
-    while (q--) {
-//        cin >> l >> r;
-        scanf("%d%d", &l, &r);
-        ans = tmp * query(1, 1, n, l, r);
-        //ans.show();
-        if (ans(0, 4) < INF)out = ans(0, 4);
-        else out = -1;
-//        cout << out << endl;
-        printf("%d\n", out);
+        for (auto u:g[start]) {
+            if (vis[u])continue;
+            else vis[u] = true;
+
+            double sum = 0;
+            for (auto v:g[u])if (v != start)sum += sz[v];
+            sum /= 1.0 * g[u].size();
+
+            if (sum > tmp) tmp = sum;
+        }
+        ans += tmp;
+        printf("%.6f\n", ans);
     }
 
     return 0;
