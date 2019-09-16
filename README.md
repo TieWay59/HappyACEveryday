@@ -8,9 +8,9 @@
 
 [//]: # (
     todo: + Heavy-light Decomposition
-    todo: solution for https://nanti.jisuanke.com/t/41402
     todo: solution for  https://codeforc.es/problemset/problem/750/E
-    
+    todo: https://codeforces.com/problemset/problem/963/D
+    todo: https://nanti.jisuanke.com/t/41415
 )
 
 ## Heavy-light Decomposition
