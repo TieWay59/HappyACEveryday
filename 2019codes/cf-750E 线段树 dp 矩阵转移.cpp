@@ -11,7 +11,7 @@
 #define  _debug(x) cerr<<#x<<" = "<<x<<endl
 using namespace std;
 typedef long long ll;
-const int MAXN = 2e5 + 59; //todo change the size
+const int MAXN = 2e5 + 59;
 
 const int MAXM = 2e6 + 59;
 const ll MOD = 998244353;
