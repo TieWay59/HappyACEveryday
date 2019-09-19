@@ -26,6 +26,7 @@
 [//]: # (
     todo: https://codeforces.com/problemset/problem/963/D
     todo: https://nanti.jisuanke.com/t/41415
+    todo: 有色图/计数/群论？ https://www.luogu.org/problemnew/solution/P4128
 )
 - [ ] 读文章(0/1)
 - - [ ][Implementation of centroid decomposition on a tree](https://codeforces.com/blog/entry/58025)
