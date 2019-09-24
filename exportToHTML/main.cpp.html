@@ -3,8 +3,8 @@
     <title>main.cpp</title>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
     <style type="text/css">
-.s0 { color: #969896;}
-.s1 { color: #333333;}
+.s0 { color: #333333;}
+.s1 { color: #969896;}
 .s2 { color: #a71d5d;}
 .s3 { color: #183691;}
 .s4 { color: #63a35c;}
@@ -23,252 +23,162 @@
         </td>
     </tr>
 </table>
-<pre><span class="s0">/* 
-*  https://nanti.jisuanke.com/t/41414 
-*/</span>
-<span class="s0">//#include &lt;bits/stdc++.h&gt;</span>
-<span class="s2">#include </span><span class="s3">&lt;iostream&gt;</span>
-<span class="s2">#include </span><span class="s3">&lt;algorithm&gt;</span>
-<span class="s2">#include </span><span class="s3">&lt;vector&gt;</span>
-<span class="s2">#include </span><span class="s3">&lt;string.h&gt;</span>
-<span class="s2">#include </span><span class="s3">&lt;tuple&gt;</span>
+<pre>
 
-<span class="s2">#define  </span><span class="s1">_debug</span><span class="s4">(</span><span class="s1">x</span><span
-            class="s4">) </span><span class="s1">cerr</span><span class="s2">&lt;&lt;#</span><span
-            class="s1">x</span><span class="s2">&lt;&lt;</span><span class="s3">&quot; = &quot;</span><span class="s2">&lt;&lt;</span><span
-            class="s1">x</span><span class="s2">&lt;&lt;</span><span class="s1">endl</span>
-<span class="s2">using namespace </span><span class="s1">std</span><span class="s4">;</span>
-<span class="s2">typedef __int128 </span><span class="s1">ll</span><span class="s4">;</span>
-<span class="s2">typedef __int128 </span><span class="s1">lll</span><span class="s4">;</span>
-<span class="s2">const int </span><span class="s1">MAXN </span><span class="s2">= </span><span
-            class="s5">1e5 </span><span class="s2">+ </span><span class="s5">59</span><span class="s4">;</span>
-<span class="s2">const int </span><span class="s1">MAXM </span><span class="s2">= </span><span
-            class="s5">2e5 </span><span class="s2">+ </span><span class="s5">59</span><span class="s4">;</span>
-<span class="s2">const </span><span class="s1">ll MOD </span><span class="s2">= </span><span class="s5">998244353</span><span
-            class="s4">;</span>
-<span class="s2">const </span><span class="s1">ll INF </span><span class="s2">= </span><span
-            class="s5">0x0f0f0f0f</span><span class="s4">;</span>
+<span class="s1">/* 
+ * https://codeforces.com/contest/1216/problem/F 
+ * 
+ */</span>
+<span class="s2">#include </span><span class="s3">&lt;bits/stdc++.h&gt;</span>
 
-<span class="s2">template&lt;const int </span><span class="s1">BCSize </span><span class="s2">= </span><span class="s5">27</span><span
-            class="s2">&gt; </span><span class="s0">//add Mod as parameter;</span>
-<span class="s2">struct </span><span class="s1">Binomial_Coefficient </span><span class="s4">{</span>
-    <span class="s1">ll c</span><span class="s4">[</span><span class="s1">BCSize </span><span class="s2">+ </span><span
-            class="s5">1</span><span class="s4">][</span><span class="s1">BCSize </span><span class="s2">+ </span><span
-            class="s5">1</span><span class="s4">];</span>
-    <span class="s0">//Pascal's Triangle</span>
+<span class="s2">#define  </span><span class="s0">_debug</span><span class="s4">(</span><span class="s0">x</span><span
+        class="s4">) </span><span class="s0">cerr</span><span class="s2">&lt;&lt;#</span><span class="s0">x </span><span
+        class="s2">&lt;&lt; </span><span class="s3">&quot; = &quot; </span><span class="s2">&lt;&lt; </span><span
+        class="s0">x</span><span class="s2">&lt;&lt;</span><span class="s0">endl</span>
+<span class="s2">using namespace </span><span class="s0">std</span><span class="s4">;</span>
 
-    <span class="s1">Binomial_Coefficient</span><span class="s4">() {    </span><span
-            class="s0">//add Mod as parameter;</span>
-        <span class="s1">c</span><span class="s4">[</span><span class="s5">0</span><span class="s4">][</span><span
-            class="s5">0</span><span class="s4">] </span><span class="s2">= </span><span class="s5">1</span><span
-            class="s4">;</span>
-        <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s1">n </span><span
-            class="s2">= </span><span class="s5">1</span><span class="s4">; </span><span class="s1">n </span><span
-            class="s2">&lt;= </span><span class="s1">BCSize</span><span class="s4">; </span><span
-            class="s2">++</span><span class="s1">n</span><span class="s4">) {</span>
-            <span class="s1">c</span><span class="s4">[</span><span class="s1">n</span><span class="s4">][</span><span
-            class="s5">0</span><span class="s4">] </span><span class="s2">= </span><span class="s1">c</span><span
-            class="s4">[</span><span class="s1">n</span><span class="s4">][</span><span class="s1">n</span><span
-            class="s4">] </span><span class="s2">= </span><span class="s5">1</span><span class="s4">;</span>
-            <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span
-            class="s1">k </span><span class="s2">= </span><span class="s5">1</span><span class="s4">; </span><span
-            class="s1">k </span><span class="s2">&lt; </span><span class="s1">n</span><span class="s4">; </span><span
-            class="s2">++</span><span class="s1">k</span><span class="s4">)</span>
-                <span class="s1">c</span><span class="s4">[</span><span class="s1">n</span><span
-            class="s4">][</span><span class="s1">k</span><span class="s4">] </span><span class="s2">= </span><span
-            class="s4">(</span><span class="s1">c</span><span class="s4">[</span><span class="s1">n </span><span
-            class="s2">- </span><span class="s5">1</span><span class="s4">][</span><span class="s1">k </span><span
-            class="s2">- </span><span class="s5">1</span><span class="s4">] </span><span class="s2">+ </span><span
-            class="s1">c</span><span class="s4">[</span><span class="s1">n </span><span class="s2">- </span><span
-            class="s5">1</span><span class="s4">][</span><span class="s1">k</span><span class="s4">]);</span>
-            <span class="s0">//c[n][k] = (c[n - 1][k - 1] + c[n - 1][k])%;</span>
-        <span class="s4">}</span>
+<span class="s2">typedef long long </span><span class="s0">ll</span><span class="s4">;</span>
+<span class="s2">const int </span><span class="s0">MOD </span><span class="s2">= -</span><span class="s5">1</span><span
+        class="s4">;</span>
+<span class="s2">const double </span><span class="s0">eps </span><span class="s2">= </span><span
+        class="s5">1e-3</span><span class="s4">;</span>
+<span class="s2">const int </span><span class="s0">INF </span><span class="s2">= </span><span
+        class="s5">0x3f3f3f3f</span><span class="s4">;</span>
+<span class="s2">const int </span><span class="s0">MAXN </span><span class="s2">= </span><span
+        class="s5">4e4 </span><span class="s2">+ </span><span class="s5">59</span><span class="s4">;</span>
+<span class="s1">//const ll INF = 0x3f3f3f3f3f3f3f;</span>
+
+<span class="s2">int </span><span class="s0">kase</span><span class="s4">;</span>
+<span class="s2">int </span><span class="s0">n</span><span class="s4">, </span><span class="s0">m</span><span
+        class="s4">, </span><span class="s0">k</span><span class="s4">;</span>
+
+<span class="s0">ll ans</span><span class="s4">;</span>
+<span class="s0">ll f</span><span class="s4">[</span><span class="s0">MAXN</span><span class="s4">];</span>
+<span class="s0">ll a</span><span class="s4">[</span><span class="s0">MAXN</span><span class="s4">], </span><span
+        class="s0">b</span><span class="s4">[</span><span class="s0">MAXN</span><span class="s4">];</span>
+<span class="s0">ll dp</span><span class="s4">[</span><span class="s5">105</span><span class="s4">][</span><span
+        class="s0">MAXN</span><span class="s4">];</span>
+<span class="s0">ll bg</span><span class="s4">[</span><span class="s0">MAXN</span><span class="s4">];</span>
+<span class="s0">ll lf</span><span class="s4">[</span><span class="s0">MAXN</span><span class="s4">];</span>
+
+
+<span class="s2">int </span><span class="s0">main</span><span class="s4">() {</span>
+    <span class="s0">ios_base</span><span class="s2">::</span><span class="s0">sync_with_stdio</span><span
+        class="s4">(</span><span class="s5">0</span><span class="s4">);</span>
+    <span class="s0">cin</span><span class="s4">.</span><span class="s0">tie</span><span class="s4">(</span><span
+        class="s5">0</span><span class="s4">);</span>
+
+
+    <span class="s0">cin </span><span class="s2">&gt;&gt; </span><span class="s0">n </span><span
+        class="s2">&gt;&gt; </span><span class="s0">m </span><span class="s2">&gt;&gt; </span><span
+        class="s0">k</span><span class="s4">;</span>
+
+    <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s0">i </span><span
+        class="s2">= </span><span class="s5">0</span><span class="s4">; </span><span class="s0">i </span><span
+        class="s2">&lt;= </span><span class="s0">k</span><span class="s4">; </span><span class="s2">++</span><span
+        class="s0">i</span><span class="s4">) {</span>
+        <span class="s0">cin </span><span class="s2">&gt;&gt; </span><span class="s0">f</span><span
+        class="s4">[</span><span class="s0">i</span><span class="s4">];</span>
     <span class="s4">}</span>
 
-    <span class="s1">ll </span><span class="s2">operator</span><span class="s4">()(</span><span class="s2">const int &amp;</span><span
-            class="s1">n</span><span class="s4">, </span><span class="s2">const int &amp;</span><span
-            class="s1">m</span><span class="s4">) {</span>
-        <span class="s2">if </span><span class="s4">(</span><span class="s1">n </span><span class="s2">&lt; </span><span
-            class="s1">m</span><span class="s4">)</span><span class="s2">return -</span><span class="s5">1</span><span
-            class="s4">;</span><span class="s0">//in case.</span>
-        <span class="s2">return </span><span class="s1">c</span><span class="s4">[</span><span class="s1">n</span><span
-            class="s4">][</span><span class="s1">m</span><span class="s4">];</span>
+    <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s0">i </span><span
+        class="s2">= </span><span class="s5">1</span><span class="s4">; </span><span class="s0">i </span><span
+        class="s2">&lt;= </span><span class="s0">m</span><span class="s4">; </span><span class="s2">++</span><span
+        class="s0">i</span><span class="s4">) {</span>
+        <span class="s0">cin </span><span class="s2">&gt;&gt; </span><span class="s0">a</span><span
+        class="s4">[</span><span class="s0">i</span><span class="s4">] </span><span class="s2">&gt;&gt; </span><span
+        class="s0">b</span><span class="s4">[</span><span class="s0">i</span><span class="s4">];</span>
+        <span class="s1">//b[i] += a[i];</span>
     <span class="s4">}</span>
-<span class="s4">};</span>
 
-<span class="s1">Binomial_Coefficient</span><span class="s2">&lt;&gt; </span><span class="s1">C </span><span class="s2">= </span><span
-            class="s1">Binomial_Coefficient</span><span class="s2">&lt;&gt;</span><span class="s4">();</span>
-<span class="s1">ll G</span><span class="s4">[</span><span class="s5">33</span><span class="s4">][</span><span
-            class="s5">33</span><span class="s4">];</span><span class="s0">//n,x</span>
+    <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s0">x </span><span
+        class="s2">= </span><span class="s5">0</span><span class="s4">; </span><span class="s0">x </span><span
+        class="s2">&lt; </span><span class="s0">MAXN</span><span class="s4">; </span><span class="s2">++</span><span
+        class="s0">x</span><span class="s4">)</span>
+        <span class="s0">bg</span><span class="s4">[</span><span class="s0">x</span><span class="s4">] </span><span
+        class="s2">= </span><span class="s5">0</span><span class="s4">, </span><span class="s0">lf</span><span
+        class="s4">[</span><span class="s0">x</span><span class="s4">] </span><span class="s2">= </span><span
+        class="s0">x</span><span class="s4">;</span>
 
-<span class="s1">ll fpow</span><span class="s4">(</span><span class="s1">ll a</span><span class="s4">, </span><span
-            class="s1">ll b</span><span class="s4">) {</span>
-    <span class="s1">ll res </span><span class="s2">= </span><span class="s5">1</span><span class="s4">;</span>
-    <span class="s2">while </span><span class="s4">(</span><span class="s1">b</span><span class="s4">) {</span>
-        <span class="s2">if </span><span class="s4">(</span><span class="s1">b </span><span
-            class="s2">&amp; </span><span class="s5">1</span><span class="s4">)</span><span class="s1">res </span><span
-            class="s2">= </span><span class="s1">res </span><span class="s2">* </span><span class="s1">a</span><span
-            class="s4">;</span>
-        <span class="s1">a </span><span class="s2">= </span><span class="s1">a </span><span class="s2">* </span><span
-            class="s1">a</span><span class="s4">;</span>
-        <span class="s1">b </span><span class="s2">&gt;&gt;= </span><span class="s5">1</span><span class="s4">;</span>
-    <span class="s4">}</span>
-    <span class="s2">return </span><span class="s1">res</span><span class="s4">;</span>
-<span class="s4">}</span>
-
-<span class="s2">template&lt;typename </span><span class="s1">tp</span><span class="s2">&gt;</span>
-<span class="s2">inline void </span><span class="s1">read</span><span class="s4">(</span><span
-            class="s1">tp </span><span class="s2">&amp;</span><span class="s1">x</span><span class="s4">) {</span>
-    <span class="s2">char </span><span class="s1">ch</span><span class="s4">;</span>
-    <span class="s2">bool </span><span class="s1">flag </span><span class="s2">= false</span><span class="s4">;</span>
-    <span class="s2">for </span><span class="s4">(</span><span class="s1">ch </span><span class="s2">= </span><span
-            class="s1">getchar</span><span class="s4">(); </span><span class="s2">!</span><span
-            class="s1">isdigit</span><span class="s4">(</span><span class="s1">ch</span><span class="s4">); </span><span
-            class="s1">ch </span><span class="s2">= </span><span class="s1">getchar</span><span
-            class="s4">())</span><span class="s2">if </span><span class="s4">(</span><span class="s1">ch </span><span
-            class="s2">== </span><span class="s3">'-'</span><span class="s4">) </span><span class="s1">flag </span><span
-            class="s2">= true</span><span class="s4">;</span>
-    <span class="s2">for </span><span class="s4">(</span><span class="s1">x </span><span class="s2">= </span><span
-            class="s5">0</span><span class="s4">; </span><span class="s1">isdigit</span><span class="s4">(</span><span
-            class="s1">ch</span><span class="s4">); </span><span class="s1">x </span><span class="s2">= </span><span
-            class="s1">x </span><span class="s2">* </span><span class="s5">10 </span><span class="s2">+ </span><span
-            class="s1">ch </span><span class="s2">- </span><span class="s3">'0'</span><span class="s4">, </span><span
-            class="s1">ch </span><span class="s2">= </span><span class="s1">getchar</span><span class="s4">());</span>
-    <span class="s1">x </span><span class="s2">= </span><span class="s1">flag </span><span class="s2">? -</span><span
-            class="s1">x </span><span class="s2">: </span><span class="s1">x</span><span class="s4">;</span>
-<span class="s4">}</span>
-
-<span class="s2">inline void </span><span class="s1">print</span><span class="s4">(</span><span
-            class="s2">__int128 </span><span class="s1">x</span><span class="s4">) {</span>
-    <span class="s2">if </span><span class="s4">(</span><span class="s1">x </span><span class="s2">&lt; </span><span
-            class="s5">0</span><span class="s4">) {</span>
-        <span class="s1">putchar</span><span class="s4">(</span><span class="s3">'-'</span><span class="s4">);</span>
-        <span class="s1">x </span><span class="s2">= -</span><span class="s1">x</span><span class="s4">;</span>
-    <span class="s4">}</span>
-    <span class="s2">if </span><span class="s4">(</span><span class="s1">x </span><span class="s2">&gt; </span><span
-            class="s5">9</span><span class="s4">)</span>
-        <span class="s1">print</span><span class="s4">(</span><span class="s1">x </span><span class="s2">/ </span><span
-            class="s5">10</span><span class="s4">);</span>
-    <span class="s1">putchar</span><span class="s4">(</span><span class="s1">x </span><span class="s2">% </span><span
-            class="s5">10 </span><span class="s2">+ </span><span class="s3">'0'</span><span class="s4">);</span>
-<span class="s4">}</span>
-
-<span class="s2">int </span><span class="s1">main</span><span class="s4">() {</span>
-<span class="s0">//    ios_base::sync_with_stdio(false);</span>
-<span class="s0">//    cin.tie(nullptr);</span>
-
-    <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s1">k </span><span
-            class="s2">= </span><span class="s5">0</span><span class="s4">; </span><span class="s1">k </span><span
-            class="s2">&lt;= </span><span class="s5">26</span><span class="s4">; </span><span class="s2">++</span><span
-            class="s1">k</span><span class="s4">)</span>
-        <span class="s1">G</span><span class="s4">[</span><span class="s5">0</span><span class="s4">][</span><span
-            class="s1">k</span><span class="s4">] </span><span class="s2">= </span><span class="s5">1</span><span
-            class="s4">;</span>
-
-    <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s1">n </span><span
-            class="s2">= </span><span class="s5">1</span><span class="s4">; </span><span class="s1">n </span><span
-            class="s2">&lt;= </span><span class="s5">26</span><span class="s4">; </span><span class="s2">++</span><span
-            class="s1">n</span><span class="s4">)</span>
-        <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s1">k </span><span
-            class="s2">= </span><span class="s5">0</span><span class="s4">; </span><span class="s1">k </span><span
-            class="s2">&lt; </span><span class="s1">n</span><span class="s4">; </span><span class="s1">k</span><span
-            class="s2">++</span><span class="s4">)</span>
-            <span class="s1">G</span><span class="s4">[</span><span class="s1">n</span><span class="s4">][</span><span
-            class="s5">0</span><span class="s4">] </span><span class="s2">+= </span><span class="s1">C</span><span
-            class="s4">(</span><span class="s1">n </span><span class="s2">- </span><span class="s5">1</span><span
-            class="s4">, </span><span class="s1">k</span><span class="s4">) </span><span class="s2">* </span><span
-            class="s1">G</span><span class="s4">[</span><span class="s1">k</span><span class="s4">][</span><span
-            class="s5">0</span><span class="s4">];</span>
-
-    <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s1">n </span><span
-            class="s2">= </span><span class="s5">1</span><span class="s4">; </span><span class="s1">n </span><span
-            class="s2">&lt;= </span><span class="s5">26</span><span class="s4">; </span><span class="s2">++</span><span
-            class="s1">n</span><span class="s4">)</span>
-        <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s1">x </span><span
-            class="s2">= </span><span class="s5">1</span><span class="s4">; </span><span class="s1">x </span><span
-            class="s2">&lt;= </span><span class="s5">26</span><span class="s4">; </span><span class="s2">++</span><span
-            class="s1">x</span><span class="s4">)</span>
-            <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span
-            class="s1">i </span><span class="s2">= </span><span class="s5">0</span><span class="s4">; </span><span
-            class="s1">i </span><span class="s2">&lt;= </span><span class="s1">n</span><span class="s4">; </span><span
-            class="s2">++</span><span class="s1">i</span><span class="s4">)</span>
-                <span class="s1">G</span><span class="s4">[</span><span class="s1">n</span><span
-            class="s4">][</span><span class="s1">x</span><span class="s4">] </span><span class="s2">= </span><span
-            class="s4">(</span><span class="s1">G</span><span class="s4">[</span><span class="s1">n</span><span
-            class="s4">][</span><span class="s1">x</span><span class="s4">] </span><span class="s2">+ </span><span
-            class="s1">C</span><span class="s4">(</span><span class="s1">n</span><span class="s4">, </span><span
-            class="s1">i</span><span class="s4">) </span><span class="s2">* </span><span class="s1">fpow</span><span
-            class="s4">(</span><span class="s1">x</span><span class="s4">, </span><span class="s1">i</span><span
-            class="s4">) </span><span class="s2">* </span><span class="s1">G</span><span class="s4">[</span><span
-            class="s1">n </span><span class="s2">- </span><span class="s1">i</span><span class="s4">][</span><span
-            class="s5">0</span><span class="s4">]);</span>
-
-    <span class="s0">//print(G[26][0]);</span>
-
-
-    <span class="s2">int </span><span class="s1">kase </span><span class="s2">= </span><span class="s5">0</span><span
-            class="s4">, </span><span class="s1">Kase</span><span class="s4">;</span>
-    <span class="s1">read</span><span class="s4">(</span><span class="s1">Kase</span><span class="s4">);</span>
-    <span class="s2">int </span><span class="s1">n</span><span class="s4">;</span>
-    <span class="s1">lll k</span><span class="s4">;</span>
-    <span class="s2">char </span><span class="s1">ans</span><span class="s4">[</span><span class="s5">33</span><span
-            class="s4">];</span>
-    <span class="s2">int </span><span class="s1">ed</span><span class="s4">;</span>
-    <span class="s2">while </span><span class="s4">(</span><span class="s1">kase</span><span
-            class="s2">++ &lt; </span><span class="s1">Kase</span><span class="s4">) {</span>
-        <span class="s1">read</span><span class="s4">(</span><span class="s1">n</span><span class="s4">);</span>
-        <span class="s1">read</span><span class="s4">(</span><span class="s1">k</span><span class="s4">);</span>
-        <span class="s1">ed </span><span class="s2">= </span><span class="s5">0</span><span class="s4">;</span>
-        <span class="s1">memset</span><span class="s4">(</span><span class="s1">ans</span><span
-            class="s4">, </span><span class="s5">0</span><span class="s4">, </span><span class="s2">sizeof </span><span
-            class="s1">ans</span><span class="s4">);</span>
-        <span class="s0">//print(k);</span>
-
-        <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s1">i </span><span
-            class="s2">= </span><span class="s5">0</span><span class="s4">, </span><span class="s1">cnt </span><span
-            class="s2">= </span><span class="s5">0</span><span class="s4">, </span><span class="s1">used </span><span
-            class="s2">= </span><span class="s3">'A' </span><span class="s2">- </span><span class="s5">1</span><span
-            class="s4">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s1">n</span><span
-            class="s4">; </span><span class="s2">++</span><span class="s1">i</span><span class="s4">) {</span>
-            <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span
-            class="s1">c </span><span class="s2">= </span><span class="s3">'A'</span><span class="s4">; </span><span
-            class="s1">c </span><span class="s2">&lt;= </span><span class="s3">'Z'</span><span class="s4">; </span><span
-            class="s1">c</span><span class="s2">++</span><span class="s4">) {</span>
-                <span class="s2">if </span><span class="s4">(</span><span class="s1">k </span><span
-            class="s2">&lt;= </span><span class="s1">G</span><span class="s4">[</span><span class="s1">n </span><span
-            class="s2">- </span><span class="s1">i </span><span class="s2">- </span><span class="s5">1</span><span
-            class="s4">][</span><span class="s1">cnt </span><span class="s2">+ </span><span class="s4">(</span><span
-            class="s1">c </span><span class="s2">&gt; </span><span class="s1">used</span><span class="s4">)]) {</span>
-
-                    <span class="s1">ans</span><span class="s4">[</span><span class="s1">ed</span><span
-            class="s2">++</span><span class="s4">] </span><span class="s2">= </span><span class="s1">c</span><span
-            class="s4">;</span>
-                    <span class="s1">used </span><span class="s2">= </span><span class="s1">c</span><span
-            class="s4">;</span>
-                    <span class="s1">cnt </span><span class="s2">= </span><span class="s1">used </span><span class="s2">- </span><span
-            class="s3">'A' </span><span class="s2">+ </span><span class="s5">1</span><span class="s4">;</span>
-
-                    <span class="s2">break</span><span class="s4">;</span>
-                <span class="s4">} </span><span class="s2">else </span><span class="s4">{</span>
-
-                    <span class="s1">k </span><span class="s2">-= </span><span class="s1">G</span><span
-            class="s4">[</span><span class="s1">n </span><span class="s2">- </span><span class="s1">i </span><span
-            class="s2">- </span><span class="s5">1</span><span class="s4">][</span><span class="s1">cnt </span><span
-            class="s2">+ </span><span class="s4">(</span><span class="s1">c </span><span class="s2">&gt; </span><span
-            class="s1">used</span><span class="s4">)];</span>
-                <span class="s4">}</span>
+    <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s0">j </span><span
+        class="s2">= </span><span class="s5">1</span><span class="s4">; </span><span class="s0">j </span><span
+        class="s2">&lt;= </span><span class="s0">m</span><span class="s4">; </span><span class="s2">++</span><span
+        class="s0">j</span><span class="s4">) {</span>
+        <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s0">x </span><span
+        class="s2">= </span><span class="s0">a</span><span class="s4">[</span><span class="s0">j</span><span class="s4">]; </span><span
+        class="s0">x </span><span class="s2">&lt; </span><span class="s0">MAXN</span><span class="s4">; </span><span
+        class="s2">++</span><span class="s0">x</span><span class="s4">) {</span>
+            <span class="s2">if </span><span class="s4">(</span><span class="s0">bg</span><span class="s4">[</span><span
+        class="s0">x</span><span class="s4">] </span><span class="s2">&lt; </span><span class="s0">bg</span><span
+        class="s4">[</span><span class="s0">x </span><span class="s2">- </span><span class="s0">a</span><span
+        class="s4">[</span><span class="s0">j</span><span class="s4">]] </span><span class="s2">+ </span><span
+        class="s0">b</span><span class="s4">[</span><span class="s0">j</span><span class="s4">]) {</span>
+                <span class="s0">bg</span><span class="s4">[</span><span class="s0">x</span><span
+        class="s4">] </span><span class="s2">= </span><span class="s0">bg</span><span class="s4">[</span><span
+        class="s0">x </span><span class="s2">- </span><span class="s0">a</span><span class="s4">[</span><span
+        class="s0">j</span><span class="s4">]] </span><span class="s2">+ </span><span class="s0">b</span><span
+        class="s4">[</span><span class="s0">j</span><span class="s4">];</span>
+                <span class="s0">lf</span><span class="s4">[</span><span class="s0">x</span><span
+        class="s4">] </span><span class="s2">= </span><span class="s0">lf</span><span class="s4">[</span><span
+        class="s0">x </span><span class="s2">- </span><span class="s0">a</span><span class="s4">[</span><span
+        class="s0">j</span><span class="s4">]];</span>
             <span class="s4">}</span>
-<span class="s0">//            print(k);</span>
-<span class="s0">//            puts(&quot;&quot;);</span>
         <span class="s4">}</span>
-
-
-        <span class="s1">printf</span><span class="s4">(</span><span class="s3">&quot;Case #%d: %s\n&quot;</span><span
-            class="s4">, </span><span class="s1">kase</span><span class="s4">, </span><span class="s1">ans</span><span
-            class="s4">);</span>
     <span class="s4">}</span>
 
+    <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s0">i </span><span
+        class="s2">= </span><span class="s5">0</span><span class="s4">; </span><span class="s0">i </span><span
+        class="s2">&lt;= </span><span class="s0">n </span><span class="s2">+ </span><span class="s5">5</span><span
+        class="s4">; </span><span class="s2">++</span><span class="s0">i</span><span class="s4">)</span>
+        <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s0">x </span><span
+        class="s2">= </span><span class="s5">0</span><span class="s4">; </span><span class="s0">x </span><span
+        class="s2">&lt; </span><span class="s0">MAXN</span><span class="s4">; </span><span class="s2">++</span><span
+        class="s0">x</span><span class="s4">)</span>
+            <span class="s0">dp</span><span class="s4">[</span><span class="s0">i</span><span class="s4">][</span><span
+        class="s0">x</span><span class="s4">] </span><span class="s2">= -</span><span class="s0">INF</span><span
+        class="s4">;</span>
+
+    <span class="s0">dp</span><span class="s4">[</span><span class="s5">0</span><span class="s4">][</span><span
+        class="s5">0</span><span class="s4">] </span><span class="s2">= </span><span class="s5">0</span><span
+        class="s4">;</span>
+
+    <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s0">i </span><span
+        class="s2">= </span><span class="s5">0</span><span class="s4">; </span><span class="s0">i </span><span
+        class="s2">&lt;= </span><span class="s0">n</span><span class="s4">; </span><span class="s2">++</span><span
+        class="s0">i</span><span class="s4">) {</span>
+        <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s0">x </span><span
+        class="s2">= </span><span class="s5">0</span><span class="s4">; </span><span class="s0">x </span><span
+        class="s2">&lt; </span><span class="s0">MAXN</span><span class="s4">; </span><span class="s2">++</span><span
+        class="s0">x</span><span class="s4">) {</span>
+            <span class="s0">dp</span><span class="s4">[</span><span class="s0">i </span><span class="s2">+ </span><span
+        class="s5">1</span><span class="s4">][</span><span class="s0">lf</span><span class="s4">[</span><span
+        class="s0">x</span><span class="s4">] </span><span class="s2">+ </span><span class="s0">f</span><span
+        class="s4">[</span><span class="s0">lf</span><span class="s4">[</span><span class="s0">x</span><span class="s4">]]] </span><span
+        class="s2">=</span>
+                    <span class="s0">max</span><span class="s4">(</span><span class="s0">dp</span><span
+        class="s4">[</span><span class="s0">i </span><span class="s2">+ </span><span class="s5">1</span><span
+        class="s4">][</span><span class="s0">lf</span><span class="s4">[</span><span class="s0">x</span><span
+        class="s4">] </span><span class="s2">+ </span><span class="s0">f</span><span class="s4">[</span><span
+        class="s0">lf</span><span class="s4">[</span><span class="s0">x</span><span class="s4">]]],</span>
+                        <span class="s0">dp</span><span class="s4">[</span><span class="s0">i</span><span
+        class="s4">][</span><span class="s0">x</span><span class="s4">] </span><span class="s2">+ </span><span
+        class="s0">bg</span><span class="s4">[</span><span class="s0">x</span><span class="s4">]);</span>
+        <span class="s4">}</span>
+    <span class="s4">}</span>
+
+    <span class="s2">for </span><span class="s4">(</span><span class="s2">int </span><span class="s0">l </span><span
+        class="s2">= </span><span class="s5">0</span><span class="s4">; </span><span class="s0">l </span><span
+        class="s2">&lt; </span><span class="s0">MAXN</span><span class="s4">; </span><span class="s2">++</span><span
+        class="s0">l</span><span class="s4">) {</span>
+        <span class="s0">ans </span><span class="s2">= </span><span class="s0">max</span><span class="s4">(</span><span
+        class="s0">ans</span><span class="s4">, </span><span class="s0">dp</span><span class="s4">[</span><span
+        class="s0">n</span><span class="s4">][</span><span class="s0">l</span><span class="s4">] </span><span
+        class="s2">+ </span><span class="s0">l</span><span class="s4">);</span>
+    <span class="s4">}</span>
+    <span class="s0">cout </span><span class="s2">&lt;&lt; </span><span class="s0">ans </span><span
+        class="s2">&lt;&lt; </span><span class="s0">endl</span><span class="s4">;</span>
     <span class="s2">return </span><span class="s5">0</span><span class="s4">;</span>
-<span class="s4">}</span></pre>
+<span class="s4">}</span>
+</pre>
 </body>
 </html>

@@ -1,77 +1,47 @@
+#include<bits/stdc++.h>
 
-
-/*
- * https://codeforces.com/contest/1216/problem/F
- *
- */
-#include <bits/stdc++.h>
-
-#define  _debug(x) cerr<<#x << " = " << x<<endl
 using namespace std;
 
 typedef long long ll;
-const int MOD = -1;
-const double eps = 1e-3;
-const int INF = 0x3f3f3f3f;
-const int MAXN = 4e4 + 59;
-//const ll INF = 0x3f3f3f3f3f3f3f;
+typedef unsigned long long ull;
+typedef unsigned int ui;
+typedef pair<int, int> pint;
 
-int kase;
-int n, m, k;
-
-ll ans;
-ll f[MAXN];
-ll a[MAXN], b[MAXN];
-ll dp[105][MAXN];
-ll bg[MAXN];
-ll lf[MAXN];
-
+const int N = 100 + 5, K = 2000 + 5;
+const ll INF_LL = 0x3f3f3f3f3f3f3f3f;
+ll g[N][K];
+int f[K], a[N], b[N];
 
 int main() {
-    ios_base::sync_with_stdio(0);
+    ios::sync_with_stdio(0);
     cin.tie(0);
 
-
-    cin >> n >> m >> k;
-
-    for (int i = 0; i <= k; ++i) {
+    int n, m, upp;
+    cin >> n >> m >> upp;
+    for (int i = 0; i <= upp; i++)
         cin >> f[i];
-    }
-
-    for (int i = 1; i <= m; ++i) {
+    for (int i = 1; i <= m; i++)
         cin >> a[i] >> b[i];
-        //b[i] += a[i];
-    }
 
-    for (int x = 0; x < MAXN; ++x)
-        bg[x] = 0, lf[x] = x;
+    for (int i = 1; i <= n + 1; i++)
+        for (int j = 0; j < K; j++)
+            g[i][j] = -INF_LL;
+    g[1][0] = 0;
 
-    for (int j = 1; j <= m; ++j) {
-        for (int x = a[j]; x < MAXN; ++x) {
-            if (bg[x] < bg[x - a[j]] + b[j]) {
-                bg[x] = bg[x - a[j]] + b[j];
-                lf[x] = lf[x - a[j]];
+    for (int i = 2; i <= n + 1; i++) {
+        for (int j = 0; j < K; j++)
+            g[i][j + f[j]] = max(g[i][j + f[j]], g[i - 1][j]);
+        for (int j = K - 1; j >= 0; j--)
+            for (int k = 1; k <= m; k++) {
+                if (j - a[k] < 0) continue;
+                g[i][j - a[k]] = max(g[i][j - a[k]], g[i][j] + b[k]);
             }
-        }
     }
 
-    for (int i = 0; i <= n + 5; ++i)
-        for (int x = 0; x < MAXN; ++x)
-            dp[i][x] = -INF;
+    ll ans = 0;
+    for (int j = 0; j < K; j++)
+        ans = max(ans, j + g[n + 1][j]);
+    cout << ans;
 
-    dp[0][0] = 0;
-
-    for (int i = 0; i <= n; ++i) {
-        for (int x = 0; x < MAXN; ++x) {
-            dp[i + 1][lf[x] + f[lf[x]]] =
-                    max(dp[i + 1][lf[x] + f[lf[x]]],
-                        dp[i][x] + bg[x]);
-        }
-    }
-
-    for (int l = 0; l < MAXN; ++l) {
-        ans = max(ans, dp[n][l] + l);
-    }
-    cout << ans << endl;
     return 0;
 }
