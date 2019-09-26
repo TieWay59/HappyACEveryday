@@ -1,47 +1,50 @@
-#include<bits/stdc++.h>
 
+#include <bits/stdc++.h>
+
+#define  _debug(x) cerr<<#x << " = " << x<<endl
 using namespace std;
 
 typedef long long ll;
-typedef unsigned long long ull;
-typedef unsigned int ui;
-typedef pair<int, int> pint;
+//typedef _int128 lll;
+const int MOD = -1;
+const double eps = 1e-3;
+const int MAXN = 1000 + 59;
+const int MAXM = 2e4 + 59;
+const int INF = 0x3f3f3f3f;
+const ll INFll = 0x3f3f3f3f3f3f3f;
 
-const int N = 100 + 5, K = 2000 + 5;
-const ll INF_LL = 0x3f3f3f3f3f3f3f3f;
-ll g[N][K];
-int f[K], a[N], b[N];
+
+int kase;
+int low, hih;
+
+const double delta = 1e-15;
+char str[25];
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
+//    ios_base::sync_with_stdio(0);
+//    cin.tie(0);
 
-    int n, m, upp;
-    cin >> n >> m >> upp;
-    for (int i = 0; i <= upp; i++)
-        cin >> f[i];
-    for (int i = 1; i <= m; i++)
-        cin >> a[i] >> b[i];
+//    input.reset(new InputFile(stdin, false));
+//    input.reset(new InputFile());
+//    output.reset(new OutputFile());
 
-    for (int i = 1; i <= n + 1; i++)
-        for (int j = 0; j < K; j++)
-            g[i][j] = -INF_LL;
-    g[1][0] = 0;
-
-    for (int i = 2; i <= n + 1; i++) {
-        for (int j = 0; j < K; j++)
-            g[i][j + f[j]] = max(g[i][j + f[j]], g[i - 1][j]);
-        for (int j = K - 1; j >= 0; j--)
-            for (int k = 1; k <= m; k++) {
-                if (j - a[k] < 0) continue;
-                g[i][j - a[k]] = max(g[i][j - a[k]], g[i][j] + b[k]);
-            }
+    while (scanf("%d%d", &low, &hih) && low && hih) { ;
+        double ans = 0;
+        for (int i = low; i <= hih; ++i) {
+            ans += pow(i, -2.0 / 3.0);
+        }
+        ans = ans / 3.0F * delta;
+        sprintf(str, "%.5E\n", ans);
+        char s1[22];
+        int exp;
+        sscanf(str, "%[^E]%*c%*c%d", s1, &exp);
+        printf("%sE-%03d\n", s1, exp);
     }
-
-    ll ans = 0;
-    for (int j = 0; j < K; j++)
-        ans = max(ans, j + g[n + 1][j]);
-    cout << ans;
-
     return 0;
 }
+/*
+1 100
+10000 20000
+0 0
+
+ */
