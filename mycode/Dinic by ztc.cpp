@@ -46,6 +46,7 @@ struct Graph
     void init() { _Neg1(head); cntE = 0; }
     void addE(int a, int b, int c = 0) { E[cntE] = { a,b,c,head[a] }; head[a] = cntE++; }
 };
+
 struct Dijkstra : Graph//下面定一个变量就能用
 {
     ll dist[MAXG];
@@ -58,6 +59,7 @@ struct Dijkstra : Graph//下面定一个变量就能用
         }
     };
     void Init() { _Inf(dist); }
+
     void Get_Dist(int s)//重新计算从s开始的单源最短路
     {
         Init();
@@ -78,6 +80,7 @@ struct Dijkstra : Graph//下面定一个变量就能用
             }
         }
     }
+
     int Get_Dist(int s, int t)//获取s到t的最短路
     {
         if(dist[t]==INF&&dist[s]!=0)Get_Dist(s);
@@ -87,6 +90,7 @@ struct Dijkstra : Graph//下面定一个变量就能用
 struct Dinic :Graph
 {
     int curE[MAXG], s, t, dist[MAXG];
+
     ll dfs(int u, ll f)//不用管，不要调用
     {
         if (u == t)return f;
@@ -106,6 +110,7 @@ struct Dinic :Graph
         if (!ans)dist[u] = -1;
         return ans;
     }
+
     bool bfs()//同上
     {
         _Neg1(dist);
@@ -125,6 +130,7 @@ struct Dinic :Graph
         }
         return dist[t] != -1;
     }
+
     ll dinic(int x, int y, int n)//返回从x到y的最大流 要给出有n个点
     {
         s = x; t = y;
