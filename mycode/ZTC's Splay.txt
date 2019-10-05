@@ -49,9 +49,9 @@ void update_siz(int x){if(x)node[x].siz=(node[x].ch[0]?node[node[x].ch[0]].siz:0
 bool chk(int x){return node[node[x].par].ch[1]==x;}
 void rorate(int x)
 {
-    int y=node[x].par,z=node[y].par,k=chk(x),w=node[x].ch[k^1];
-    printf("&&%d,%d,%d,%d&&",x,y,z,w);
-    node[y].ch[k]=w;node[w].par=y;
+    int y=node[x].par,z=node[y].par,k=chk(x),d=node[x].ch[k^1];
+    printf("&&%d,%d,%d,%d&&",x,y,z,d);
+    node[y].ch[k]=d;node[d].par=y;
     node[z].ch[chk(y)]=x;node[x].par=z;
     node[x].ch[k^1]=y;node[y].par=x;
     update_siz(y);update_siz(x);

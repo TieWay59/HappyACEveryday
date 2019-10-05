@@ -26,10 +26,10 @@ void FFT(CP *A,int mode)
         CP XX(cos(Pi/mid),mode*sin(Pi/mid));
         for(int j=0;j<lim;j+=(mid<<1))
         {
-            CP w(1,0);
-            for(int k=0;k<mid;k++,w=w*XX)
+            CP d(1,0);
+            for(int k=0;k<mid;k++,d=d*XX)
             {
-                CP x=A[j+k],y=w*A[j+mid+k];
+                CP x=A[j+k],y=d*A[j+mid+k];
                 A[j+k]=x+y;
                 A[j+mid+k]=x-y;
             }
