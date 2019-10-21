@@ -28,7 +28,9 @@ void sieve(const int &n) {
             prime[++pnum] = i;
             min_composite[i] = i;
         }
-        for (int j = 1; j <= pnum && prime[j] <= min_composite[i] && i * prime[j] < n; ++j) {
+        for (int j = 1; j <= pnum 
+            && prime[j] <= min_composite[i] 
+            && i * prime[j] < n; ++j) {
             min_composite[i * prime[j]] = prime[j];
 //            if (i % prime[j] == 0) break;
         }

@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 
 #define  _debug(x) cerr<<#x << " = " << x<<endl
@@ -13,7 +14,7 @@ const int INF = 0x3f3f3f3f;
 const ll INFll = 0x3f3f3f3f3f3f3f;
 
 map<int, int> dsc;
-//int csd[MAXN << 1];
+
 
 #define lson (oo<<1)
 #define rson (oo<<1|1)
@@ -119,19 +120,5 @@ int main() {
         }
     }
 }
-/*
 
-2
-3 3
-1 2
-2 3
-3 1
-6 6
-1 2
-2 3
-3 1
-2 4
-4 5
-5 2
 
- */

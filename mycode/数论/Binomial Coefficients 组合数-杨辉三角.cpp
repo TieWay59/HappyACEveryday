@@ -2,7 +2,8 @@
 /*
 // O(N^2)
 // __int128
-template<const int BCSize = 120, typename var = __int128> //add Mod as parameter;
+template<const int BCSize = 120, typename var = __int128> 
+//add Mod as parameter;
 struct Binomial_Coefficient {
     var c[BCSize + 1][BCSize + 1];
     //Pascal's Triangle

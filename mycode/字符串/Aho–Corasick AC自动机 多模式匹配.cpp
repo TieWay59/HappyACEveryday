@@ -6,7 +6,7 @@ const ll mod = 1e9 + 7;
 const int MAXN = 500000 + 59;
 const int inf = 1e9 + 5;
 
-// Aho¨CCorasick algorithm, finite-state machine
+// Ahoâ€“Corasick algorithm, finite-state machine
 template<const int NODEsetsize, const int CHARsetsize>
 struct Aho_Corasick_FSM {
 

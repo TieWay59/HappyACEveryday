@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// Aho¨CCorasick algorithm, finite-state machine
+// Ahoâ€“Corasick algorithm, finite-state machine
 template<const int NODEsetsize, const int CHARsetsize, const int STRsetsize>
 struct Aho_Corasick_FSM {
 
@@ -161,6 +161,5 @@ int main() {
  aaa
  aaaa
  aaaaa
- ```
 
  */

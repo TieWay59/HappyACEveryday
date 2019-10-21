@@ -1,7 +1,7 @@
 
 /* Author: bnfcc -> tc2000731 -> tieway59
  * Description:
- *      Î¬»¤ÏÂÍ¹°ü£¬¶ÔÓÚÃ¿¸öxÎ¬»¤f(x)=k*x+bµÄ×î´óÖµ¡£
+ *      ç»´æŠ¤ä¸‹å‡¸åŒ…ï¼Œå¯¹äºæ¯ä¸ªxç»´æŠ¤f(x)=k*x+bçš„æœ€å¤§å€¼ã€‚
  *      query max value within all f(x) functions.
  *      c++11 features included.
  * Problems:
@@ -46,7 +46,7 @@ struct Hull {
         return (ab - bb) / (bk - ak) > (ab - cb) / (ck - ak);
     }
 
-    void insert(const fx &p) {///k´ÓĞ¡µ½´ó²åÈë
+    void insert(const fx &p) {///kä»å°åˆ°å¤§æ’å…¥
         if (cnt && arr[cnt - 1].k == p.k) {
             if (p.b <= arr[cnt - 1].b)return;
             else pop();
@@ -55,12 +55,12 @@ struct Hull {
         add(p);
     }
 
-    /*var query(var x) {///x´Ó´óµ½Ğ¡²éÑ¯       ´ÓĞ¡µ½´óÓÃ¶ÓÁĞ
+    /*var query(var x) {///xä»å¤§åˆ°å°æŸ¥è¯¢       ä»å°åˆ°å¤§ç”¨é˜Ÿåˆ—
         while (cnt > 1 && arr[cnt - 2].f(x) > arr[cnt - 1].f(x))pop();;
         return arr[cnt - 1].f(x);
     }*/
 
-    var query(var x) {///¶ş·Ö²éÑ¯£¬xË³ĞòÈÎÒâ
+    var query(var x) {///äºŒåˆ†æŸ¥è¯¢ï¼Œxé¡ºåºä»»æ„
         int l = 0, r = cnt - 1;
         while (l < r) {
             int mid = (l + r) >> 1;
@@ -114,7 +114,7 @@ struct Hull {
         return (ab - bb) / (bk - ak) > (ab - cb) / (ck - ak);
     }
 
-    void insert(const Line &p) {///k´ÓĞ¡µ½´ó²åÈë
+    void insert(const Line &p) {///kä»å°åˆ°å¤§æ’å…¥
         if (cnt && con[cnt - 1].k == p.k) {
             if (p.b <= con[cnt - 1].b)return;
             else pop();
@@ -123,7 +123,7 @@ struct Hull {
         add(p);
     }
 
-    var query(var x) {///¶ş·Ö²éÑ¯£¬xË³ĞòÈÎÒâ
+    var query(var x) {///äºŒåˆ†æŸ¥è¯¢ï¼Œxé¡ºåºä»»æ„
         int l = 0, r = cnt - 1;
         while (l < r) {
             int mid = (l + r) >> 1;

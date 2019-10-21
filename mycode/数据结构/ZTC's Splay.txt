@@ -1,21 +1,4 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<algorithm>
-#include<math.h>
-#include<string.h>
-#include<string>
-#include<time.h>
-#include<stack>
-#include<map>
-#include<assert.h>
-#include<bitset>
-#include<set>
-#include<queue>
-#include<unordered_map>
-#include<ctype.h>
-#include<random>
-#include<iostream>
-using namespace std;
+//using namespace std;
 typedef long long ll;
 typedef double db;
 #define _Zero(a) memset(a,0,sizeof(a))

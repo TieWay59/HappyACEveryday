@@ -47,7 +47,7 @@ struct Graph
     void addE(int a, int b, int c = 0) { E[cntE] = { a,b,c,head[a] }; head[a] = cntE++; }
 };
 
-struct Dijkstra : Graph//下面定一个变量就能用
+struct Dijkstra : Graph//涓嬮潰瀹氫竴涓彉閲忓氨鑳界敤
 {
     ll dist[MAXG];
     struct DNode
@@ -60,7 +60,7 @@ struct Dijkstra : Graph//下面定一个变量就能用
     };
     void Init() { _Inf(dist); }
 
-    void Get_Dist(int s)//重新计算从s开始的单源最短路
+    void Get_Dist(int s)//閲嶆柊璁＄畻浠巗寮�濮嬬殑鍗曟簮鏈�鐭矾
     {
         Init();
         priority_queue<DNode>pq;
@@ -81,7 +81,7 @@ struct Dijkstra : Graph//下面定一个变量就能用
         }
     }
 
-    int Get_Dist(int s, int t)//获取s到t的最短路
+    int Get_Dist(int s, int t)//鑾峰彇s鍒皌鐨勬渶鐭矾
     {
         if(dist[t]==INF&&dist[s]!=0)Get_Dist(s);
         return dist[t];
@@ -91,7 +91,7 @@ struct Dinic :Graph
 {
     int curE[MAXG], s, t, dist[MAXG];
 
-    ll dfs(int u, ll f)//不用管，不要调用
+    ll dfs(int u, ll f)//涓嶇敤绠★紝涓嶈璋冪敤
     {
         if (u == t)return f;
         int ans = 0;
@@ -111,7 +111,7 @@ struct Dinic :Graph
         return ans;
     }
 
-    bool bfs()//同上
+    bool bfs()//鍚屼笂
     {
         _Neg1(dist);
         queue<int> q; q.push(s);
@@ -131,7 +131,7 @@ struct Dinic :Graph
         return dist[t] != -1;
     }
 
-    ll dinic(int x, int y, int n)//返回从x到y的最大流 要给出有n个点
+    ll dinic(int x, int y, int n)//杩斿洖浠巟鍒皔鐨勬渶澶ф祦 瑕佺粰鍑烘湁n涓偣
     {
         s = x; t = y;
         int ans = 0;
