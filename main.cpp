@@ -1,113 +1,115 @@
 #include <bits/stdc++.h>
-#include <tuple>
-//https://codeforces.com/gym/101196/my
-#define  debug(x)  cerr <<#x << " = "<<x<<endl
-const int MAXN = 100 + 59;
-using namespace std;
 
+#define  debug(x)  cerr <<#x << " = "<<x<<endl
+const int MAXN = 1e5 + 59;
+const int MOD = 1e9 + 7;
+using namespace std;
 typedef long long ll;
 
-int dir[4][2] = {
-        {1,  0},
-        {-1, 0},
-        {0,  1},
-        {0,  -1}
-};
+vector<int> e[MAXN];
+bool vis[MAXN];
+int stk[MAXN << 1], top;
+int fa[MAXN];
+int sz[MAXN];
 
-int n, m;
-pair<int, int> A, B;
-char mp[MAXN][MAXN];
-bool isEdge[MAXN][MAXN];
-char loopType[MAXN][MAXN];
-bool vis[MAXN][MAXN];
+set<int> rest;
 
-void visit(int r, int c) { vis[r][c] = true; }
-
-void dfsEdge(int r, int c) {
-    vis[r][c] = true;
-    for (int i = 0; i < 4; ++i) {
-        int dr = r + dir[i][0];
-        int dc = c + dir[i][1];
-        if (dr < 0 || dc < 0 || dr > n + 1 || dc > m + 1)
-            continue;
-        if (vis[dr][dc])
-            continue;
-        if (mp[dr][dc] != '.') {
-            isEdge[dr][dc] = true;
-            vis[dr][dc] = true;
-            continue;
-        }
-        dfsEdge(dr, dc);
+int getf(int x) {
+    if (x == fa[x])return x;
+    else {
+        sz[fa[x]] += sz[x];
+        sz[x] = 0;
+        return fa[x] = getf(fa[x]);
     }
 }
 
-void dfsLoop(int r, int c, int rd, int cd, char ch) {
-    if (mp[r + 1][c] != '.' &&
-        mp[r][c + 1] != '.' &&
-        mp[r - 1][c] != '.' &&
-        mp[r][c - 1] != '.' &&
-        !vis[r + rd][c + cd]) {
-        dfsLoop(r + rd, c + cd, rd, cd, ch);
-        return;
-    }
-    visit(r, c);
-    loopType[r][c] = ch;
-
-    for (int i = 0; i < 4; ++i) {
-        int dr = r + dir[i][0];
-        int dc = c + dir[i][1];
-        if (dr < 0 || dc < 0 || dr > n + 1 || dc > m + 1)
-            continue;
-        if (vis[dr][dc] || mp[dr][dc] == '.')
-            continue;
-        dfsLoop(dr, dc, dir[i][0], dir[i][1], ch);
+void unif(int x, int y) {
+    int fx = getf(x);
+    int fy = getf(y);
+    if (fx != fy) {
+        fa[fy] = fx;
+        sz[fx] += sz[fy];
+        sz[fy] = 0;
     }
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
-
-
-    memset(mp, '.', sizeof(mp));
+    int n, m;
     cin >> n >> m;
+
+    for (int u, v, i = 0; i < m; i++) {
+        cin >> u >> v;
+        e[u].emplace_back(v);
+        e[v].emplace_back(u);
+    }
+
     for (int i = 1; i <= n; ++i) {
-        cin >> (mp[i] + 1);
-        mp[i][m + 1] = '.';
-        for (int j = 1; j <= m; ++j) {
-            if (mp[i][j] == 'A') {
-                A = {i, j};
-            }
-            if (mp[i][j] == 'B') {
-                B = {i, j};
-            }
-        }
+        fa[i] = i;
+        sz[i] = 1;
+        stk[++top] = i;
+        rest.insert(i);
+
     }
+//    int ans = 0;
+    sort(stk + 1, stk + top + 1, [](int x, int y) {
+        return e[x].size() < e[y].size();
+    });
 
-    dfsEdge(0, 0);
-
-//    for (int i = 0; i <= n + 1; i++) {
-//        for (int j = 0; j <= m + 1; j++) {
-//            cout << (int) isEdge[i][j];
+    queue<int> waitToDelete;
+    while (top) {
+        int u = stk[top--];
+        if (vis[u])continue;
+        vis[u] = true;
+//        if (getf(u) == u) {
+//            ans++;
 //        }
-//        cout << endl;
-//    }
+        for (auto v:rest) {
+            if (getf(v) == getf(u))continue;
+            if (sz[getf(v)] != 1)continue;
 
-    memset(vis, 0, sizeof vis);
-    dfsLoop(A.first, A.second, 0, 0, 'A');
-    dfsLoop(B.first, B.second, 0, 0, 'B');
+            int cnt = 0;
+            for (auto vv:e[v]) {
+                if (getf(vv) == getf(u)) {
+                    cnt++;
+                }
+            }
 
-    for (int i = 0; i <= n + 1; i++) {
-        for (int j = 0; j <= m + 1; j++) {
-            cout << loopType[i][j];
+            if (cnt < sz[getf(u)]) {
+                unif(u, v);
+                waitToDelete.emplace(v);
+            }
         }
-        cout << endl;
-    }
 
+        while (!waitToDelete.empty()) {
+            if (rest.count(waitToDelete.front())) {
+                rest.erase(waitToDelete.front());
+            }
+            stk[++top] = waitToDelete.front();
+            waitToDelete.pop();
+        }
+        if (sz[u] > 0) {
+            if (rest.count(u) > 0)
+                rest.erase(u);
+        }
+    }
+    int ans = 0;
+    for (int i = 1; i <= n; i++) {
+        if (sz[i] > 0)ans++;
+//        debug(i);
+//        debug(sz[i]);
+//        cerr << endl;
+    }
+    cout << ans - 1 << endl;
     return 0;
 }
 /*
-6
-Balaji David Alex Scott Andrew Ravi
-WWBBWWBBWW
+2
+2 0
+-50000 50000
+
+4 0
+-50000 -40000 40000 50000
+
  */
