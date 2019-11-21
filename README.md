@@ -17,7 +17,8 @@
 
 - 社区类
     - [discord USACO(未打开](https://media.discordapp.net/attachments/551903374715387905/630928966118670337/unknown.png?width=789&height=443)
-
+    - [牛客网比赛日历](https://ac.nowcoder.com/acm/contest/calendar)
+    
 - 题集类
     - [Problem Topics By -Morass-](https://codeforces.com/blog/entry/55274)
 
