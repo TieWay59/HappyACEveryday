@@ -1,10 +1,3 @@
-/*
-    @Author: TieWay59
-    @Date: 2019/11/21 22:49
-    @Link: 
-    @Tags: 
-*/
-
 #include <bits/stdc++.h>
 
 #define  debug(x)  cerr <<#x << " = "<<x<<endl
@@ -38,4 +31,11 @@ int main() {
 }
 /*
 
+1
+6
+2 3 11 14 1 8
+2
+3 2
+100 6
+ 
  */

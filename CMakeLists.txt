@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD 14)
 SET(CMAKE_CXX_FLAGS "-std=c++14 ")
 # https://blog.csdn.net/qq_42189368/article/details/87252919
 
-add_executable(Hace main.cpp)
+add_executable(Hace main.cpp defcode2.cpp)

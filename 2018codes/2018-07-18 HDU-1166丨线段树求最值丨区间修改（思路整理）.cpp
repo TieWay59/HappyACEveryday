@@ -7,39 +7,38 @@ int Ti, T, n;
 char op[15];
 
 /*
-Ïß¶ÎÊ÷Ëã·¨Âß¼­
+ï¿½ß¶ï¿½ï¿½ï¿½ï¿½ã·¨ï¿½ß¼ï¿½
 
 build
-Çå¿ÕÑÓ³Ù±ê¼Ç
-Èç¹ûÊÇÒ¶×Ó½Úµã
-    ¶ÁÈëÔªËØ
-Èç¹û²»ÊÇÒ¶×Ó½Úµã
-    build×ó
-    buildÓÒ
-    ¼ÆËã½ÚµãÖµ
+ï¿½ï¿½ï¿½ï¿½Ó³Ù±ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½Ó½Úµï¿½
+    ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½Ó½Úµï¿½
+    buildï¿½ï¿½
+    buildï¿½ï¿½
+    ï¿½ï¿½ï¿½ï¿½Úµï¿½Öµ
 
 pushdown
-×óÓÒ½ÚµãÖµ+=add
-×óÓÒ½ÚµãÑÓ³Ù±ê¼Ç+=add
-µ±Ç°½ÚµãÑÓ³Ù±ê¼Ç=0£»
+ï¿½ï¿½ï¿½Ò½Úµï¿½Öµ+=add
+ï¿½ï¿½ï¿½Ò½Úµï¿½ï¿½Ó³Ù±ï¿½ï¿½+=add
+ï¿½ï¿½Ç°ï¿½Úµï¿½ï¿½Ó³Ù±ï¿½ï¿½=0ï¿½ï¿½
 
 
 query
-Èç¹û½ÚµãÇø¼äÔÚÑ¯ÎÊÇø¼äÍâ
-    ·µ»Ø²»ÕýÈ·ÐÅÏ¢
-Èç¹û¡­¡­ÔÚ¡­¡­ÄÚ
-    Ö±½Ó·µ»Ø½ÚµãÊýÖµ
-pushdownÏÂ´«ÑÓ³Ù±ê¼Ç
-Ïò×óquery
-ÏòÓÒquery
+ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½È·ï¿½ï¿½Ï¢
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¡ï¿½ï¿½ï¿½ï¿½ï¿½
+    Ö±ï¿½Ó·ï¿½ï¿½Ø½Úµï¿½ï¿½ï¿½Öµ
+pushdownï¿½Â´ï¿½ï¿½Ó³Ù±ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½query
+ï¿½ï¿½ï¿½ï¿½query
 
 
 update_sg
-µ±Ç°Çø¼äÔÚÍâ return£»
-µ±Ç°Çø¼äÔÚÄÚ ÐÞ¸Ä½ÚµãÖµÓë±ê¼Çreturn£»
-µ±Ç°Çø¼äÓÐ½»¼¯
-    ÏÂ´«±ê¼Ç£¬×óÓÒ¼ÌÐø¸üÐÂ£¬ÖØÐÂ¼ÆËã½ÚµãÖµ£»
-
+ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ returnï¿½ï¿½
+ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸Ä½Úµï¿½Öµï¿½ï¿½ï¿½ï¿½returnï¿½ï¿½
+ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ï¿½
+    ï¿½Â´ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½Ò¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â£ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½Úµï¿½Öµï¿½ï¿½
 */
 int build(int root, int l, int r) {
     add[root] = 0;
@@ -68,8 +67,8 @@ int query(int root, int l, int r) {
     PushDown(root, l, r);
     int m = (l + r) / 2;
     return query(root * 2, l, m) + query(root * 2 + 1, m + 1, r);
-    //ÕâÀï¾ÍÖ±½Ó×óÓÒ¿ª¹­£¬¶ø²»È¥Ï¸·ÖÁË£¬ÒòÎªÕâÉÏÃæÒÑ¾­ÓÐreturn0
-    //ÕâÑù¿´ÆðÀ´¸ü¼ò½àÒ»Ð©¡£
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½Ò¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥Ï¸ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½return0
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Ð©ï¿½ï¿½
 }
 
 void update(int root, int l, int r, int v) {
@@ -84,7 +83,7 @@ void update(int root, int l, int r, int v) {
     int m = (l + r) / 2;
     update(root * 2, l, m, v);
     update(root * 2 + 1, m + 1, r, v);
-    //Í¬ÀíÎªÁË¼ò½à£¬ÕâÀï²»È¥Ï¸·ÖmºÍLRµÄ¹ØÏµ£¬ÒòÎªÉÏ·½ÓÐreturn£»
+    //Í¬ï¿½ï¿½Îªï¿½Ë¼ï¿½à£¬ï¿½ï¿½ï¿½ï²»È¥Ï¸ï¿½ï¿½mï¿½ï¿½LRï¿½Ä¹ï¿½Ïµï¿½ï¿½ï¿½ï¿½Îªï¿½Ï·ï¿½ï¿½ï¿½returnï¿½ï¿½
     tree[root] = tree[root * 2] + tree[root * 2 + 1];
 }
 
