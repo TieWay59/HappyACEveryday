@@ -1,8 +1,27 @@
 # daily coding practice
 
-你好呀！本项目是我个人编程竞赛用的编辑项目。我主要使用Clion（学生版）来编程，~~当然也有时候她崩了或者太慢了我会选别的IDE~~。
-我这样做的目的是希望能借助clon的特性，系统地管理我的我各种与算法竞赛相关的文件。
-我会把我遇到的一些有意思的题目和代码汇总到这个项目里，如果需要这个项目的话，随时可以clone到本地玩耍。
+你好呀！本项目是我个人编程竞赛用的编辑项目。我主要使用CLION来写代码，~~当然也有时候崩了或者太卡我会选别的IDE~~。
+我这样做的目的是希望能借助CLION的特性，系统地管理我的我各种与算法竞赛相关的文件。
+我会把我遇到的一些有意思的题目和代码汇总到这个项目里，如果需要这个项目的话，随时可以clone到本地玩。
+
+
+## 一些链接
+
+> 有时候七零八落地会找到一些链接，就再这贴一下。
+
+- 集合类
+    - [BenQ Resources](https://github.com/bqi343/USACO/tree/master/Resources)
+    是CF大佬BenQ的一些资源整理。
+    - [Book Guide by E869120](https://u.teknik.io/3yVBr.pdf)
+    - [An awesome list for competitive programming!](https://codeforces.com/blog/entry/23054)
+
+- 社区类
+    - [discord USACO(未打开](https://media.discordapp.net/attachments/551903374715387905/630928966118670337/unknown.png?width=789&height=443)
+
+- 题集类
+    - [Problem Topics By -Morass-](https://codeforces.com/blog/entry/55274)
+
+
 
 ## TODOs
 
