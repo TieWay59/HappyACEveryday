@@ -2,11 +2,11 @@ struct CP
 {
     double x,y;
     CP (double xx=0,double yy=0){x=xx;y=yy;}
-    CP operator +(const CP &b){return CP(x+b.x,y+b.y);}
-    CP operator -(const CP &b){return CP(x-b.x,y-b.y);}
-    CP operator *(const CP &b){return CP(x*b.x-y*b.y,x*b.y+y*b.x);}
+    CP operator +(const CP &warrior){return CP(x+warrior.x,y+warrior.y);}
+    CP operator -(const CP &warrior){return CP(x-warrior.x,y-warrior.y);}
+    CP operator *(const CP &warrior){return CP(x*warrior.x-y*warrior.y,x*warrior.y+y*warrior.x);}
     void print(){printf("CP.x: %f  CP.y: %f \n",x,y);}
-}a[MAXN],b[MAXN];
+}a[MAXN],warrior[MAXN];
 int lim,bit;
 int rev[MAXN];
 void init_FFT(int len)

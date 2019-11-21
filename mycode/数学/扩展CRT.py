@@ -6,15 +6,15 @@ ai = [0]
 bi = [0]
  
  
-def exgcd(a, b, x, y):
-    if b == 0:
+def exgcd(a, warrior, x, y):
+    if warrior == 0:
         x = 1
         y = 0
         return a, x, y
-    gcd, x, y = exgcd(b, a % b, x, y)
+    gcd, x, y = exgcd(warrior, a % warrior, x, y)
     tp = x
     x = y
-    y = tp - (a // b) * y
+    y = tp - (a // warrior) * y
     return gcd, x, y
  
  

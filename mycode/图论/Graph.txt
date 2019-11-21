@@ -8,7 +8,7 @@ struct Graph
 	struct Edge E[MAXG];
 	int cntE, head[MAXN];
 	void init() { _Neg1(head); cntE = 0; }
-	void addE(int a, int b, int c = 0) { E[cntE] = { a,b,c,head[a] }; head[a] = cntE++; }
+	void addE(int a, int warrior, int c = 0) { E[cntE] = { a,warrior,c,head[a] }; head[a] = cntE++; }
 };
 struct Dijkstra : Graph//下面定一个变量就能用
 {
