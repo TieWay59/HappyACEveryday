@@ -1,9 +1,18 @@
-/*
-    @Author: TieWay59
-    @Date: 2019/11/22 13:38
-    @Link: https://atcoder.jp/contests/agc040/tasks/agc040_b
-    @Tags: idea
-*/
+/**
+  *    █████╗  ██████╗       ██████╗ ██╗     ███████╗
+  *   ██╔══██╗██╔════╝       ██╔══██╗██║     ╚══███╔╝
+  *   ███████║██║            ██████╔╝██║       ███╔╝ 
+  *   ██╔══██║██║            ██╔═══╝ ██║      ███╔╝  
+  *   ██║  ██║╚██████╗▄█╗    ██║     ███████╗███████╗
+  *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
+  *
+  *  @Author: TieWay59
+  *  @Created: 2019/11/22 21:39
+  *  @Link: Accept
+  *  @Tags: 
+  *
+  *******************************************************/
+
 
 #include <bits/stdc++.h>
 
@@ -19,75 +28,8 @@ const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
-int n, m;
-struct node {
-    ll l, r;
-} a[MAXN];
-ll maxL;
-ll minR;
-ll ans;
-ll ansInLeft[MAXN];
-ll ansInRight[MAXN];
-node pairInLeft[MAXN];
-node pairInRight[MAXN];
-
 void solve(int kaseId = -1) {
 
-    cin >> n;
-
-    for (int i = 1; i <= n; ++i) {
-        cin >> a[i].l >> a[i].r;
-        ans = max(ans, a[i].r - a[i].l + 1);
-    }
-
-    sort(a + 1, a + 1 + n, [](node x, node y) {
-        if (x.l == y.l)return x.r < y.r;
-        return x.l < y.l;
-//        return (x.r - x.l) < (y.r - y.l);
-    });
-
-    maxL = 0;
-    minR = llINF;
-    for (int i = 1; i <= n; ++i) {
-        maxL = max(maxL, a[i].l);
-        minR = min(minR, a[i].r);
-        if (maxL <= minR) {
-            ansInLeft[i] = minR - maxL + 1;
-            pairInLeft[i] = {maxL, minR};
-        } else {
-            break;
-        }
-    }
-
-    maxL = 0;
-    minR = llINF;
-    for (int i = n; i >= 1; --i) {
-        maxL = max(maxL, a[i].l);
-        minR = min(minR, a[i].r);
-        if (maxL <= minR) {
-            ansInRight[i] = minR - maxL + 1;
-            pairInRight[i] = {maxL, minR};
-        } else {
-            break;
-        }
-    }
-
-    for (int i = 1; i < n; ++i) {
-        ans = max(ans, ansInLeft[i] + ansInRight[i + 1]);
-    }
-
-    for (int i = 2; i < n; ++i) {
-        ll len = a[i].r - a[i].l + 1;
-        if (ansInRight[i + 1] &&
-            ansInLeft[i - 1] &&
-            pairInRight[i + 1].l <= pairInLeft[i - 1].r) {
-            ans = max(ans, len +
-                           min(pairInLeft[i - 1].r, pairInRight[i + 1].r)
-                           - pairInRight[i + 1].l + 1);
-        }
-    }
-
-    cout << ans << endl;
 }
 
 /*void solves() {
