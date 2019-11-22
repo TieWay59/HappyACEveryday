@@ -28,8 +28,8 @@ ll minR;
 ll ans;
 ll ansInLeft[MAXN];
 ll ansInRight[MAXN];
-node pairInLeft[MAXN];
-node pairInRight[MAXN];
+pair<int, int> pairInLeft[MAXN];
+pair<int, int> pairInRight[MAXN];
 
 void solve(int kaseId = -1) {
 
@@ -78,12 +78,12 @@ void solve(int kaseId = -1) {
 
     for (int i = 2; i < n; ++i) {
         ll len = a[i].r - a[i].l + 1;
-        if (ansInRight[i + 1] &&
-            ansInLeft[i - 1] &&
-            pairInRight[i + 1].l <= pairInLeft[i - 1].r) {
+        if (pairInRight[i + 1].first > 0 &&
+            pairInLeft[i - 1].first > 0 &&
+            pairInRight[i + 1].first <= pairInLeft[i - 1].second) {
             ans = max(ans, len +
-                           min(pairInLeft[i - 1].r, pairInRight[i + 1].r)
-                           - pairInRight[i + 1].l + 1);
+                           min(pairInLeft[i - 1].second, pairInRight[i + 1].second)
+                           - pairInRight[i + 1].first + 1);
         }
     }
 
