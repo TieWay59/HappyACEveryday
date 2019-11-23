@@ -13,12 +13,17 @@
   *
   *******************************************************/
 
-
 #include <bits/stdc++.h>
 
-#define  debug(x)  cerr <<#x << " = "<<x<<endl
+#ifdef DEBUG
+//#define debug(x)  cerr <<#x << " = "<<x<<endl;
+#include "libs59/debugers.h"
 
+#else
 #define endl '\n'
+#define debug(x)  59
+#endif
+
 #define STOPSYNC ios::sync_with_stdio(false);cin.tie(nullptr)
 #define MULTIKASE int Kase=0;cin>>Kase;for(int kase=1;kase<=Kase;kase++)
 typedef long long ll;
@@ -32,15 +37,14 @@ void solve(int kaseId = -1) {
 
 }
 
-/*void solves() {
+void solves() {
     MULTIKASE {
         solve(kase);
     }
-}*/
+}
 
 int main() {
     STOPSYNC;
-//    solves();
     solve();
     return 0;
 }

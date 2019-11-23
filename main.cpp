@@ -7,18 +7,24 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2019/11/22 21:39
-  *  @Link: Accept
-  *  @Tags: 
+  *  @Created: 2019/11/23 16:18
+  *  @Link: https://codeforces.com/gym/102423/problem/J
+  *  @Tags:
   *
   *******************************************************/
 
 
 #include <bits/stdc++.h>
 
-//#define  debug(x)  cerr <<#x << " = "<<x<<endl
+#ifdef DEBUG
+//#define debug(x)  cerr <<#x << " = "<<x<<endl;
+#include "libs59/debugers.h"
 
+#else
 #define endl '\n'
+#define debug(x)  59
+#endif
+
 #define STOPSYNC ios::sync_with_stdio(false);cin.tie(nullptr)
 #define MULTIKASE int Kase=0;cin>>Kase;for(int kase=1;kase<=Kase;kase++)
 typedef long long ll;
@@ -28,112 +34,95 @@ const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
+int nextPos[MAXN];
+int linkPos[MAXN];
+int cntNum[MAXN];
+int canCover[MAXN];
+int a[MAXN];
+int n, k;
 
-// debug start
-template<typename A, typename B>
-string to_string(pair<A, B> p);
+int ans[MAXN], ans_top;
 
-template<typename A, typename B, typename C>
-string to_string(tuple<A, B, C> p);
+struct node {
+    int pos, cov, val;
 
-template<typename A, typename B, typename C, typename D>
-string to_string(tuple<A, B, C, D> p);
+    bool operator<(const node &rht) {
+        if (cov == rht.cov) return val > rht.val;
+        return cov < rht.cov;
+    }
+};
 
-string to_string(const string &s) {
-    return '"' + s + '"';
-}
+void solve(int kaseId = -1) {
+    cin >> n >> k;
+    for (int i = 1; i <= n; ++i) {
+        cin >> a[i];
+    }
 
-string to_string(const char *s) {
-    return to_string((string) s);
-}
-
-string to_string(bool b) {
-    return (b ? "true" : "false");
-}
-
-string to_string(vector<bool> v) {
-    bool first = true;
-    string res = "{";
-    for (int i = 0; i < static_cast<int>(v.size()); i++) {
-        if (!first) {
-            res += ", ";
+    for (int i = n; i >= 1; --i) {
+        linkPos[i] = nextPos[a[i]];
+        nextPos[a[i]] = i;
+        canCover[i] = canCover[i + 1];
+        if (0 == cntNum[a[i]]) {
+            canCover[i]++;
         }
-        first = false;
-        res += to_string(v[i]);
+        cntNum[a[i]]++;
     }
-    res += "}";
-    return res;
-}
 
-template<size_t N>
-string to_string(bitset<N> v) {
-    string res = "";
-    for (size_t i = 0; i < N; i++) {
-        res += static_cast<char>('0' + v[i]);
-    }
-    return res;
-}
+    priority_queue<node> que;
 
-template<typename A>
-string to_string(A v) {
-    bool first = true;
-    string res = "{";
-    for (const auto &x : v) {
-        if (!first) {
-            res += ", ";
+    for (int i = 1, p, curPos = 0; i <= k;) {
+
+        p = nextPos[i];
+
+        while (p < curPos) {
+            p = linkPos[p];
         }
-        first = false;
-        res += to_string(x);
+
+        que.emplace(p, canCover[p], i);
+
+        while (!que.empty() && que.top().cov >= k - ans_top) {
+            ans[++ans_top] = que.top().val;
+            que.pop();
+            curPos = que.top().pos;
+        }
     }
-    res += "}";
-    return res;
+
+    while (!que.empty() && ans_top < k) {
+
+
+    }
+
 }
 
-template<typename A, typename B>
-string to_string(pair<A, B> p) {
-    return "(" + to_string(p.first) + ", " + to_string(p.second) + ")";
+void solves() {
+    MULTIKASE {
+        solve(kase);
+    }
 }
-
-template<typename A, typename B, typename C>
-string to_string(tuple<A, B, C> p) {
-    return "(" + to_string(get<0>(p)) + ", " + to_string(get<1>(p)) + ", " + to_string(get<2>(p)) + ")";
-}
-
-template<typename A, typename B, typename C, typename D>
-string to_string(tuple<A, B, C, D> p) {
-    return "(" + to_string(get<0>(p)) + ", " + to_string(get<1>(p)) + ", " + to_string(get<2>(p)) + ", " +
-           to_string(get<3>(p)) + ")";
-}
-
-void debug_out() { cerr << endl; }
-
-template<typename Head, typename... Tail>
-void debug_out(Head H, Tail... T) {
-    cerr << " " << to_string(H);
-    debug_out(T...);
-}
-
-#ifdef DEBUG
-#define debug(...) cerr << "[" << #__VA_ARGS__ << "] :=", debug_out(__VA_ARGS__)
-#else
-#define debug(...) 42
-#endif
-
-
-
-// debug end;
 
 int main() {
-
-    int x = 10;
-    pair<int, bool> y = {11, 1};
-    vector<int> z = {1, 2, 3, 4};
-
-    debug(x, y, z);
-    set<int> a = {9, 10, 7};
-    debug(a);
+    STOPSYNC;
+    solve();
     return 0;
 }
 /*
+
+
+
+
+
+
+
+10 5
+ 5
+ 4
+ 3
+ 2
+ 1
+ 4
+ 1
+ 1
+ 5
+ 5
 
  */
