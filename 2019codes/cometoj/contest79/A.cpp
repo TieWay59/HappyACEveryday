@@ -1,14 +1,14 @@
 /**
   *    █████╗  ██████╗       ██████╗ ██╗     ███████╗
   *   ██╔══██╗██╔════╝       ██╔══██╗██║     ╚══███╔╝
-  *   ███████║██║            ██████╔╝██║       ███╔╝ 
-  *   ██╔══██║██║            ██╔═══╝ ██║      ███╔╝  
+  *   ███████║██║            ██████╔╝██║       ███╔╝
+  *   ██╔══██║██║            ██╔═══╝ ██║      ███╔╝
   *   ██║  ██║╚██████╗▄█╗    ██║     ███████╗███████╗
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2019/11/23 20:04
-  *  @Link: https://www.cometoj.com/contest/79/problem/C?problem_id=4221
+  *  @Created: 2019/11/23 19:05
+  *  @Link: https://www.cometoj.com/contest/79/problem/A?problem_id=4198
   *  @Tags:
   *
   *******************************************************/
@@ -22,7 +22,7 @@
 
 #else
 #define endl '\n'
-#define debug(...)  59
+#define debug(x)  59
 #endif
 
 #define STOPSYNC ios::sync_with_stdio(false);cin.tie(nullptr)
@@ -34,55 +34,33 @@ const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
-int l0, r0;
-int l1, r1;
-int a[MAXN];
-int b[MAXN];
-int n;
-
-int check(int bound) {
-    memset(b, 0, sizeof b);
-    for (int i = 1; i <= n; ++i) {
-        if (a[i] > i) {
-
-        }
-    }
-
-}
-
-
 void solve(int kaseId = -1) {
-    cin >> n;
-    r0 = r1 = 0;
-    l0 = l1 = INF;
-
-    for (int i = 1; i <= n; ++i) {
-        cin >> a[i];
-        b[a[i]] = i;
-        if (a[i] < i) {
-            l1 = min(l1, a[i]);
-            r1 = max(r1, a[i]);
-            l0 = min(l0, i);
-            r0 = max(r0, i);
-        }
-    }
+    string v;
+    cin >> v;
     bool valid = true;
-//    debug(l1, r1, l0, r0);
-    for (int i = 1; i <= n; ++i) {
-        if (i >= b[i]
-            && l1 <= i && i <= r1
-            && l0 <= b[i] && b[i] <= r0) {
-
+    for (int i = 1; i < v.length(); ++i) {
+        if (v[i - 1] > v[i]) {
             valid = false;
             break;
         }
     }
-
-    if (valid) {
-        cout << l1 - 1 << " " << l0 - 1 << endl;
+    if (!valid) {
+        cout << "Impossible" << endl;
     } else {
-        cout << "-1 -1" << endl;
+        v.erase(unique(v.begin(), v.end()), v.end());
+        v = "0" + v;
+        debug(v);
+        int ans = 0;
+        for (int i = 1, x = 0; i < v.length(); i++) {
+            ans += (int) v[i] - v[i - 1];
+        }
+        if (ans > 9) {
+            cout << "Impossible" << endl;
+        } else {
+            cout << ans << endl;
+        }
     }
+
 }
 
 void solves() {
