@@ -1,14 +1,14 @@
 /**
   *    █████╗  ██████╗       ██████╗ ██╗     ███████╗
   *   ██╔══██╗██╔════╝       ██╔══██╗██║     ╚══███╔╝
-  *   ███████║██║            ██████╔╝██║       ███╔╝ 
-  *   ██╔══██║██║            ██╔═══╝ ██║      ███╔╝  
+  *   ███████║██║            ██████╔╝██║       ███╔╝
+  *   ██╔══██║██║            ██╔═══╝ ██║      ███╔╝
   *   ██║  ██║╚██████╗▄█╗    ██║     ███████╗███████╗
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2019/11/23 20:04
-  *  @Link: https://www.cometoj.com/contest/79/problem/C?problem_id=4221
+  *  @Created: 2019/11/24 20:49
+  *  @Link: https://atcoder.jp/contests/abc146/tasks/abc146_c
   *  @Tags:
   *
   *******************************************************/
@@ -34,55 +34,34 @@ const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
-int l0, r0;
-int l1, r1;
-int a[MAXN];
-int b[MAXN];
-int n;
-
-int check(int bound) {
-    memset(b, 0, sizeof b);
-    for (int i = 1; i <= n; ++i) {
-        if (a[i] > i) {
-
-        }
-    }
-
-}
-
-
 void solve(int kaseId = -1) {
-    cin >> n;
-    r0 = r1 = 0;
-    l0 = l1 = INF;
+    ll a, b, x;
+    cin >> a >> b >> x;
 
-    for (int i = 1; i <= n; ++i) {
-        cin >> a[i];
-        b[a[i]] = i;
-        if (a[i] < i) {
-            l1 = min(l1, a[i]);
-            r1 = max(r1, a[i]);
-            l0 = min(l0, i);
-            r0 = max(r0, i);
+    ll l = 1, r = (ll) 1e9;
+    ll mid, ans = 0;
+
+    auto chek = [=](ll z) -> bool {
+        ll sum = a * z;
+        ll y = 0;
+        while (z) {
+            y++;
+            z /= 10;
+        }
+        sum += b * y;
+        return sum <= x;
+    };
+
+    while (l <= r) {
+        mid = (l + r) >> 1;
+        if (chek(mid)) {
+            ans = mid;
+            l = mid + 1;
+        } else {
+            r = mid - 1;
         }
     }
-    bool valid = true;
-//    debug(l1, r1, l0, r0);
-    for (int i = 1; i <= n; ++i) {
-        if (i >= b[i]
-            && l1 <= i && i <= r1
-            && l0 <= b[i] && b[i] <= r0) {
-
-            valid = false;
-            break;
-        }
-    }
-
-    if (valid) {
-        cout << l1 - 1 << " " << l0 - 1 << endl;
-    } else {
-        cout << "-1 -1" << endl;
-    }
+    cout << ans << endl;
 }
 
 void solves() {
@@ -93,7 +72,7 @@ void solves() {
 
 int main() {
     STOPSYNC;
-    solves();
+    solve();
     return 0;
 }
 /*
