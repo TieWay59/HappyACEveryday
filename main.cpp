@@ -44,10 +44,10 @@ int main() {
     string fileName;
     ifstream cdin, cdout;
     for (int SysCase = 1; SysCase <= 3; SysCase++) {
-        fileName = to_String(SysCase) + ".in";
-        cdin = ifstream(fileName);
-        fileName = to_String(SysCase) + ".out";
-        cdout = ifstream(fileName);
+//        fileName = to_String(SysCase) + ".in";
+//        cdin = ifstream(fileName);
+//        fileName = to_String(SysCase) + ".out";
+//        cdout = ifstream(fileName);
 
         int Kase;
         string str;
@@ -68,6 +68,12 @@ int main() {
                 debug(jury_ans);
                 cout << "Wrong Answer on test #" << SysCase << endl;
                 cout << "at case #" << kase << endl;
+                /*
+                 * sahsalshla
+                 * sahishoaisioa
+                 *
+                 *
+                 */
                 exit(0);
             }
         }
