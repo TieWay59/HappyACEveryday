@@ -1,15 +1,15 @@
 /**
   *    █████╗  ██████╗       ██████╗ ██╗     ███████╗
   *   ██╔══██╗██╔════╝       ██╔══██╗██║     ╚══███╔╝
-  *   ███████║██║            ██████╔╝██║       ███╔╝
-  *   ██╔══██║██║            ██╔═══╝ ██║      ███╔╝
+  *   ███████║██║            ██████╔╝██║       ███╔╝ 
+  *   ██╔══██║██║            ██╔═══╝ ██║      ███╔╝  
   *   ██║  ██║╚██████╗▄█╗    ██║     ███████╗███████╗
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2019/11/24 20:49
-  *  @Link: https://atcoder.jp/contests/abc146/tasks/abc146_c
-  *  @Tags:
+  *  @Created: 2019/11/27 17:40
+  *  @Link: wdnmd
+  *  @Tags: 
   *
   *******************************************************/
 
@@ -34,47 +34,53 @@ const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
-void solve(int kaseId = -1) {
-    ll a, b, x;
-    cin >> a >> b >> x;
-
-    ll l = 1, r = (ll) 1e9;
-    ll mid, ans = 0;
-
-    auto chek = [=](ll z) -> bool {
-        ll sum = a * z;
-        ll y = 0;
-        while (z) {
-            y++;
-            z /= 10;
-        }
-        sum += b * y;
-        return sum <= x;
-    };
-
-    while (l <= r) {
-        mid = (l + r) >> 1;
-        if (chek(mid)) {
-            ans = mid;
-            l = mid + 1;
-        } else {
-            r = mid - 1;
-        }
-    }
-    cout << ans << endl;
-}
-
-void solves() {
-    MULTIKASE {
-        solve(kase);
-    }
+string to_String(int x) {
+    stringstream ss;
+    ss << x;
+    return string(ss.str());
 }
 
 int main() {
-    STOPSYNC;
-    solve();
+    string fileName;
+    ifstream cdin, cdout;
+    for (int SysCase = 1; SysCase <= 3; SysCase++) {
+        fileName = to_String(SysCase) + ".in";
+        cdin = ifstream(fileName);
+        fileName = to_String(SysCase) + ".out";
+        cdout = ifstream(fileName);
+
+        int Kase;
+        string str;
+        cdin >> Kase;
+        for (int kase = 1; kase <= Kase; kase++) {
+            int ans = 0;
+            int jury_ans = 0;
+            int n;
+            cdin >> n;
+            cdin >> str;
+            cdout >> jury_ans;
+            for (const auto &si:str) {
+                if (si == '_')ans++;
+            }
+            if (jury_ans != ans) {
+                debug(str);
+                debug(ans);
+                debug(jury_ans);
+                cout << "Wrong Answer on test #" << SysCase << endl;
+                cout << "at case #" << kase << endl;
+                exit(0);
+            }
+        }
+
+        cout << "Accepted on test #" << SysCase << endl;
+        cdin.close();
+        cdout.close();
+    }
+
     return 0;
 }
 /*
+
+
 
  */
