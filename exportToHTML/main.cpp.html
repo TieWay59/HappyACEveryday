@@ -3,17 +3,17 @@
     <title>main.cpp</title>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
     <style type="text/css">
-.s0 { color: #82aaff;}
-.s1 { color: #c3cee3;}
-.s2 { color: #c3e88d;}
-.s3 { color: #89ddff;}
-.s4 { color: #c792ea; font-style: italic;}
+.s0 { color: #616161;}
+.s1 { color: #eeffff;}
+.s2 { color: #82aaff;}
+.s3 { color: #c3e88d;}
+.s4 { color: #89ddff;}
 .s5 { color: #f78c6c;}
-.s6 { color: #717cb4; font-style: italic;}
+.s6 { color: #c792ea; font-style: italic;}
 
     </style>
 </head>
-<body bgcolor="#0f111a">
+<body bgcolor="#212121">
 <table BGCOLOR="#606060" CELLPADDING=5 CELLSPACING=0 COLS=1 WIDTH="100%">
     <tr>
         <td>
@@ -24,167 +24,368 @@
         </td>
     </tr>
 </table>
-<pre><span class="s0">#include </span><span class="s2">&lt;bits/stdc++.h&gt;</span>
-<span class="s0">#include </span><span class="s2">&lt;tuple&gt;</span>
+<pre><span class="s0">/** 
+  *    █████╗  ██████╗       ██████╗ ██╗     ███████╗ 
+  *   ██╔══██╗██╔════╝       ██╔══██╗██║     ╚══███╔╝ 
+  *   ███████║██║            ██████╔╝██║       ███╔╝ 
+  *   ██╔══██║██║            ██╔═══╝ ██║      ███╔╝ 
+  *   ██║  ██║╚██████╗▄█╗    ██║     ███████╗███████╗ 
+  *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝ 
+  * 
+  *  @Author: TieWay59 
+  *  @Created: 2019/11/22 21:39 
+  *  @Link: Accept 
+  *  @Tags: 
+  * 
+  *******************************************************/</span>
 
-<span class="s0">#define  </span><span class="s1">debug</span><span class="s3">(</span><span class="s1">x</span><span
-            class="s3">)  </span><span class="s1">cerr </span><span class="s3">&lt;&lt;#</span><span
-            class="s1">x </span><span class="s3">&lt;&lt; </span><span class="s2">&quot; = &quot;</span><span
-            class="s3">&lt;&lt;</span><span class="s1">x</span><span class="s3">&lt;&lt;</span><span
-            class="s1">endl</span>
-<span class="s4">const int </span><span class="s1">MAXN </span><span class="s3">= </span><span
-            class="s5">1e6 </span><span class="s3">+ </span><span class="s5">59</span><span class="s3">;</span>
-<span class="s4">const int </span><span class="s1">MOD </span><span class="s3">= </span><span
-            class="s5">1e9 </span><span class="s3">+ </span><span class="s5">7</span><span class="s3">;</span>
-<span class="s4">using namespace </span><span class="s1">std</span><span class="s3">;</span>
-<span class="s4">typedef long long </span><span class="s1">ll</span><span class="s3">;</span>
+<span class="s2">#include </span><span class="s3">&lt;bits/stdc++.h&gt;</span>
 
-<span class="s4">struct </span><span class="s1">node </span><span class="s3">{</span>
-    <span class="s4">int </span><span class="s1">a</span><span class="s3">, </span><span class="s1">warrior</span><span
-            class="s3">, </span><span class="s1">id</span><span class="s3">;</span>
+<span class="s2">#ifdef </span><span class="s1">DEBUG</span>
+<span class="s0">//#define debug(x)  cerr &lt;&lt;#x &lt;&lt; &quot; = &quot;&lt;&lt;x&lt;&lt;endl;</span>
+<span class="s2">#include </span><span class="s3">&quot;libs59/debugers.h&quot;</span>
 
-    <span class="s4">bool operator</span><span class="s3">&lt;(</span><span class="s4">const </span><span class="s1">node </span><span
-            class="s3">&amp;</span><span class="s1">rht</span><span class="s3">) {</span>
-        <span class="s4">if </span><span class="s3">(</span><span class="s1">a </span><span class="s3">== </span><span
-            class="s1">rht</span><span class="s3">.</span><span class="s1">a</span><span class="s3">) </span><span
-            class="s4">return </span><span class="s1">warrior </span><span class="s3">&lt; </span><span
-            class="s1">rht</span><span class="s3">.</span><span class="s1">warrior</span><span class="s3">;</span>
-        <span class="s4">return </span><span class="s1">a </span><span class="s3">&lt; </span><span
-            class="s1">rht</span><span class="s3">.</span><span class="s1">a</span><span class="s3">;</span>
-    <span class="s3">}</span>
-<span class="s3">};</span>
+<span class="s2">#else</span>
+<span class="s2">#define </span><span class="s1">endl </span><span class="s3">'\n'</span>
+<span class="s2">#define </span><span class="s1">debug</span><span class="s4">(</span><span class="s1">x</span><span
+            class="s4">)  </span><span class="s5">59</span>
+<span class="s2">#endif</span>
 
-<span class="s1">vector</span><span class="s3">&lt;</span><span class="s1">node</span><span class="s3">&gt; </span><span
-            class="s1">p</span><span class="s3">(</span><span class="s1">MAXN</span><span class="s3">);</span>
-<span class="s1">vector</span><span class="s3">&lt;</span><span class="s4">int</span><span class="s3">&gt; </span><span
-            class="s1">ans</span><span class="s3">(</span><span class="s1">MAXN</span><span class="s3">);</span>
-<span class="s1">vector</span><span class="s3">&lt;</span><span class="s4">int</span><span class="s3">&gt; </span><span
-            class="s1">preMax</span><span class="s3">(</span><span class="s1">MAXN</span><span class="s3">);</span>
-<span class="s1">vector</span><span class="s3">&lt;</span><span class="s4">int</span><span class="s3">&gt; </span><span
-            class="s1">sufMin</span><span class="s3">;</span>
+<span class="s2">#define </span><span class="s1">STOPSYNC ios</span><span class="s4">::</span><span class="s1">sync_with_stdio</span><span
+            class="s4">(</span><span class="s6">false</span><span class="s4">);</span><span class="s1">cin</span><span
+            class="s4">.</span><span class="s1">tie</span><span class="s4">(</span><span class="s6">nullptr</span><span
+            class="s4">)</span>
+<span class="s2">#define </span><span class="s1">MULTIKASE </span><span class="s6">int </span><span
+            class="s1">Kase</span><span class="s4">=</span><span class="s5">0</span><span class="s4">;</span><span
+            class="s1">cin</span><span class="s4">&gt;&gt;</span><span class="s1">Kase</span><span
+            class="s4">;</span><span class="s6">for</span><span class="s4">(</span><span class="s6">int </span><span
+            class="s1">kase</span><span class="s4">=</span><span class="s5">1</span><span class="s4">;</span><span
+            class="s1">kase</span><span class="s4">&lt;=</span><span class="s1">Kase</span><span
+            class="s4">;</span><span class="s1">kase</span><span class="s4">++)</span>
+<span class="s6">typedef long long </span><span class="s1">ll</span><span class="s4">;</span>
+<span class="s6">const int </span><span class="s1">MAXN </span><span class="s4">= </span><span
+            class="s5">2e6 </span><span class="s4">+ </span><span class="s5">59</span><span class="s4">;</span>
+<span class="s6">const int </span><span class="s1">MOD </span><span class="s4">= </span><span
+            class="s5">1e9 </span><span class="s4">+ </span><span class="s5">7</span><span class="s4">;</span>
+<span class="s6">const int </span><span class="s1">INF </span><span class="s4">= </span><span
+            class="s5">0x3F3F3F3F</span><span class="s4">;</span>
+<span class="s6">const </span><span class="s1">ll llINF </span><span class="s4">= </span><span class="s5">0x3F3F3F3F3F3F3F3F</span><span
+            class="s4">;</span>
+<span class="s6">using namespace </span><span class="s1">std</span><span class="s4">;</span>
 
-<span class="s4">int </span><span class="s1">main</span><span class="s3">() {</span>
 
-    <span class="s1">freopen</span><span class="s3">(</span><span class="s2">&quot;codecoder.in&quot;</span><span
-            class="s3">, </span><span class="s2">&quot;r&quot;</span><span class="s3">, </span><span
-            class="s1">stdin</span><span class="s3">);</span>
-    <span class="s1">freopen</span><span class="s3">(</span><span class="s2">&quot;codecoder.out&quot;</span><span
-            class="s3">, </span><span class="s2">&quot;w&quot;</span><span class="s3">, </span><span
-            class="s1">stdout</span><span class="s3">);</span>
-<span class="s6">//    p.reserve(MAXN);</span>
-<span class="s6">//    ans.reserve(MAXN);</span>
-<span class="s6">//    preMax.resize(MAXN);</span>
-<span class="s6">//    sufMin.resize(MAXN);</span>
+<span class="s6">const int </span><span class="s1">N </span><span class="s4">= </span><span class="s5">4e6</span><span
+            class="s4">+</span><span class="s5">59</span><span class="s4">;</span>
+<span class="s6">int </span><span class="s1">a</span><span class="s4">[</span><span class="s1">N</span><span class="s4">], </span><span
+            class="s1">add</span><span class="s4">[</span><span class="s1">N</span><span class="s4">], </span><span
+            class="s1">L</span><span class="s4">, </span><span class="s1">R</span><span class="s4">;</span>
+<span class="s6">int </span><span class="s1">tree_MIN</span><span class="s4">[</span><span class="s1">N</span><span
+            class="s4">], </span><span class="s1">tree_MAX</span><span class="s4">[</span><span class="s1">N</span><span
+            class="s4">];</span>
 
-    <span class="s1">ios</span><span class="s3">::</span><span class="s1">sync_with_stdio</span><span
-            class="s3">(</span><span class="s4">false</span><span class="s3">);</span>
-    <span class="s1">cin</span><span class="s3">.</span><span class="s1">tie</span><span class="s3">(</span><span
-            class="s5">0</span><span class="s3">);</span>
+<span class="s6">char </span><span class="s1">op</span><span class="s4">[</span><span class="s5">15</span><span
+            class="s4">];</span>
 
-    <span class="s1">ll n</span><span class="s3">;</span>
-    <span class="s1">cin </span><span class="s3">&gt;&gt; </span><span class="s1">n</span><span class="s3">;</span>
-    <span class="s1">p</span><span class="s3">.</span><span class="s1">resize</span><span class="s3">(</span><span
-            class="s1">n</span><span class="s3">);</span>
-    <span class="s1">ans</span><span class="s3">.</span><span class="s1">resize</span><span class="s3">(</span><span
-            class="s1">n</span><span class="s3">, </span><span class="s5">0</span><span class="s3">);</span>
 
-    <span class="s4">for </span><span class="s3">(</span><span class="s4">auto </span><span class="s3">&amp;</span><span
-            class="s1">pi</span><span class="s3">:</span><span class="s1">p</span><span class="s3">) {</span>
-        <span class="s4">static int </span><span class="s1">id </span><span class="s3">= </span><span
-            class="s5">0</span><span class="s3">;</span>
-        <span class="s1">cin </span><span class="s3">&gt;&gt; </span><span class="s1">pi</span><span class="s3">.</span><span
-            class="s1">a </span><span class="s3">&gt;&gt; </span><span class="s1">pi</span><span
-            class="s3">.</span><span class="s1">warrior</span><span class="s3">;</span>
-        <span class="s1">pi</span><span class="s3">.</span><span class="s1">id </span><span class="s3">= </span><span
-            class="s1">id</span><span class="s3">++;</span>
-    <span class="s3">}</span>
+<span class="s0">/*int build(int root, int l, int r) { 
+    add[root] = 0; 
+    if (l == r) { 
+        tree[root] = a[l]; 
+    } else { 
+        int m = (l + r) / 2; 
+        build(root * 2, l, m); 
+        build(root * 2 + 1, m + 1, r); 
+        tree[root] = tree[root * 2] + tree[root * 2 + 1]; 
+    } 
+}*/</span>
 
-    <span class="s4">int </span><span class="s1">n2 </span><span class="s3">= </span><span class="s1">n </span><span
-            class="s3">+ </span><span class="s5">2</span><span class="s3">;</span>
-    <span class="s1">p</span><span class="s3">.</span><span class="s1">push_back</span><span class="s3">({-</span><span
-            class="s1">MAXN</span><span class="s3">, -</span><span class="s1">MAXN</span><span
-            class="s3">, -</span><span class="s5">1</span><span class="s3">});</span>
-    <span class="s1">p</span><span class="s3">.</span><span class="s1">push_back</span><span class="s3">({</span><span
-            class="s1">MAXN</span><span class="s3">, </span><span class="s1">MAXN</span><span class="s3">, -</span><span
-            class="s5">1</span><span class="s3">});</span>
-    <span class="s1">sort</span><span class="s3">(</span><span class="s1">p</span><span class="s3">.</span><span
-            class="s1">begin</span><span class="s3">(), </span><span class="s1">p</span><span class="s3">.</span><span
-            class="s1">end</span><span class="s3">());</span>
+<span class="s6">void </span><span class="s1">PushDown</span><span class="s4">(</span><span class="s6">int </span><span
+            class="s1">root</span><span class="s4">, </span><span class="s6">int </span><span class="s1">l</span><span
+            class="s4">, </span><span class="s6">int </span><span class="s1">r</span><span class="s4">) {</span>
+    <span class="s1">tree_MAX</span><span class="s4">[</span><span class="s1">root </span><span
+            class="s4">* </span><span class="s5">2</span><span class="s4">] += </span><span class="s1">add</span><span
+            class="s4">[</span><span class="s1">root</span><span class="s4">];</span>
+    <span class="s1">tree_MIN</span><span class="s4">[</span><span class="s1">root </span><span
+            class="s4">* </span><span class="s5">2</span><span class="s4">] += </span><span class="s1">add</span><span
+            class="s4">[</span><span class="s1">root</span><span class="s4">];</span>
+    <span class="s1">add</span><span class="s4">[</span><span class="s1">root </span><span class="s4">* </span><span
+            class="s5">2</span><span class="s4">] += </span><span class="s1">add</span><span class="s4">[</span><span
+            class="s1">root</span><span class="s4">];</span>
+    <span class="s1">tree_MAX</span><span class="s4">[</span><span class="s1">root </span><span
+            class="s4">* </span><span class="s5">2 </span><span class="s4">+ </span><span class="s5">1</span><span
+            class="s4">] += </span><span class="s1">add</span><span class="s4">[</span><span class="s1">root</span><span
+            class="s4">];</span>
+    <span class="s1">tree_MIN</span><span class="s4">[</span><span class="s1">root </span><span
+            class="s4">* </span><span class="s5">2 </span><span class="s4">+ </span><span class="s5">1</span><span
+            class="s4">] += </span><span class="s1">add</span><span class="s4">[</span><span class="s1">root</span><span
+            class="s4">];</span>
+    <span class="s1">add</span><span class="s4">[</span><span class="s1">root </span><span class="s4">* </span><span
+            class="s5">2 </span><span class="s4">+ </span><span class="s5">1</span><span class="s4">] += </span><span
+            class="s1">add</span><span class="s4">[</span><span class="s1">root</span><span class="s4">];</span>
+    <span class="s1">add</span><span class="s4">[</span><span class="s1">root</span><span class="s4">] = </span><span
+            class="s5">0</span><span class="s4">;</span>
+<span class="s4">}</span>
 
-    <span class="s1">preMax</span><span class="s3">.</span><span class="s1">resize</span><span class="s3">(</span><span
-            class="s1">n2</span><span class="s3">, </span><span class="s5">0</span><span class="s3">);</span>
-    <span class="s1">sufMin</span><span class="s3">.</span><span class="s1">resize</span><span class="s3">(</span><span
-            class="s1">n2</span><span class="s3">, </span><span class="s1">MAXN</span><span class="s3">);</span>
+<span class="s6">int </span><span class="s1">query_MAX</span><span class="s4">(</span><span class="s6">int </span><span
+            class="s1">root</span><span class="s4">, </span><span class="s6">int </span><span class="s1">l</span><span
+            class="s4">, </span><span class="s6">int </span><span class="s1">r</span><span class="s4">) {</span>
+    <span class="s6">if </span><span class="s4">(</span><span class="s1">r </span><span class="s4">&lt; </span><span
+            class="s1">L </span><span class="s4">|| </span><span class="s1">R </span><span class="s4">&lt; </span><span
+            class="s1">l</span><span class="s4">)</span><span class="s6">return </span><span class="s5">0</span><span
+            class="s4">;</span>
+    <span class="s6">else if </span><span class="s4">(</span><span class="s1">L </span><span
+            class="s4">&lt;= </span><span class="s1">l </span><span class="s4">&amp;&amp; </span><span
+            class="s1">r </span><span class="s4">&lt;= </span><span class="s1">R</span><span class="s4">)</span><span
+            class="s6">return </span><span class="s1">tree_MAX</span><span class="s4">[</span><span
+            class="s1">root</span><span class="s4">];</span>
 
-    <span class="s1">preMax</span><span class="s3">.</span><span class="s1">front</span><span
-            class="s3">() = </span><span class="s1">p</span><span class="s3">.</span><span class="s1">front</span><span
-            class="s3">().</span><span class="s1">warrior</span><span class="s3">;</span>
-    <span class="s4">for </span><span class="s3">(</span><span class="s4">int </span><span class="s1">i </span><span
-            class="s3">= </span><span class="s5">1</span><span class="s3">; </span><span class="s1">i </span><span
-            class="s3">&lt; </span><span class="s1">n2</span><span class="s3">; </span><span class="s1">i</span><span
-            class="s3">++) {</span>
-        <span class="s1">preMax</span><span class="s3">[</span><span class="s1">i</span><span
-            class="s3">] = </span><span class="s1">max</span><span class="s3">(</span><span
-            class="s1">preMax</span><span class="s3">[</span><span class="s1">i </span><span class="s3">- </span><span
-            class="s5">1</span><span class="s3">], </span><span class="s1">p</span><span class="s3">[</span><span
-            class="s1">i</span><span class="s3">].</span><span class="s1">warrior</span><span class="s3">);</span>
-    <span class="s3">}</span>
+    <span class="s1">PushDown</span><span class="s4">(</span><span class="s1">root</span><span class="s4">, </span><span
+            class="s1">l</span><span class="s4">, </span><span class="s1">r</span><span class="s4">);</span>
+    <span class="s6">int </span><span class="s1">m </span><span class="s4">= (</span><span class="s1">l </span><span
+            class="s4">+ </span><span class="s1">r</span><span class="s4">) / </span><span class="s5">2</span><span
+            class="s4">;</span>
+    <span class="s6">return </span><span class="s1">max</span><span class="s4">(</span><span class="s1">query_MAX</span><span
+            class="s4">(</span><span class="s1">root </span><span class="s4">* </span><span class="s5">2</span><span
+            class="s4">, </span><span class="s1">l</span><span class="s4">, </span><span class="s1">m</span><span
+            class="s4">),</span>
+               <span class="s1">query_MAX</span><span class="s4">(</span><span class="s1">root </span><span
+            class="s4">* </span><span class="s5">2 </span><span class="s4">+ </span><span class="s5">1</span><span
+            class="s4">, </span><span class="s1">m </span><span class="s4">+ </span><span class="s5">1</span><span
+            class="s4">, </span><span class="s1">r</span><span class="s4">));</span>
+<span class="s4">}</span>
 
-    <span class="s1">sufMin</span><span class="s3">.</span><span class="s1">back</span><span
-            class="s3">() = </span><span class="s1">p</span><span class="s3">.</span><span class="s1">back</span><span
-            class="s3">().</span><span class="s1">warrior</span><span class="s3">;</span>
-    <span class="s4">for </span><span class="s3">(</span><span class="s4">int </span><span class="s1">i </span><span
-            class="s3">= </span><span class="s1">n2 </span><span class="s3">- </span><span class="s5">2</span><span
-            class="s3">; </span><span class="s1">i </span><span class="s3">&gt;= </span><span class="s5">0</span><span
-            class="s3">; </span><span class="s1">i</span><span class="s3">--) {</span>
-        <span class="s1">sufMin</span><span class="s3">[</span><span class="s1">i</span><span
-            class="s3">] = </span><span class="s1">min</span><span class="s3">(</span><span
-            class="s1">sufMin</span><span class="s3">[</span><span class="s1">i </span><span class="s3">+ </span><span
-            class="s5">1</span><span class="s3">], </span><span class="s1">p</span><span class="s3">[</span><span
-            class="s1">i</span><span class="s3">].</span><span class="s1">warrior</span><span class="s3">);</span>
-    <span class="s3">}</span>
+<span class="s6">int </span><span class="s1">query_MIN</span><span class="s4">(</span><span class="s6">int </span><span
+            class="s1">root</span><span class="s4">, </span><span class="s6">int </span><span class="s1">l</span><span
+            class="s4">, </span><span class="s6">int </span><span class="s1">r</span><span class="s4">) {</span>
+    <span class="s6">if </span><span class="s4">(</span><span class="s1">r </span><span class="s4">&lt; </span><span
+            class="s1">L </span><span class="s4">|| </span><span class="s1">R </span><span class="s4">&lt; </span><span
+            class="s1">l</span><span class="s4">)</span><span class="s6">return </span><span class="s1">INF</span><span
+            class="s4">;</span>
+    <span class="s6">else if </span><span class="s4">(</span><span class="s1">L </span><span
+            class="s4">&lt;= </span><span class="s1">l </span><span class="s4">&amp;&amp; </span><span
+            class="s1">r </span><span class="s4">&lt;= </span><span class="s1">R</span><span class="s4">)</span><span
+            class="s6">return </span><span class="s1">tree_MAX</span><span class="s4">[</span><span
+            class="s1">root</span><span class="s4">];</span>
 
-    <span class="s4">for </span><span class="s3">(</span><span class="s4">int </span><span class="s1">i </span><span
-            class="s3">= </span><span class="s5">1</span><span class="s3">, </span><span class="s1">j </span><span
-            class="s3">= </span><span class="s5">0</span><span class="s3">; </span><span class="s1">i </span><span
-            class="s3">&lt;= </span><span class="s1">n</span><span class="s3">; ++</span><span class="s1">i</span><span
-            class="s3">) {</span>
-        <span class="s4">if </span><span class="s3">(</span><span class="s1">preMax</span><span class="s3">[</span><span
-            class="s1">i</span><span class="s3">] &lt; </span><span class="s1">sufMin</span><span
-            class="s3">[</span><span class="s1">i </span><span class="s3">+ </span><span class="s5">1</span><span
-            class="s3">]) {</span>
-            <span class="s4">while </span><span class="s3">(</span><span class="s1">j </span><span class="s3">!= </span><span
-            class="s1">i</span><span class="s3">) {</span>
-                <span class="s1">ans</span><span class="s3">[</span><span class="s1">p</span><span class="s3">[++</span><span
-            class="s1">j</span><span class="s3">].</span><span class="s1">id</span><span class="s3">] = </span><span
-            class="s1">i </span><span class="s3">- </span><span class="s5">1</span><span class="s3">;</span>
-            <span class="s3">}</span>
-        <span class="s3">}</span>
-    <span class="s3">}</span>
+    <span class="s1">PushDown</span><span class="s4">(</span><span class="s1">root</span><span class="s4">, </span><span
+            class="s1">l</span><span class="s4">, </span><span class="s1">r</span><span class="s4">);</span>
+    <span class="s6">int </span><span class="s1">m </span><span class="s4">= (</span><span class="s1">l </span><span
+            class="s4">+ </span><span class="s1">r</span><span class="s4">) / </span><span class="s5">2</span><span
+            class="s4">;</span>
+    <span class="s6">return </span><span class="s1">min</span><span class="s4">(</span><span class="s1">query_MIN</span><span
+            class="s4">(</span><span class="s1">root </span><span class="s4">* </span><span class="s5">2</span><span
+            class="s4">, </span><span class="s1">l</span><span class="s4">, </span><span class="s1">m</span><span
+            class="s4">),</span>
+               <span class="s1">query_MIN</span><span class="s4">(</span><span class="s1">root </span><span
+            class="s4">* </span><span class="s5">2 </span><span class="s4">+ </span><span class="s5">1</span><span
+            class="s4">, </span><span class="s1">m </span><span class="s4">+ </span><span class="s5">1</span><span
+            class="s4">, </span><span class="s1">r</span><span class="s4">));</span>
+<span class="s4">}</span>
 
-    <span class="s4">for </span><span class="s3">(</span><span class="s4">int </span><span class="s1">i </span><span
-            class="s3">= </span><span class="s5">0</span><span class="s3">; </span><span class="s1">i </span><span
-            class="s3">&lt; </span><span class="s1">n</span><span class="s3">; </span><span class="s1">i</span><span
-            class="s3">++) {</span>
-        <span class="s1">cout </span><span class="s3">&lt;&lt; </span><span class="s1">ans</span><span
-            class="s3">[</span><span class="s1">i</span><span class="s3">] &lt;&lt; </span><span
-            class="s1">endl</span><span class="s3">;</span>
-    <span class="s3">}</span>
+<span class="s6">void </span><span class="s1">update</span><span class="s4">(</span><span class="s6">int </span><span
+            class="s1">root</span><span class="s4">, </span><span class="s6">int </span><span class="s1">l</span><span
+            class="s4">, </span><span class="s6">int </span><span class="s1">r</span><span class="s4">, </span><span
+            class="s6">int </span><span class="s1">v</span><span class="s4">) {</span>
+    <span class="s6">if </span><span class="s4">(</span><span class="s1">r </span><span class="s4">&lt; </span><span
+            class="s1">L </span><span class="s4">|| </span><span class="s1">R </span><span class="s4">&lt; </span><span
+            class="s1">l</span><span class="s4">)</span><span class="s6">return</span><span class="s4">;</span>
+    <span class="s6">else if </span><span class="s4">(</span><span class="s1">L </span><span
+            class="s4">&lt;= </span><span class="s1">l </span><span class="s4">&amp;&amp; </span><span
+            class="s1">r </span><span class="s4">&lt;= </span><span class="s1">R</span><span class="s4">) {</span>
+        <span class="s1">add</span><span class="s4">[</span><span class="s1">root</span><span
+            class="s4">] += </span><span class="s1">v</span><span class="s4">;</span>
+        <span class="s1">tree_MIN</span><span class="s4">[</span><span class="s1">root</span><span
+            class="s4">] += </span><span class="s1">v</span><span class="s4">;</span>
+        <span class="s1">tree_MAX</span><span class="s4">[</span><span class="s1">root</span><span
+            class="s4">] += </span><span class="s1">v</span><span class="s4">;</span>
+        <span class="s6">return</span><span class="s4">;</span>
+    <span class="s4">}</span>
 
-    <span class="s4">return </span><span class="s5">0</span><span class="s3">;</span>
-<span class="s3">}</span>
-<span class="s6">/* 
- 
- 4 
- 2 3 
- 3 2 
- 1 1 
- 4 5 
- 
- 3 
- 3 8 
- 1 9 
- 2 7 
+    <span class="s1">PushDown</span><span class="s4">(</span><span class="s1">root</span><span class="s4">, </span><span
+            class="s1">l</span><span class="s4">, </span><span class="s1">r</span><span class="s4">);</span>
+    <span class="s6">int </span><span class="s1">m </span><span class="s4">= (</span><span class="s1">l </span><span
+            class="s4">+ </span><span class="s1">r</span><span class="s4">) / </span><span class="s5">2</span><span
+            class="s4">;</span>
+    <span class="s1">update</span><span class="s4">(</span><span class="s1">root </span><span class="s4">* </span><span
+            class="s5">2</span><span class="s4">, </span><span class="s1">l</span><span class="s4">, </span><span
+            class="s1">m</span><span class="s4">, </span><span class="s1">v</span><span class="s4">);</span>
+    <span class="s1">update</span><span class="s4">(</span><span class="s1">root </span><span class="s4">* </span><span
+            class="s5">2 </span><span class="s4">+ </span><span class="s5">1</span><span class="s4">, </span><span
+            class="s1">m </span><span class="s4">+ </span><span class="s5">1</span><span class="s4">, </span><span
+            class="s1">r</span><span class="s4">, </span><span class="s1">v</span><span class="s4">);</span>
+
+    <span class="s1">tree_MAX</span><span class="s4">[</span><span class="s1">root</span><span
+            class="s4">] = </span><span class="s1">max</span><span class="s4">(</span><span
+            class="s1">tree_MAX</span><span class="s4">[</span><span class="s1">root </span><span
+            class="s4">* </span><span class="s5">2</span><span class="s4">], </span><span
+            class="s1">tree_MAX</span><span class="s4">[</span><span class="s1">root </span><span
+            class="s4">* </span><span class="s5">2 </span><span class="s4">+ </span><span class="s5">1</span><span
+            class="s4">]);</span>
+    <span class="s1">tree_MIN</span><span class="s4">[</span><span class="s1">root</span><span
+            class="s4">] = </span><span class="s1">min</span><span class="s4">(</span><span
+            class="s1">tree_MIN</span><span class="s4">[</span><span class="s1">root </span><span
+            class="s4">* </span><span class="s5">2</span><span class="s4">], </span><span
+            class="s1">tree_MIN</span><span class="s4">[</span><span class="s1">root </span><span
+            class="s4">* </span><span class="s5">2 </span><span class="s4">+ </span><span class="s5">1</span><span
+            class="s4">]);</span>
+<span class="s4">}</span>
+
+
+<span class="s6">void </span><span class="s1">solve</span><span class="s4">(</span><span class="s6">int </span><span
+            class="s1">kaseId </span><span class="s4">= -</span><span class="s5">1</span><span class="s4">) {</span>
+
+
+<span class="s4">}</span>
+
+<span class="s6">void </span><span class="s1">solves</span><span class="s4">() {</span>
+    <span class="s1">MULTIKASE </span><span class="s4">{</span>
+        <span class="s1">solve</span><span class="s4">(</span><span class="s1">kase</span><span class="s4">);</span>
+    <span class="s4">}</span>
+<span class="s4">}</span>
+
+<span class="s6">int </span><span class="s1">n</span><span class="s4">;</span>
+<span class="s6">char </span><span class="s1">str</span><span class="s4">[</span><span class="s1">MAXN</span><span
+            class="s4">];</span>
+<span class="s6">char </span><span class="s1">sss</span><span class="s4">[</span><span class="s1">MAXN</span><span
+            class="s4">];</span>
+
+<span class="s6">int </span><span class="s1">main</span><span class="s4">() {</span>
+<span class="s0">//    STOPSYNC;</span>
+<span class="s0">//    solve();</span>
+    <span class="s1">scanf</span><span class="s4">(</span><span class="s3">&quot;%d %s&quot;</span><span class="s4">, &amp;</span><span
+            class="s1">n</span><span class="s4">, </span><span class="s1">str </span><span class="s4">+ </span><span
+            class="s5">1</span><span class="s4">);</span>
+    <span class="s1">memset</span><span class="s4">(</span><span class="s1">tree_MIN</span><span
+            class="s4">, </span><span class="s1">INF</span><span class="s4">, </span><span
+            class="s6">sizeof </span><span class="s1">tree_MIN</span><span class="s4">);</span>
+    <span class="s0">//printf(&quot;%s\n&quot;, str + 1);</span>
+
+    <span class="s6">int </span><span class="s1">pos </span><span class="s4">= </span><span class="s5">1</span><span
+            class="s4">;</span>
+    <span class="s6">for </span><span class="s4">(</span><span class="s6">int </span><span class="s1">i </span><span
+            class="s4">= </span><span class="s5">1</span><span class="s4">; </span><span class="s1">i </span><span
+            class="s4">&lt;= </span><span class="s1">n</span><span class="s4">; </span><span class="s1">i</span><span
+            class="s4">++) {</span>
+        <span class="s1">debug</span><span class="s4">(</span><span class="s1">i</span><span class="s4">);</span>
+        <span class="s6">if </span><span class="s4">(</span><span class="s1">str</span><span class="s4">[</span><span
+            class="s1">i</span><span class="s4">] == </span><span class="s3">'L'</span><span class="s4">) {</span>
+            <span class="s1">pos </span><span class="s4">= </span><span class="s1">max</span><span
+            class="s4">(</span><span class="s1">pos </span><span class="s4">- </span><span class="s5">1</span><span
+            class="s4">, </span><span class="s5">1</span><span class="s4">);</span>
+        <span class="s4">} </span><span class="s6">else if </span><span class="s4">(</span><span
+            class="s1">str</span><span class="s4">[</span><span class="s1">i</span><span class="s4">] == </span><span
+            class="s3">'R'</span><span class="s4">) {</span>
+            <span class="s1">pos</span><span class="s4">++;</span>
+        <span class="s4">} </span><span class="s6">else if </span><span class="s4">(</span><span
+            class="s1">str</span><span class="s4">[</span><span class="s1">i</span><span class="s4">] == </span><span
+            class="s3">'('</span><span class="s4">) {</span>
+            <span class="s6">if </span><span class="s4">(</span><span class="s1">sss</span><span
+            class="s4">[</span><span class="s1">pos</span><span class="s4">] == </span><span class="s3">')'</span><span
+            class="s4">) {</span>
+                <span class="s1">L </span><span class="s4">= </span><span class="s1">pos</span><span
+            class="s4">, </span><span class="s1">R </span><span class="s4">= </span><span class="s1">n</span><span
+            class="s4">;</span>
+                <span class="s1">update</span><span class="s4">(</span><span class="s5">1</span><span
+            class="s4">, </span><span class="s5">1</span><span class="s4">, </span><span class="s1">n</span><span
+            class="s4">, +</span><span class="s5">1</span><span class="s4">);</span>
+            <span class="s4">}</span>
+            <span class="s6">if </span><span class="s4">(</span><span class="s1">sss</span><span
+            class="s4">[</span><span class="s1">pos</span><span class="s4">] != </span><span class="s3">'('</span><span
+            class="s4">) {</span>
+                <span class="s1">L </span><span class="s4">= </span><span class="s1">pos</span><span
+            class="s4">, </span><span class="s1">R </span><span class="s4">= </span><span class="s1">n</span><span
+            class="s4">;</span>
+                <span class="s1">sss</span><span class="s4">[</span><span class="s1">pos</span><span
+            class="s4">] = </span><span class="s1">str</span><span class="s4">[</span><span class="s1">i</span><span
+            class="s4">];</span>
+                <span class="s1">update</span><span class="s4">(</span><span class="s5">1</span><span
+            class="s4">, </span><span class="s5">1</span><span class="s4">, </span><span class="s1">n</span><span
+            class="s4">, +</span><span class="s5">1</span><span class="s4">);</span>
+            <span class="s4">}</span>
+        <span class="s4">} </span><span class="s6">else if </span><span class="s4">(</span><span
+            class="s1">str</span><span class="s4">[</span><span class="s1">i</span><span class="s4">] == </span><span
+            class="s3">')'</span><span class="s4">) {</span>
+            <span class="s6">if </span><span class="s4">(</span><span class="s1">sss</span><span
+            class="s4">[</span><span class="s1">pos</span><span class="s4">] == </span><span class="s3">'('</span><span
+            class="s4">) {</span>
+                <span class="s1">L </span><span class="s4">= </span><span class="s1">pos</span><span
+            class="s4">, </span><span class="s1">R </span><span class="s4">= </span><span class="s1">n</span><span
+            class="s4">;</span>
+                <span class="s1">update</span><span class="s4">(</span><span class="s5">1</span><span
+            class="s4">, </span><span class="s5">1</span><span class="s4">, </span><span class="s1">n</span><span
+            class="s4">, -</span><span class="s5">1</span><span class="s4">);</span>
+            <span class="s4">}</span>
+            <span class="s6">if </span><span class="s4">(</span><span class="s1">sss</span><span
+            class="s4">[</span><span class="s1">pos</span><span class="s4">] != </span><span class="s3">')'</span><span
+            class="s4">) {</span>
+                <span class="s1">L </span><span class="s4">= </span><span class="s1">pos</span><span
+            class="s4">, </span><span class="s1">R </span><span class="s4">= </span><span class="s1">n</span><span
+            class="s4">;</span>
+                <span class="s1">sss</span><span class="s4">[</span><span class="s1">pos</span><span
+            class="s4">] = </span><span class="s1">str</span><span class="s4">[</span><span class="s1">i</span><span
+            class="s4">];</span>
+                <span class="s1">update</span><span class="s4">(</span><span class="s5">1</span><span
+            class="s4">, </span><span class="s5">1</span><span class="s4">, </span><span class="s1">n</span><span
+            class="s4">, -</span><span class="s5">1</span><span class="s4">);</span>
+            <span class="s4">}</span>
+        <span class="s4">} </span><span class="s6">else </span><span class="s4">{</span>
+            <span class="s6">if </span><span class="s4">(</span><span class="s1">sss</span><span
+            class="s4">[</span><span class="s1">pos</span><span class="s4">] == </span><span class="s3">')'</span><span
+            class="s4">) {</span>
+                <span class="s1">L </span><span class="s4">= </span><span class="s1">pos</span><span
+            class="s4">, </span><span class="s1">R </span><span class="s4">= </span><span class="s1">n</span><span
+            class="s4">;</span>
+                <span class="s1">update</span><span class="s4">(</span><span class="s5">1</span><span
+            class="s4">, </span><span class="s5">1</span><span class="s4">, </span><span class="s1">n</span><span
+            class="s4">, +</span><span class="s5">1</span><span class="s4">);</span>
+            <span class="s4">}</span>
+            <span class="s6">if </span><span class="s4">(</span><span class="s1">sss</span><span
+            class="s4">[</span><span class="s1">pos</span><span class="s4">] == </span><span class="s3">'('</span><span
+            class="s4">) {</span>
+                <span class="s1">L </span><span class="s4">= </span><span class="s1">pos</span><span
+            class="s4">, </span><span class="s1">R </span><span class="s4">= </span><span class="s1">n</span><span
+            class="s4">;</span>
+                <span class="s1">update</span><span class="s4">(</span><span class="s5">1</span><span
+            class="s4">, </span><span class="s5">1</span><span class="s4">, </span><span class="s1">n</span><span
+            class="s4">, -</span><span class="s5">1</span><span class="s4">);</span>
+            <span class="s4">}</span>
+        <span class="s4">}</span>
+        <span class="s1">L </span><span class="s4">= </span><span class="s1">n</span><span class="s4">, </span><span
+            class="s1">R </span><span class="s4">= </span><span class="s1">n</span><span class="s4">;</span>
+        <span class="s6">int </span><span class="s1">chekLas </span><span class="s4">= </span><span
+            class="s1">query_MIN</span><span class="s4">(</span><span class="s5">1</span><span class="s4">, </span><span
+            class="s5">1</span><span class="s4">, </span><span class="s1">n</span><span class="s4">);</span>
+        <span class="s1">L </span><span class="s4">= </span><span class="s5">1</span><span class="s4">, </span><span
+            class="s1">R </span><span class="s4">= </span><span class="s1">n</span><span class="s4">;</span>
+        <span class="s1">debug</span><span class="s4">(</span><span class="s1">query_MIN</span><span class="s4">(</span><span
+            class="s5">1</span><span class="s4">, </span><span class="s5">1</span><span class="s4">, </span><span
+            class="s1">n</span><span class="s4">));</span>
+        <span class="s6">int </span><span class="s1">chekwhole </span><span class="s4">= </span><span class="s1">query_MIN</span><span
+            class="s4">(</span><span class="s5">1</span><span class="s4">, </span><span class="s5">1</span><span
+            class="s4">, </span><span class="s1">n</span><span class="s4">);</span>
+
+        <span class="s6">if </span><span class="s4">(</span><span class="s1">chekLas </span><span
+            class="s4">!= </span><span class="s5">0 </span><span class="s4">||</span>
+            <span class="s1">chekwhole </span><span class="s4">== -</span><span class="s5">1</span><span
+            class="s4">) {</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s3">&quot;%d%c&quot;</span><span
+            class="s4">, -</span><span class="s5">1</span><span class="s4">, </span><span class="s3">&quot; </span><span
+            class="s4">\n</span><span class="s3">&quot;</span><span class="s4">[</span><span class="s1">i </span><span
+            class="s4">== </span><span class="s1">n</span><span class="s4">]);</span>
+        <span class="s4">} </span><span class="s6">else </span><span class="s4">{</span>
+            <span class="s1">printf</span><span class="s4">(</span><span class="s3">&quot;%d%c&quot;</span><span
+            class="s4">, </span><span class="s1">query_MAX</span><span class="s4">(</span><span class="s5">1</span><span
+            class="s4">, </span><span class="s5">1</span><span class="s4">, </span><span class="s1">n</span><span
+            class="s4">), </span><span class="s3">&quot; </span><span class="s4">\n</span><span class="s3">&quot;</span><span
+            class="s4">[</span><span class="s1">i </span><span class="s4">== </span><span class="s1">n</span><span
+            class="s4">]);</span>
+        <span class="s4">}</span>
+    <span class="s4">}</span>
+
+
+    <span class="s6">return </span><span class="s5">0</span><span class="s4">;</span>
+<span class="s4">}</span>
+<span class="s0">/* 
  
  */</span></pre>
 </body>
