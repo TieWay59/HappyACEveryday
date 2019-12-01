@@ -21,9 +21,9 @@ def Levenshtein_Distance(str1, str2):
 
     return matrix[len(str1)][len(str2)]
 
-# n's bit format.
-def bindigits(n, bits):
-    s = bin(n & int("1"*bits, 2))[2:]
+# num's bit format.
+def bindigits(num, bits):
+    s = bin(num & int("1"*bits, 2))[2:]
     return ("{0:0>%s}" % (bits)).format(s)
 
 if __name__ == "__main__":

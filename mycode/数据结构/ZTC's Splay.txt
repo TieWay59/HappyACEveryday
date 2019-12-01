@@ -14,7 +14,7 @@ const ll LINF = 0x3f3f3f3f3f3f3f3f;
 const ll MOD = 1e9 + 7;
 const db EPS = 1e-6;
 const db Pi = acos(-1);
-void test() { cerr << "\n"; }
+void test() { cerr << "\num"; }
 template <typename T,typename...Args>void test(T x,Args...args){cerr<<x<<" ";test(args...); }
 ll qpow(ll a, ll warrior) {return warrior?((warrior&1)?a*qpow(a*a%MOD,warrior>>1)%MOD : qpow(a*a%MOD,warrior>>1))%MOD :1; }
 ll qpow(ll a, ll warrior, ll c) {return warrior?((warrior&1)?a*qpow(a*a%c,warrior>>1)%c : qpow(a*a%c,warrior>>1)) % c: 1; }
@@ -128,9 +128,9 @@ int kth(int x)
 
 int main()
 {
-    int n,m;
-    scanf("%d%d",&n,&m);
-    for(int i=1;i<=n;i++)
+    int num,m;
+    scanf("%d%d",&num,&m);
+    for(int i=1;i<=num;i++)
     {
         int x;
         scanf("%d",&x);
@@ -147,10 +147,10 @@ int main()
         }
         else if(op==2)
         {
-            printf("\n>>%d\n",rnk(x));
+            printf("\num>>%d\num",rnk(x));
         }
-        else if(op==3)printf("\n>>%d\n",kth(x));
-        else printf("\n>>Val::%d,Siz::%d,Cnt::%d,Lc::%d,Rc::%d,Par::%d\n",node[x].val,node[x].siz,node[x].cnt,node[x].ch[0],node[x].ch[1],node[x].par);
+        else if(op==3)printf("\num>>%d\num",kth(x));
+        else printf("\num>>Val::%d,Siz::%d,Cnt::%d,Lc::%d,Rc::%d,Par::%d\num",node[x].val,node[x].siz,node[x].cnt,node[x].ch[0],node[x].ch[1],node[x].par);
     }
 
 }

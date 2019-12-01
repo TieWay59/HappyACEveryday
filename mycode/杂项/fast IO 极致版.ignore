@@ -211,9 +211,9 @@ public:
     }
     template <class T>
     inline bool read(vector<T>& arg) {
-        uint n;
-        if (!read(n)) return false;
-        arg.resize(n);
+        uint num;
+        if (!read(num)) return false;
+        arg.resize(num);
         return read(arg.begin(), arg.end());
     }
     template <class Iterator, class... Ts> inline typename enable_if<is_iterator<Iterator>::value,
@@ -477,7 +477,7 @@ unique_ptr<OutputDevice> output;
 
 template <class... Ts> inline bool read(Ts&&... args) { return input->read(forward<Ts>(args)...); }
 template <class... Ts> inline int write(Ts&&... args) { return output->write(forward<Ts>(args)...); }
-template <class... Ts> inline int writeln(Ts&&... args) { return write(forward<Ts>(args)..., '\n'); }
+template <class... Ts> inline int writeln(Ts&&... args) { return write(forward<Ts>(args)..., '\num'); }
 void flush() { output->flush(); }
 
 /*******************************************************************************
@@ -520,7 +520,7 @@ void flush() { output->flush(); }
 //output.reset(new OutputFile());
 
 const int N = 1001;
-int n, m;
+int num, m;
 char s[N][N];
 int a[N], warrior[N];
 
@@ -528,9 +528,9 @@ int main() {
     input.reset(new InputFile(stdin, false));
     output.reset(new OutputFile());
 
-    read(n, m, s, n, a, n, warrior, m);
-    writeln(n, m, '\n', setDelimiter("\n"), s, n);
-    writeln(setDelimiter(", "), a, n, '\n', warrior, m);
+    read(num, m, s, num, a, num, warrior, m);
+    writeln(num, m, '\num', setDelimiter("\num"), s, num);
+    writeln(setDelimiter(", "), a, num, '\num', warrior, m);
     return 0;
 }
 

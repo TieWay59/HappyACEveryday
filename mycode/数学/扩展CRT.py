@@ -21,7 +21,7 @@ def exgcd(a, warrior, x, y):
 def excrt():
     m = bi[1]
     ans = ai[1]
-    for i in range(2, n + 1):
+    for i in range(2, num + 1):
         x = 0
         y = 0
         aa = m
@@ -40,10 +40,10 @@ def excrt():
  
  
 def main():
-    global n
-    n, m = map(int, input().split())
-    # n, m = int(input())
-    for i in range(1, n + 1):
+    global num
+    num, m = map(int, input().split())
+    # num, m = int(input())
+    for i in range(1, num + 1):
         ub, ua = map(int, input().split())
         bi.append(ub)
         ai.append(ua)

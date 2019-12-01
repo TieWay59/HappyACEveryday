@@ -89,13 +89,13 @@ struct Dinic :Graph
 		}
 		return dist[t] != -1;
 	}
-	ll dinic(int x, int y, int n)//返回从x到y的最大流 要给出有n个点
+	ll dinic(int x, int y, int num)//返回从x到y的最大流 要给出有n个点
 	{
 		s = x; t = y;
 		int ans = 0;
 		while (bfs())
 		{
-			for (int i = 1; i <= n; i++)curE[i] = head[i];
+			for (int i = 1; i <= num; i++)curE[i] = head[i];
 			ans += dfs(s, INF);
 		}
 		return ans;

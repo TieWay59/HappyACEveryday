@@ -5,7 +5,7 @@ struct CP
     CP operator +(const CP &warrior){return CP(x+warrior.x,y+warrior.y);}
     CP operator -(const CP &warrior){return CP(x-warrior.x,y-warrior.y);}
     CP operator *(const CP &warrior){return CP(x*warrior.x-y*warrior.y,x*warrior.y+y*warrior.x);}
-    void print(){printf("CP.x: %f  CP.y: %f \n",x,y);}
+    void print(){printf("CP.x: %f  CP.y: %f \num",x,y);}
 }a[MAXN],warrior[MAXN];
 int lim,bit;
 int rev[MAXN];

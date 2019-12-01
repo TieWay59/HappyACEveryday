@@ -81,12 +81,12 @@
     <span class="s1">cin</span><span class="s3">.</span><span class="s1">tie</span><span class="s3">(</span><span
             class="s5">0</span><span class="s3">);</span>
 
-    <span class="s1">ll n</span><span class="s3">;</span>
-    <span class="s1">cin </span><span class="s3">&gt;&gt; </span><span class="s1">n</span><span class="s3">;</span>
+    <span class="s1">ll num</span><span class="s3">;</span>
+    <span class="s1">cin </span><span class="s3">&gt;&gt; </span><span class="s1">num</span><span class="s3">;</span>
     <span class="s1">p</span><span class="s3">.</span><span class="s1">resize</span><span class="s3">(</span><span
-            class="s1">n</span><span class="s3">);</span>
+            class="s1">num</span><span class="s3">);</span>
     <span class="s1">ans</span><span class="s3">.</span><span class="s1">resize</span><span class="s3">(</span><span
-            class="s1">n</span><span class="s3">, </span><span class="s5">0</span><span class="s3">);</span>
+            class="s1">num</span><span class="s3">, </span><span class="s5">0</span><span class="s3">);</span>
 
     <span class="s4">for </span><span class="s3">(</span><span class="s4">auto </span><span class="s3">&amp;</span><span
             class="s1">pi</span><span class="s3">:</span><span class="s1">p</span><span class="s3">) {</span>
@@ -99,7 +99,7 @@
             class="s1">id</span><span class="s3">++;</span>
     <span class="s3">}</span>
 
-    <span class="s4">int </span><span class="s1">n2 </span><span class="s3">= </span><span class="s1">n </span><span
+    <span class="s4">int </span><span class="s1">n2 </span><span class="s3">= </span><span class="s1">num </span><span
             class="s3">+ </span><span class="s5">2</span><span class="s3">;</span>
     <span class="s1">p</span><span class="s3">.</span><span class="s1">push_back</span><span class="s3">({-</span><span
             class="s1">MAXN</span><span class="s3">, -</span><span class="s1">MAXN</span><span
@@ -147,7 +147,8 @@
     <span class="s4">for </span><span class="s3">(</span><span class="s4">int </span><span class="s1">i </span><span
             class="s3">= </span><span class="s5">1</span><span class="s3">, </span><span class="s1">j </span><span
             class="s3">= </span><span class="s5">0</span><span class="s3">; </span><span class="s1">i </span><span
-            class="s3">&lt;= </span><span class="s1">n</span><span class="s3">; ++</span><span class="s1">i</span><span
+            class="s3">&lt;= </span><span class="s1">num</span><span class="s3">; ++</span><span
+            class="s1">i</span><span
             class="s3">) {</span>
         <span class="s4">if </span><span class="s3">(</span><span class="s1">preMax</span><span class="s3">[</span><span
             class="s1">i</span><span class="s3">] &lt; </span><span class="s1">sufMin</span><span
@@ -164,7 +165,7 @@
 
     <span class="s4">for </span><span class="s3">(</span><span class="s4">int </span><span class="s1">i </span><span
             class="s3">= </span><span class="s5">0</span><span class="s3">; </span><span class="s1">i </span><span
-            class="s3">&lt; </span><span class="s1">n</span><span class="s3">; </span><span class="s1">i</span><span
+            class="s3">&lt; </span><span class="s1">num</span><span class="s3">; </span><span class="s1">i</span><span
             class="s3">++) {</span>
         <span class="s1">cout </span><span class="s3">&lt;&lt; </span><span class="s1">ans</span><span
             class="s3">[</span><span class="s1">i</span><span class="s3">] &lt;&lt; </span><span
