@@ -1,15 +1,15 @@
 /**
   *    █████╗  ██████╗       ██████╗ ██╗     ███████╗
   *   ██╔══██╗██╔════╝       ██╔══██╗██║     ╚══███╔╝
-  *   ███████║██║            ██████╔╝██║       ███╔╝ 
-  *   ██╔══██║██║            ██╔═══╝ ██║      ███╔╝  
+  *   ███████║██║            ██████╔╝██║       ███╔╝
+  *   ██╔══██║██║            ██╔═══╝ ██║      ███╔╝
   *   ██║  ██║╚██████╗▄█╗    ██║     ███████╗███████╗
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
   *  @Created: 2019/12/14 19:39
   *  @Link: http://101.132.131.241:81/contest/1/problem/A
-  *  @Tags: 
+  *  @Tags:
   *
   *******************************************************/
 
@@ -35,13 +35,13 @@ const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 const ull sh1 = 19491001ull;
-const ull sh2 = 1000000007ull;//19260817ull;
+const ull sh2 = 19260817ull;
 
 
 struct node {
     ull val[5];
 
-    pair<ull, ull> getHush(const ull &m) {
+    ull getHush(const ull &m) {
         ull v1 = 0;
         ull v2 = 0;
         ull shsh1 = sh1;
@@ -52,7 +52,7 @@ struct node {
             shsh1 *= sh1;
             shsh2 *= sh2;
         }
-        return make_pair(v1, v2);
+        return v1;
     }
 
     void init(const ull &mul, const node &rht, const ull &m) {
@@ -113,7 +113,7 @@ void solve(int kaseId = -1) {
     rightpart = n / 2;
 
     //init??
-    unordered_map<pair<ull, ull>, ull, custom_hash> check_val;
+    unordered_map<ull, ull> check_val;
     memset(aim.val, 0, sizeof aim.val);
     memset(a, 0, sizeof a);
     memset(sub, 0, sizeof sub);
@@ -132,8 +132,8 @@ void solve(int kaseId = -1) {
     ull subset = 1ull << leftpart;
 //    debug(subset);
 
-    pair<ull, ull> t;
-    for (ull i = 1; i < subset; i++) {
+    ull t;
+    for (ull i = 0; i < subset; i++) {
         sub[i] = sub[i - maxBit[i]] + a[lenBit[i]];
         t = sub[i].getHush(m);
         check_val[t] = max(check_val[t], cntBit[i]);
@@ -156,54 +156,14 @@ void solve(int kaseId = -1) {
             tmp.init(j, aim, m);
 
             if (tmp < sub[i])continue;
-            if (tmp < sub[i] && k <= cntBit[i]) {
-                ans = true;
-                if (kaseId == 1) {
-                    debug(i, maxBit[i], cntBit[i], lenBit[i]);
-                    debug(
-                            sub[i].val[0],
-                            sub[i].val[1],
-                            sub[i].val[2],
-                            sub[i].val[3]
-                    );
-                    debug(
-                            tmp.val[0],
-                            tmp.val[1],
-                            tmp.val[2],
-                            tmp.val[3]
-                    );
 
-                    int test_ = 0;
-                    for (int l = 1; l <= 6; ++l) {
-                        test_ += a[l].val[0];
-                        debug(a[l].val[0]);
-                    }
-                    debug(test_);
-                }
-                break;
-            }
 
             tmp = tmp - sub[i];
             t = tmp.getHush(m);
 
             if (check_val.find(t) != check_val.end()
-                && k <= check_val[t] + cntBit[i]) {
-                if (kaseId == 1) {
-                    debug(i, maxBit[i], cntBit[i], lenBit[i]);
-                    debug(
-                            sub[i].val[0],
-                            sub[i].val[1],
-                            sub[i].val[2],
-                            sub[i].val[3]
-                    );
+                && j == check_val[t] + cntBit[i]) {
 
-                    int test_ = 0;
-                    for (int l = 1; l <= 6; ++l) {
-                        test_ += a[l].val[0];
-                        debug(a[l].val[0]);
-                    }
-                    debug(test_);
-                }
                 ans = true;
                 break;
             }
@@ -238,7 +198,7 @@ int main() {
         lenBit[i] = lenBit[i >> 1u] + 1u;
         cntBit[i] = cntBit[i >> 1u] + (i & 1u);
     }
-    freopen("E:\\qq\\2728735169\\FileRecv\\颜色配制\\3.in", "r", stdin);
+    //freopen("E:\\qq\\2728735169\\FileRecv\\颜色配制\\3.in", "r", stdin);
     STOPSYNC;
     solves();
     return 0;
