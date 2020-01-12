@@ -16,12 +16,12 @@
 #include <bits/stdc++.h>
 
 #ifdef DEBUG
-//#define debug(x)  cerr <<#x << " = "<<x<<endl;
-#include "libs59/debugers.h"
+//  #define debug(x)  cerr <<#x << " = "<<x<<endl;
+#   include "libs59/debugers.h"
 
 #else
-#define endl '\n'
-#define debug(x)  59
+#   define endl '\n'
+#   define debug(x)  59
 #endif
 
 #define STOPSYNC ios::sync_with_stdio(false);cin.tie(nullptr)
