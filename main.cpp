@@ -38,12 +38,16 @@ ll a[MAXN];
 ll b[MAXN];
 ll minv;
 ll cnt;
-ll bi;
-ll ai;
 
 bool chek(ll x) {
     minv = llINF;
     cnt = 0;
+
+    for (int i = 1; i <= n; ++i) {
+        ll y = x / a[i];
+        // y*a[i]>=x
+        if (y >=)
+    }
 
     return cnt >= k;
 }
@@ -71,21 +75,6 @@ void solve(int kaseId = -1) {
     }
     sort(ss.begin(), ss.end(), greater<>());
     debug(ss);
-
-    // find the start of non-neg number.
-    // if bi == m+1 means all numbers are neg.
-    ai = 1;
-    for (int i = 1; i <= n; ++i) {
-        if (a[i] < 0)bi = i + 1;
-        if (a[i] >= 0)break;
-    }
-
-    bi = 1;
-    for (int i = 1; i <= m; ++i) {
-        if (b[i] < 0)bi = i + 1;
-        if (b[i] >= 0)break;
-    }
-
 
     ll l = -2e12, r = 2e12, mid, ans;
 
