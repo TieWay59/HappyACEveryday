@@ -7,8 +7,8 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2020/1/14 16:54
-  *  @Link: https://pintia.cn/problem-sets/1216926916261912576/problems/1216927073175027718
+  *  @Created: 2020/1/13 15:00
+  *  @Link: https://pintia.cn/problem-sets/1216577066538311680/problems/1216577133471023106
   *  @Tags:
   *
   *******************************************************/
@@ -27,75 +27,54 @@
 #define STOPSYNC ios::sync_with_stdio(false);cin.tie(nullptr)
 #define MULTIKASE int Kase=0;cin>>Kase;for(int kase=1;kase<=Kase;kase++)
 typedef long long ll;
-const int MAXN = 5e5 + 59;
+const int MAXN = 2e5 + 59;
 const int MOD = 1e9 + 7;
 const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
-struct Edge {
-    int v, w, nx;
-} e[MAXN << 1];
-int head[MAXN], cntEd;
-bool tag[MAXN];
-bool hasTags[MAXN];
-int
-bool vis[MAXN];
+ll n;
+ll a[MAXN];
+ll cnt[66];
 
-inline void addEdge(int u, int v, int w) {
-    e[cntEd] = {v, w, head[u]};
-    head[u] = cntEd++;
+void add(ll x) {
+    int i = 0;
+    while (x) {
+        i++;
+        if (x & 1)cnt[i]++;
+        x >>= 1;
+    }
 }
 
-// find the sub-tree
-// calc sub-tree ans
-// tag the outs
-void dfs(const int &u,
-         int &subTreeSum,
-         const int &pathLength) {
-
-    vis[u] = true;
-
-    for (int i = head[u], v, w; ~i; i = e[i].nx) {
-        v = e[i].v;
-        w = e[i].w;
-        if (vis[v])continue;
-
-        dfs(v, subTreeSum, pathLength + w);
-
-        if (hasTags[v]) {
-            hasTags[u] = true;
-            subTreeSum += w;
-        }
+ll calc(ll x) {
+    int i = 0;
+    while (x) {
+        x >>= 1;
+        i++;
     }
+    return cnt[i];
 }
 
 void solve(int kaseId = -1) {
-
-    int n, k;
-    cin >> n >> k;
-
-    // initiate:
-    memset(head, -1, sizeof head);
-    cntEd = 0;
-
-    // build graph:
-    for (int i = 1, u, v, w; i < n; ++i) {
-        cin >> u >> v >> w;
-        addEdge(u, v, w);
-        addEdge(v, u, w);
+    cin >> n;
+    for (int i = 1; i <= n; ++i) {
+        cin >> a[i];
     }
 
-    int start;
-    for (int i = 1, u; i <= k; ++i) {
-        cin >> u;
-        hasTags[u] = tag[u] = true;
-        start = u;
-    }
+    ll xsum = 0;
+    ll xtmp = 0;
+    ll ans = 0;
+    bitset<66> ai;
+    for (int i = 1; i <= n; ++i) {
+        xsum ^= a[i];
+        add(a[i]);
 
-    int sbs = 0;
-    dfs(start, sbs);
-    debug(sbs);
+        if (xsum == 0) {
+            cout << 0 << endl;
+        } else {
+            cout << calc(xsum) << endl;
+        }
+    }
 }
 
 void solves() {

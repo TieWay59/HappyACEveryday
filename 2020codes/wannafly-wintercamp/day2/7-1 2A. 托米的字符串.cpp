@@ -7,9 +7,9 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2020/1/14 16:54
-  *  @Link: https://pintia.cn/problem-sets/1216926916261912576/problems/1216927073175027718
-  *  @Tags:
+  *  @Created: 2020/1/13 13:48
+  *  @Link: https://pintia.cn/problem-sets/1216577066538311680/problems/1216577133471023104
+  *  @Tags: math
   *
   *******************************************************/
 
@@ -27,75 +27,53 @@
 #define STOPSYNC ios::sync_with_stdio(false);cin.tie(nullptr)
 #define MULTIKASE int Kase=0;cin>>Kase;for(int kase=1;kase<=Kase;kase++)
 typedef long long ll;
-const int MAXN = 5e5 + 59;
+const int MAXN = 2e6 + 59;
 const int MOD = 1e9 + 7;
 const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
-struct Edge {
-    int v, w, nx;
-} e[MAXN << 1];
-int head[MAXN], cntEd;
-bool tag[MAXN];
-bool hasTags[MAXN];
-int
-bool vis[MAXN];
-
-inline void addEdge(int u, int v, int w) {
-    e[cntEd] = {v, w, head[u]};
-    head[u] = cntEd++;
-}
-
-// find the sub-tree
-// calc sub-tree ans
-// tag the outs
-void dfs(const int &u,
-         int &subTreeSum,
-         const int &pathLength) {
-
-    vis[u] = true;
-
-    for (int i = head[u], v, w; ~i; i = e[i].nx) {
-        v = e[i].v;
-        w = e[i].w;
-        if (vis[v])continue;
-
-        dfs(v, subTreeSum, pathLength + w);
-
-        if (hasTags[v]) {
-            hasTags[u] = true;
-            subTreeSum += w;
-        }
-    }
-}
+char s[MAXN];
+int n;
+double pre1[MAXN];
+double pre2[MAXN];
+double ans;
 
 void solve(int kaseId = -1) {
+    cin >> (s + 1);
+    n = strlen(s + 1);
 
-    int n, k;
-    cin >> n >> k;
-
-    // initiate:
-    memset(head, -1, sizeof head);
-    cntEd = 0;
-
-    // build graph:
-    for (int i = 1, u, v, w; i < n; ++i) {
-        cin >> u >> v >> w;
-        addEdge(u, v, w);
-        addEdge(v, u, w);
+    for (int i = 1; i <= n; ++i) {
+        pre1[i] = pre1[i - 1] + 1.0 / (double) i;
     }
 
-    int start;
-    for (int i = 1, u; i <= k; ++i) {
-        cin >> u;
-        hasTags[u] = tag[u] = true;
-        start = u;
+    for (int i = n, j = 1; i >= 1; --i, j++) {
+        pre2[j] = pre2[j - 1] + (double) j / (double) i;
     }
 
-    int sbs = 0;
-    dfs(start, sbs);
-    debug(sbs);
+    set<char> check = {'a', 'e', 'i', 'o', 'u', 'y'};
+
+    for (int i = 1, j; i <= n; ++i) {
+        j = i;
+        if (check.count(s[j]) > 0) {
+            debug(j);
+            if (j > n / 2)
+                j = n - j + 1;
+
+            ans += j - 1 +
+                   pre2[j - 1] +
+                   (pre1[n - j + 1] - pre1[j - 1]) * j;
+            debug(j - 1);
+            debug(pre2[j - 1]);
+            debug((pre1[n - j + 1] - pre1[j - 1]) * j);
+        }
+    }
+    //  n*(n+1)/2;
+    debug(ans);
+    ans /= (double) n;
+    ans /= (double) (n + 1);
+    ans *= 2.0;
+    cout << setprecision(9) << ans << endl;
 }
 
 void solves() {
