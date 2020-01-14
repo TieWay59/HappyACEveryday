@@ -84,7 +84,7 @@ void solve(int kaseId = -1) {
     }
     sort(vals.begin(), vals.end());
     vals.erase(unique(vals.begin(), vals.end()), vals.end());
-//    debug(vals);
+    //    debug(vals);
 
 
     int l = 0, r = vals.size() - 1;
@@ -94,7 +94,7 @@ void solve(int kaseId = -1) {
     while (l <= r) {
         mid = (l + r) >> 1;
         if (chek(vals[mid])) {
-//            debug(vals[mid]);
+            //            debug(vals[mid]);
             l = mid + 1;
         } else {
             r = mid - 1;
