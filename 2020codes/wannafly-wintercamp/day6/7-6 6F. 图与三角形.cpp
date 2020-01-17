@@ -7,8 +7,8 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2020/1/17 16:55
-  *  @Link: https://pintia.cn/problem-sets/1217973933671833600/problems/1217974362208067593
+  *  @Created: 2020/1/17 15:24
+  *  @Link: https://pintia.cn/problem-sets/1217973933671833600/problems/1217974362208067589
   *  @Tags:
   *
   *******************************************************/
@@ -27,28 +27,44 @@
 #define STOPSYNC ios::sync_with_stdio(false);cin.tie(nullptr)
 #define MULTIKASE int Kase=0;cin>>Kase;for(int kase=1;kase<=Kase;kase++)
 typedef long long ll;
-const int MAXN = 2e5 + 59;
+const int MAXN = 5000 + 59;
 const int MOD = 1e9 + 7;
 const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
+
+ll n;
+ll cnt[MAXN][2];
+ll A, B, C, P, D;
+
 void solve(int kaseId = -1) {
-    vector<int> p = {1, 2, 3, 4, 5, 0};
-    shuffle(p.begin(), p.end(), mt19937(time(0)));
+    // 0 ~ black
+    // 1 ~ white
 
-    vector<int> a = p;
+    cin >> n;
+    cin >> A >> B >> C >> P >> D;
 
-    for (int i = 1; i <= 100; ++i) {
-        vector<int> b(6);
-        for (int j = 0; j < p.size(); ++j) {
-            b[j] = p[a[j]];
+    for (ll i = 1; i <= n; ++i) {
+        for (ll j = i + 1; j <= n; ++j) {
+            if ((A * (i + j) % P * (i + j) % P +
+                 B * (i - j) % P * (i - j) % P + C) % P > D) {
+                cnt[i][0]++;
+                cnt[j][0]++;
+            } else {
+                cnt[i][1]++;
+                cnt[j][1]++;
+            }
         }
-
-        a.swap(b);
-        debug(a);
     }
 
+    ll ans = 0;
+    for (int i = 1; i <= n; ++i) {
+        ans += cnt[i][0] * cnt[i][1];
+    }
+
+    ans = n * (n - 1) * (n - 2) / 6ll - ans / 2ll;
+    cout << ans << endl;
 }
 
 void solves() {
