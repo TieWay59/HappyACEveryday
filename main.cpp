@@ -7,8 +7,8 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2020/1/16 15:32
-  *  @Link: https://pintia.cn/problem-sets/1217641604302602240/problems/1217642214674497536
+  *  @Created: 2020/1/17 14:00
+  *  @Link: https://pintia.cn/problem-sets/1217973933671833600/problems/1217974362208067586
   *  @Tags:
   *
   *******************************************************/
@@ -33,38 +33,94 @@ const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
-
-int a[MAXN];
-int b[8];
-
-void solve(int kaseId = -1) {
-    int n, k;
-    cin >> n >> k;
-
-    for (int i = 1, m; i <= 4; i <<= 1) {
-        cin >> m;
-        for (int j = 1, x; j <= m; ++j) {
-            cin >> x;
-            a[x] |= i;
+int solveMax(int n, int a, int b, int c, int d, string s) {
+    int res = 0;
+    int cntUnshieldUnits = 0;
+    for (const auto &si:s) {
+        if (si == '1') {
+            if (c > 0) {
+                c--;
+                res++;
+            } else if (d > 0) {
+                d--;
+                c++;
+            } else if (a > 0) {
+                a--;
+                res++;
+            } else {
+                if (cntUnshieldUnits > 0) {
+                    cntUnshieldUnits--;
+                    res++;
+                } else {
+                    b--;
+                    cntUnshieldUnits++;
+                }
+            }
+        } else {
+            if (d > 0) {
+                d--;
+                c++;
+                // can't kill;
+            } else if (c > 0) {
+                // can't kill;
+                // can't alt
+            } else if (b > 0) {
+                b--;
+                cntUnshieldUnits++;
+            }
         }
     }
+    return res;
+}
 
-    for (int i = 1; i <= n; ++i) {
-        b[a[i]]++;
+int solveMin(int n, int a, int b, int c, int d, string s) {
+    int res = 0;
+    int cntUnshieldUnits = 0;
+    for (const auto &si:s) {
+        if (si == '1') {
+            if (d > 0) {
+                d--;
+                c++;
+            } else if (c > 0) {
+                c--;
+                res++;
+            } else if (b > 0) {
+                b--;
+                a++;
+            } else if (a > 0) {
+                a--;
+                res++;
+            }
+        } else {
+            if (c > 0) {
+                // can't kill;
+                // can't alt
+            } else if (d > 0) {
+                d--;
+                c++;
+            } else if (d > 0) {
+                d--;
+                c++;
+                // can't kill;
+            } else if (a > 0) {
+
+            } else if (b > 0) {
+                b--;
+                a++;
+            }
+        }
     }
+    return res;
+}
 
-    int ans = 0;
-    for (int i = 1; i <= 4; i <<= 1) {
-        b[i] -= min(b[i], b[7 ^ i]);
-        ans = max(ans, b[i]);
-        b[i] = 0;
-    }
+void solve(int kaseId = -1) {
+    int n, a, b, c, d;
+    string s;
+    cin >> n >> a >> b >> c >> d >> s;
+    int ans1 = solveMax(n, a, b, c, d, s);
+    int ans2 = solveMin(n, a, b, c, d, s);
 
-    for (int i = 1; i <= 7; ++i) {
-        ans += b[i];
-    }
-
-    cout << ans << endl;
+    cout << ans1 << " " << ans2 << endl;
 }
 
 void solves() {
@@ -75,7 +131,7 @@ void solves() {
 
 int main() {
     STOPSYNC;
-    solve();
+    solves();
     return 0;
 }
 /*
