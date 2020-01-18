@@ -44,39 +44,83 @@ int insert_bits(int bits, int i) {
 
 vector<int> ed[21];
 int n, m, q;
-int lastCnt[21];    // count how many black has generated for every i.
+int loopSum[21];    // count how many black has generated for every i.
+int roundCnt[21][1 << 21 | 1023];
+int roundSum[21];
+int roundNum;
 bool vis[1 << 21 | 1023];
 
-int x;
 
 void solve(int kaseId = -1) {
 
+    memset(roundSum, INF, sizeof roundSum);
+
     cin >> n >> m >> q;
 
-    int cur = 0, tmp;
+    int cur = 0, nxt;
     for (int i = 1, si; i <= n; ++i) {
         cin >> si;
         if (si == 1)
             cur = insert_bits(cur, i);
     }
 
-    x++;
-
     for (int i = 1, u, v; i <= m; ++i) {
         cin >> u >> v;
         ed[u].emplace_back(v);
         ed[v].emplace_back(u);
     }
-    while (!vis[cur]) {
 
-        for (int u = 1; u <= n; ++u) {
-            for (auto v:ed[u]) {
+    for (int u = 1, cntNodes; u <= n; ++u) {
+        cntNodes = check_bits(cur, u);
 
-            }
+        loopSum[u] = cntNodes;
+        roundCnt[u][cntNodes] = roundNum;
+
+        if (cntNodes == 1) {
+            roundCnt[u][0] = -1;
         }
-
     }
 
+    while (!vis[cur]) {
+        vis[cur] = true;
+        nxt = 0;
+        roundNum++;
+
+        for (int u = 1, cntNodes; u <= n; ++u) {
+
+            cntNodes = 0;
+
+            for (auto v:ed[u]) {
+                if (check_bits(cur, v)) {
+                    cntNodes++;
+                }
+            }
+
+            if (cntNodes & 1) {
+                nxt = insert_bits(nxt, u);
+            }
+
+            if (cntNodes > loopSum[u]) {
+                loopSum[u] = cntNodes;
+                roundCnt[u][cntNodes] = roundNum;
+            }
+
+        }
+
+        cur = nxt;
+    }
+
+    while (q--) {
+        ll x, k, ans;
+        cin >> x >> k;
+        if (loopSum[x] == 0) {
+            cout << -1 << endl;
+        }
+        ans = (k / loopSum[x]) * roundNum;
+        if (k % loopSum[x] > 0)
+            ans += roundCnt[x][k % loopSum[x]];
+        cout << ans << endl;
+    }
 }
 
 void solves() {
