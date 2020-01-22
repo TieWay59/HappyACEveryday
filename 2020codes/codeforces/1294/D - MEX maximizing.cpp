@@ -7,8 +7,8 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2020/1/23 0:17
-  *  @Link: http://m3.codeforces.com/contest/1294/problem/E
+  *  @Created: 2020/1/22 23:15
+  *  @Link: http://m3.codeforces.com/contest/1294/problem/D
   *  @Tags:
   *
   *******************************************************/
@@ -27,53 +27,38 @@
 #define STOPSYNC ios::sync_with_stdio(false);cin.tie(nullptr)
 #define MULTIKASE int Kase=0;cin>>Kase;for(int kase=1;kase<=Kase;kase++)
 typedef long long ll;
-const int MAXN = 2e5 + 59;
+const int MAXN = 4e5 + 59;
 const int MOD = 1e9 + 7;
 const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
 void solve(int kaseId = -1) {
-    ll n, m, ans = 0;
-    cin >> n >> m;
+    int q, x;
 
-    vector<vector<int>> a(n, vector<int>(m));
+    cin >> q >> x;
+    vector<int> a(x, 0);
 
-    vector<int> cnt;
+    int mina = 0;
+    int minp = 0;
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            cin >> a[i][j];
-        }
-    }
-
-    for (int j = 0; j < m; ++j) {
-        cnt = vector<int>(n + 5);
-        for (int i = 0, k; i < n; ++i) {
-            a[i][j]--;
-
-            if (a[i][j] >= n * m)continue;
-            if (a[i][j] % m != j)continue;
-
-            debug(i, j);
-
-            k = a[i][j] / m;
-            if (i < k) {
-                cnt[n + i - k]++;
-            } else {
-                cnt[i - k]++;
+    while (q--) {
+        int y, ans;
+        cin >> y;
+        y %= x;
+        a[y]++;
+        while (a[minp] > mina) {
+            minp++;
+            if (minp == x) {
+                mina++;
+                minp = 0;
             }
         }
 
-        debug(cnt);
-        ll tmp = INF;
-        for (int i = 0; i < n; ++i) {
-            tmp = min(tmp, i + n - cnt[i]);
-        }
 
-        ans += tmp;
+        ans = mina * x + minp;
+        cout << ans << endl;
     }
-    cout << ans << endl;
 }
 
 void solves() {

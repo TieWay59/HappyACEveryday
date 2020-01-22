@@ -7,8 +7,8 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2020/1/23 0:17
-  *  @Link: http://m3.codeforces.com/contest/1294/problem/E
+  *  @Created: 2020/1/22 22:53
+  *  @Link: http://m3.codeforces.com/contest/1294/problem/C
   *  @Tags:
   *
   *******************************************************/
@@ -34,46 +34,40 @@ const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
 void solve(int kaseId = -1) {
-    ll n, m, ans = 0;
-    cin >> n >> m;
+    ll n;
+    cin >> n;
 
-    vector<vector<int>> a(n, vector<int>(m));
+    vector<ll> ans;
+    bool found = false;
 
-    vector<int> cnt;
+    for (ll a = 2; a * a <= n; ++a) {
+        if (n % a != 0)continue;
+        ans.emplace_back(a);
+        for (ll b = 2; b * b <= n / a; ++b) {
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            cin >> a[i][j];
-        }
-    }
+            if ((n / a) % b != 0 || a == b)continue;
+            ans.emplace_back(b);
 
-    for (int j = 0; j < m; ++j) {
-        cnt = vector<int>(n + 5);
-        for (int i = 0, k; i < n; ++i) {
-            a[i][j]--;
-
-            if (a[i][j] >= n * m)continue;
-            if (a[i][j] % m != j)continue;
-
-            debug(i, j);
-
-            k = a[i][j] / m;
-            if (i < k) {
-                cnt[n + i - k]++;
-            } else {
-                cnt[i - k]++;
+            if (n / a / b != a && n / a / b != b && n / a / b >= 2) {
+                found = true;
+                ans.emplace_back(n / a / b);
             }
+
+            if (!found)ans.pop_back();
+            else break;
         }
 
-        debug(cnt);
-        ll tmp = INF;
-        for (int i = 0; i < n; ++i) {
-            tmp = min(tmp, i + n - cnt[i]);
-        }
-
-        ans += tmp;
+        if (!found)ans.pop_back();
+        else break;
     }
-    cout << ans << endl;
+
+    if (found) {
+        cout << "YES" << endl;
+        cout << ans.at(0) << " " << ans.at(1) << " " << ans.at(2) << endl;
+    } else {
+        cout << "NO" << endl;
+    }
+
 }
 
 void solves() {
@@ -84,7 +78,7 @@ void solves() {
 
 int main() {
     STOPSYNC;
-    solve();
+    solves();
     return 0;
 }
 /*

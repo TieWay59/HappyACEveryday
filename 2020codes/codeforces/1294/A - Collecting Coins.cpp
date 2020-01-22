@@ -7,8 +7,8 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2020/1/23 0:17
-  *  @Link: http://m3.codeforces.com/contest/1294/problem/E
+  *  @Created: 2020/1/22 22:39
+  *  @Link: http://m3.codeforces.com/contest/1294/problem/A
   *  @Tags:
   *
   *******************************************************/
@@ -34,46 +34,19 @@ const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
 void solve(int kaseId = -1) {
-    ll n, m, ans = 0;
-    cin >> n >> m;
+    ll a, b, c, n;
+    cin >> a >> b >> c >> n;
 
-    vector<vector<int>> a(n, vector<int>(m));
+    ll t = (a + b + c + n) / 3;
 
-    vector<int> cnt;
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            cin >> a[i][j];
-        }
+    if ((a + b + c + n) % 3ll == 0ll &&
+        t >= max(a, max(b, c))) {
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
     }
 
-    for (int j = 0; j < m; ++j) {
-        cnt = vector<int>(n + 5);
-        for (int i = 0, k; i < n; ++i) {
-            a[i][j]--;
-
-            if (a[i][j] >= n * m)continue;
-            if (a[i][j] % m != j)continue;
-
-            debug(i, j);
-
-            k = a[i][j] / m;
-            if (i < k) {
-                cnt[n + i - k]++;
-            } else {
-                cnt[i - k]++;
-            }
-        }
-
-        debug(cnt);
-        ll tmp = INF;
-        for (int i = 0; i < n; ++i) {
-            tmp = min(tmp, i + n - cnt[i]);
-        }
-
-        ans += tmp;
-    }
-    cout << ans << endl;
 }
 
 void solves() {
@@ -84,7 +57,7 @@ void solves() {
 
 int main() {
     STOPSYNC;
-    solve();
+    solves();
     return 0;
 }
 /*

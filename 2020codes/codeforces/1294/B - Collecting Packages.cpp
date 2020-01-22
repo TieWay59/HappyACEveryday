@@ -7,8 +7,8 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2020/1/23 0:17
-  *  @Link: http://m3.codeforces.com/contest/1294/problem/E
+  *  @Created: 2020/1/22 23:56
+  *  @Link: http://m3.codeforces.com/contest/1294/problem/B
   *  @Tags:
   *
   *******************************************************/
@@ -34,46 +34,32 @@ const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
 
 void solve(int kaseId = -1) {
-    ll n, m, ans = 0;
-    cin >> n >> m;
-
-    vector<vector<int>> a(n, vector<int>(m));
-
-    vector<int> cnt;
-
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            cin >> a[i][j];
-        }
+    string ans;
+    int n;
+    cin >> n;
+    vector<tuple<int, int>> nodes(n);
+    for (int i = 0, x, y; i < n; ++i) {
+        cin >> x >> y;
+        nodes[i] = tie(x, y);
     }
 
-    for (int j = 0; j < m; ++j) {
-        cnt = vector<int>(n + 5);
-        for (int i = 0, k; i < n; ++i) {
-            a[i][j]--;
+    sort(nodes.begin(), nodes.end());
 
-            if (a[i][j] >= n * m)continue;
-            if (a[i][j] % m != j)continue;
-
-            debug(i, j);
-
-            k = a[i][j] / m;
-            if (i < k) {
-                cnt[n + i - k]++;
-            } else {
-                cnt[i - k]++;
-            }
-        }
-
-        debug(cnt);
-        ll tmp = INF;
-        for (int i = 0; i < n; ++i) {
-            tmp = min(tmp, i + n - cnt[i]);
-        }
-
-        ans += tmp;
+    int cnt = 0;
+    int lx = 0, ly = 0;
+    for (int j = 0, x, y; j < n; ++j) {
+        tie(x, y) = nodes[j];
+        if (x < lx || y < ly)break;
+        if (lx < x)ans.append(x - lx, 'R');
+        if (ly < y)ans.append(y - ly, 'U');
+        tie(lx, ly) = tie(x, y);
+        cnt++;
     }
-    cout << ans << endl;
+    if (cnt < n) {
+        cout << "NO" << endl;
+    } else {
+        cout << "YES" << endl << ans << endl;
+    }
 }
 
 void solves() {
@@ -84,7 +70,7 @@ void solves() {
 
 int main() {
     STOPSYNC;
-    solve();
+    solves();
     return 0;
 }
 /*
