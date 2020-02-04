@@ -16,6 +16,7 @@
 #include <bits/stdc++.h>
 
 #ifdef DEBUG
+
 #   include "libs59/debugers.h"
 //  #define debug(x)  cerr <<#x << " = "<<x<<endl;
 #else
@@ -31,6 +32,16 @@ const int MOD = 1e9 + 7;
 const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
+
+ll fpow(ll a, ll b, ll mod = MOD) {
+    ll ret = 1;
+    while (b) {
+        if (b & 1)ret = ret * a % mod;
+        a = a * a % mod;
+        b >>= 1;
+    }
+    return ret;
+}
 
 void solve(int kaseId = -1) {
 
