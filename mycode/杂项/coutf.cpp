@@ -1,12 +1,10 @@
-void coutf(const char *format) // 基础函数
-{
+void coutf(const char *format) {
     std::cout << format;
 }
 
 template<typename T, typename... Targs>
 //void coutf(const char *format, T value, Targs... Fargs) // 递归变参函数
-void coutf(const char *format, const T &value, const Targs &... Fargs)
-{
+void coutf(const char *format, const T &value, const Targs &... Fargs) {
     for (; *format != '\0'; format++) {
         if (*format == '%') {
             std::cout << value;
