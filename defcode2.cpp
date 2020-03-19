@@ -65,3 +65,10 @@ int main() {
 /*
 
  */
+
+/* stuff you should look for
+ * int overflow, array bounds
+ * special cases (n=1?)
+ * do smth instead of nothing and stay organized
+ * WRITE STUFF DOWN
+*/

@@ -7,9 +7,9 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2020/3/20 2:09
-  *  @Link: typename...
-  *  @Tags: 
+  *  @Created: 2020/3/20 5:12
+  *  @Link: https://codeforces.com/contest/1326/submission/73715067
+  *  @Tags:
   *
   *******************************************************/
 
@@ -47,30 +47,41 @@ ll fpow(ll a, ll b, ll mod = MOD) {
     return ret;
 }
 
-void coutf(const char *format) // 基础函数
-{
-    std::cout << format;
-}
-
-template<typename T, typename... Targs>
-void coutf(const char *format, const T &value, const Targs &... Fargs) // 递归变参函数
-{
-    for (; *format != '\0'; format++) {
-        if (*format == '%') {
-            std::cout << value;
-            coutf(format + 1, Fargs...); // 递归调用
-            return;
-        }
-        std::cout << *format;
+template<typename T>
+vector<int> manacher(int n, const T &s) {
+    if (n == 0) {
+        return vector<int>();
     }
+    vector<int> res(2 * n - 1, 0);
+    int l = -1, r = -1;
+    for (int z = 0; z < 2 * n - 1; z++) {
+        int i = (z + 1) >> 1;
+        int j = z >> 1;
+        int p = (i >= r ? 0 : min(r - i, res[2 * (l + r) - z]));
+        while (j + p + 1 < n && i - p - 1 >= 0) {
+            if (!(s[j + p + 1] == s[i - p - 1])) {
+                break;
+            }
+            p++;
+        }
+        if (j + p > r) {
+            l = i - p;
+            r = j + p;
+        }
+        res[z] = p;
+    }
+    return res;
 }
 
+template<typename T>
+vector<int> manacher(const T &s) {
+    return manacher((int) s.size(), s);
+}
 
 void solve(int kaseId = -1) {
-    coutf("% world% %\n", "Hello", '!', 123);
-    cout.precision(9);
-    fixed(cout);
-    coutf("% % % %\n", 0x3f, 1.2 / 7, acos(-1), 22.3);
+    string s = "12321";
+    vint p = manacher(s);
+    debug(p);
 }
 
 void solves() {
