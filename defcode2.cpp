@@ -7,9 +7,9 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2019/11/22 21:39
-  *  @Link: Accept
-  *  @Tags:
+  *  @Created: 2020/3/19 22:37
+  *  @Link:
+  *  @Tags: 
   *
   *******************************************************/
 
@@ -22,6 +22,8 @@
 #else
 #   define endl '\n'
 #   define debug(...)
+#   define max(x,y) ((x)>(y)?(x):(y))
+#   define min(x,y) ((x)>(y)?(y):(x))
 #endif
 
 #define STOPSYNC ios::sync_with_stdio(false);cin.tie(nullptr)
@@ -32,6 +34,8 @@ const int MOD = 1e9 + 7;
 const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
+using pii = pair<int, int>;
+using vint = vector<int>;
 
 ll fpow(ll a, ll b, ll mod = MOD) {
     ll ret = 1;
@@ -55,7 +59,7 @@ void solves() {
 
 int main() {
     STOPSYNC;
-    solve();
+    solves();
     return 0;
 }
 /*
