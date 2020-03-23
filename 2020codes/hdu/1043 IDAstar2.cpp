@@ -113,7 +113,6 @@ void solve(int kaseId = -1) {
                + db * digitMask[a] + da * digitMask[b];
     };
 
-
     const auto mht_dis = [](int xa, int ya, int xb, int yb) {
         return abs(xa - xb) + abs(ya - yb);
     };

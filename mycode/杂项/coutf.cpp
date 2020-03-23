@@ -1,3 +1,10 @@
+/**
+ *  @Source: https://zh.cppreference.com/w/cpp/language/parameter_pack
+ *  @Complexity:
+ *  @Description: 用cout模仿格式化输出
+ *  @Example: see below
+ *  @Verification: TODO
+ */
 void coutf(const char *format) {
     std::cout << format;
 }
