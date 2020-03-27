@@ -4,3 +4,7 @@ cmake-build-debug
 exportToHTML
 
 /main.cpp
+
+# git rm -r --cached .
+# git add .
+# git commit -m 'update .gitignore'
