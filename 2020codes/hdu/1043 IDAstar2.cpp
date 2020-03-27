@@ -172,6 +172,8 @@ void solve(int kaseId = -1) {
                 return true;
             }
             // try your own enum method to speed-up.
+            // this depth returns not shortest answer,
+            // but faster to access one possible answer.
             if (depth < 256)depth += (depth) & (-depth);
             else depth += 2;
         }
