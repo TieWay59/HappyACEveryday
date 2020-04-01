@@ -38,7 +38,9 @@ using pii = pair<int, int>;
 using vint = vector<int>;
 
 ll fpow(ll a, ll b, ll mod = MOD) {
+    if (a % mod == 0) return 0;
     ll ret = 1;
+    a %= mod;
     while (b) {
         if (b & 1)ret = ret * a % mod;
         a = a * a % mod;
@@ -58,8 +60,11 @@ void solves() {
 }
 
 int main() {
+#ifdef DEBUG
+    freopen("input.txt", "r+", stdin);
+#endif
     STOPSYNC;
-    solves();
+    solve();
     return 0;
 }
 /*
