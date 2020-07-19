@@ -36,5 +36,18 @@ add_executable(Hace main.cpp)
 
 ```
 
+## 过多的indexing
 
+你可以右键一些文件夹mark为excluded，会有一定改进。
+
+## gitignore没有生效
+
+本地仓库会有很多已缓存的操作，所以后来的规则会不生效。
+所以按照下面的方式清楚一下缓存就好了。
+
+``` bash
+git rm -r --cached .
+git add .
+git commit -m 'update .gitignore'
+```
 

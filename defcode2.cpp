@@ -7,21 +7,23 @@
   *   ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝     ╚══════╝╚══════╝
   *
   *  @Author: TieWay59
-  *  @Created: 2019/11/22 21:39
-  *  @Link: Accept
-  *  @Tags:
+  *  @Created: 2020/3/19 22:37
+  *  @Link:
+  *  @Tags: 
   *
   *******************************************************/
 
 #include <bits/stdc++.h>
 
 #ifdef DEBUG
-//#define debug(x)  cerr <<#x << " = "<<x<<endl;
-#include "libs59/debugers.h"
 
+#   include "libs59/debugers.h"
+//  #define debug(x)  cerr <<#x << " = "<<x<<endl;
 #else
-#define endl '\n'
-#define debug(x)  59
+#   define endl '\n'
+#   define debug(...)
+#   define max(x,y) ((x)>(y)?(x):(y))
+#   define min(x,y) ((x)>(y)?(y):(x))
 #endif
 
 #define STOPSYNC ios::sync_with_stdio(false);cin.tie(nullptr)
@@ -32,6 +34,20 @@ const int MOD = 1e9 + 7;
 const int INF = 0x3F3F3F3F;
 const ll llINF = 0x3F3F3F3F3F3F3F3F;
 using namespace std;
+using pii = pair<int, int>;
+using vint = vector<int>;
+
+ll fpow(ll a, ll b, ll mod = MOD) {
+    if (a % mod == 0) return 0;
+    ll ret = 1;
+    a %= mod;
+    while (b) {
+        if (b & 1)ret = ret * a % mod;
+        a = a * a % mod;
+        b >>= 1;
+    }
+    return ret;
+}
 
 void solve(int kaseId = -1) {
 
@@ -44,6 +60,9 @@ void solves() {
 }
 
 int main() {
+#ifdef DEBUG
+    freopen("input.txt", "r+", stdin);
+#endif
     STOPSYNC;
     solve();
     return 0;
@@ -51,3 +70,10 @@ int main() {
 /*
 
  */
+
+/* stuff you should look for
+ * int overflow, array bounds
+ * special cases (n=1?)
+ * do smth instead of nothing and stay organized
+ * WRITE STUFF DOWN
+*/
