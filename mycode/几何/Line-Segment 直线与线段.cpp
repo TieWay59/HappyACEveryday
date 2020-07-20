@@ -9,6 +9,10 @@
  *  @Verification:
  *
  */
+//定义直线
+struct line {
+    point a, b;
+};
 
 
 //线段相交（不包括端点）
