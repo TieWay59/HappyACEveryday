@@ -338,14 +338,438 @@ double PolygonArea()//求多边形面积（叉积和计算法）
 }
 ```
 
-### 3.3 凸包
+## 4. 圆
+
+### 4.1 圆的参数方程
+
+![圆](template.assets/image-20200719173213778.png)
+
+以$(x_{0},y_{0})$为圆心，$r$为半径的圆的参数方程为
+$$
+\left\{ \begin{matrix}
+x = x_{0} + r\cos\theta \\
+y = y_{0} + r\sin\theta \\
+\end{matrix} \right.\
+$$
+根据圆上一点和圆心连线与$x$轴正向的夹角可求得该点的坐标
+
+### 4.2 两圆交点
+
+![图两圆交点](template.assets/image-20200719173233704.png)
+
+设两圆$C_{1},C_{2}$，其半径为$r_{1},r_{2}(r_{1} \geq r_{2})$，圆心距为$d$，则有
+
+①两圆重合$\Longleftrightarrow d = 0\ \ r_{1} = r_{2}$
+
+②两圆外离$\Longleftrightarrow d > r_{1} + r_{2}$
+
+③两圆外切$\Longleftrightarrow d = r_{1} + r_{2}$
+
+④两圆相交$\Longleftrightarrow r_{1} - r_{2} < d < r_{1} + r_{2}$
+
+⑤两圆内切$\Longleftrightarrow d = r_{1} - r_{2}$
+
+⑥两圆内含$\Longleftrightarrow d < r_{1} - r_{2}$
+
+对于情形④，如下图所示，要求A与B的坐标，只需求$\angle AC_{1}D$与$\angle BC_{1}D$，进而通过圆的参数方程即可求得
+$$
+\angle AC_{1}D = \angle C_{2}C_{1}D + \angle AC_{1}C_{2}
+$$
+
+$$
+\angle BC_{1}D = \angle C_{2}C_{1}D - \angle AC_{1}C_{2}
+$$
+
+$\angle C_{2}C_{1}D$可以通过$C_{1},C_{2}$的坐标求得，而$\angle AC_{1}C_{2}$可以通过$\Delta AC_{1}C_{2}$上的余弦定理求得
+
+对于情形③和情形⑤，上述方法求得的两点坐标是相同的，即为切点的坐标
+
+```cpp
+struct Circle
+{
+    Point c;
+    double r;
+    Point point(double a)//基于圆心角求圆上一点坐标
+    {
+        return Point(c.x + cos(a)*r, c.y + sin(a)*r);
+    }
+};
+double Angle(Vector v1)
+{
+    if (v1.y >= 0)return Angle(v1, Vector(1.0, 0.0));
+    else return 2 * pi - Angle(v1, Vector(1.0, 0.0));
+}
+int GetCC(Circle C1, Circle C2)//求两圆交点
+{
+    double d = Length(C1.c - C2.c);
+    if (dcmp(d) == 0)
+    {
+        if (dcmp(C1.r - C2.r) == 0)return -1;//重合
+        else return 0;
+    }
+    if (dcmp(C1.r + C2.r - d) < 0)return 0;
+    if (dcmp(fabs(C1.r - C2.r) - d) > 0)return 0;
+ 
+    double a = Angle(C2.c - C1.c);
+    double da = acos((C1.r*C1.r + d * d - C2.r*C2.r) / (2 * C1.r*d));
+    Point p1 = C1.point(a - da), p2 = C1.point(a + da);
+    if (p1 == p2)return 1;
+    else return 2;
+}
+```
+
+`// 从这里开始更新`
+
+### 4.3 不共线三点求圆心（外心）
+
+设圆的方程：
+$$
+(x - x_0)^2 + (y - y_0)^2 = r^2
+$$
+然后带入三个点：
+$$
+\begin{cases}
+(x_1 - x_0)^2 + (y_1-y_0)^2 = r^2 & (1)\\
+(x_2 - x_0)^2 + (y_2-y_0)^2 = r^2 & (2)\\
+(x_3 - x_0)^2 + (y_3-y_0)^2 = r^2 & (3)
+\end{cases}
+$$
+
+通过带入和化简，最后可以这样求：
+$$
+\begin{align}
+a &= x_1-x_2\\
+b &= y_1-y_2\\
+c &= x_1-x_3\\
+d &= y_1-y_3\\
+e &= (x_1^2 - x_2^2 + y_1^2 - y_2^2)\div 2\\
+f &= (x_1^2 - x_3^2 + y_1^2 - y_3^2)\div 2 \\
+\\
+x_0 &= \frac{d e - b f}{a d - b c}\\
+y_0 &= \frac{a f - c e}{a d - b c}
+\end{align}
+$$
+```cpp
+template<typename tp>
+inline tp pow2(const tp &x) {
+    return x * x;
+}
+
+inline Point circumcenter(Point p1, Point p2, Point p3) {
+    double a = p1.x - p2.x;
+    double b = p1.y - p2.y;
+    double c = p1.x - p3.x;
+    double d = p1.y - p3.y;
+    double e = (pow2(p1.x) - pow2(p2.x) +
+                pow2(p1.y) - pow2(p2.y)) / 2;
+    double f = (pow2(p1.x) - pow2(p3.x) +
+                pow2(p1.y) - pow2(p3.y)) / 2;
+    return Point((d * e - b * f) /
+                 (a * d - b * c),
+                 (a * f - c * e) /
+                 (a * d - b * c));
+}
+```
+
+如果你眼力强大：
+
+```cpp
+Point circumcenter(Point a, Point b, Point c) {
+    Point res;
+    res.x = ((a.x * a.x - b.x * b.x + a.y * a.y - b.y * b.y) * (a.y - c.y) -
+             (a.x * a.x - c.x * c.x + a.y * a.y - c.y * c.y) * (a.y - b.y)) /
+            (2 * (a.y - c.y) * (a.x - b.x) - 2 * (a.y - b.y) * (a.x - c.x));
+    res.y = ((a.x * a.x - b.x * b.x + a.y * a.y - b.y * b.y) * (a.x - c.x) -
+             (a.x * a.x - c.x * c.x + a.y * a.y - c.y * c.y) * (a.x - b.x)) /
+            (2 * (a.y - b.y) * (a.x - c.x) - 2 * (a.y - c.y) * (a.x - b.x));
+    return res;
+}
+```
+
+### 4.4 最小圆覆盖
+
+```cpp
+/**
+ *  @Source: https://www.luogu.com.cn/problem/solution/P1742
+ *  @Author: snowbody -> tieway59
+ *  @Description:
+ *      时间复杂度 O(N)
+ *      为了减少中途过度开根，距离都是先按照平方计算的。
+ *
+ *  @Example:
+ *      vector<Point> p(n);
+ *      for (auto &pi : p) cin >> pi;
+ *      Circle circle;
+ *      MinCircleCover(p, circle);
+ *
+ *      6
+ *      8.0 9.0
+ *      4.0 7.5
+ *      1.0 2.0
+ *      5.1 8.7
+ *      9.0 2.0
+ *      4.5 1.0
+ *      // r = 5.0000000000 (5.0000000000,5.0000000000)
+ *
+ *  @Verification:
+ *      https://www.luogu.com.cn/problem/P1742
+ */
+
+
+
+//点或向量 (iostream选择性抄写)
+struct Point {
+    double x, y;
+
+    Point() {}
+
+    Point(double x, double y) : x(x), y(y) {}
+
+    friend ostream &operator<<(ostream &ut, Point &r) { return ut << r.x << " " << r.y; }
+
+    friend istream &operator>>(istream &in, Point &r) { return in >> r.x >> r.y; }
+};
+
+typedef Point Vector;
+
+inline Vector operator+(Vector a, Vector b) {
+    return Vector(a.x + b.x, a.y + b.y);
+}
+
+inline Vector operator-(Vector a, Vector b) {
+    return Vector(a.x - b.x, a.y - b.y);
+}
+
+//向量数乘
+inline Vector operator*(Vector a, double p) {
+    return Vector(a.x * p, a.y * p);
+}
+
+//向量数除
+inline Vector operator/(Vector a, double p) {
+    return Vector(a.x / p, a.y / p);
+}
+
+//两点间距离
+inline double Distance(Point a, Point b) {
+    return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+}
+
+inline double Distance2(Point a, Point b) {
+    return ((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+}
+
+struct Circle {
+    Point c;
+    double r;
+
+    Point point(double a)//基于圆心角求圆上一点坐标
+    {
+        return Point(c.x + cos(a) * r, c.y + sin(a) * r);
+    }
+};
+
+template<typename tp>
+inline tp pow2(const tp &x) {
+    return x * x;
+}
+
+inline Point circumcenter(Point p1, Point p2, Point p3) {
+    double a = p1.x - p2.x;
+    double b = p1.y - p2.y;
+    double c = p1.x - p3.x;
+    double d = p1.y - p3.y;
+    double e = (pow2(p1.x) - pow2(p2.x) +
+                pow2(p1.y) - pow2(p2.y)) / 2;
+    double f = (pow2(p1.x) - pow2(p3.x) +
+                pow2(p1.y) - pow2(p3.y)) / 2;
+    return Point((d * e - b * f) /
+                 (a * d - b * c),
+                 (a * f - c * e) /
+                 (a * d - b * c));
+}
+
+
+void MinCircleCover(vector <Point> &p, Circle &res) {
+    int n = p.size();
+    random_shuffle(p.begin(), p.end());
+    // avoid *sqrt* too much killing your precision.
+    for (int i = 0; i < n; i++) {
+        if (Distance2(p[i], res.c) <= res.r) continue;
+        res.c = p[i];
+        res.r = 0;
+        for (int j = 0; j < i; j++) {
+            if (Distance2(p[j], res.c) <= res.r)continue;
+            res.c = (p[i] + p[j]) / 2;
+            res.r = Distance2(p[j], res.c);
+            for (int k = 0; k < j; k++) {
+                if (Distance2(p[k], res.c) <= res.r)continue;
+                res.c = circumcenter(p[i], p[j], p[k]);
+                res.r = Distance2(p[k], res.c);
+            }
+        }
+    }
+    res.r = sqrt(res.r);
+}
+
+void solve(int kaseId = -1) {
+    int n;
+    cin >> n;
+    vector <Point> p(n);
+    for (auto &pi : p) cin >> pi;
+    Circle circle;
+    MinCircleCover(p, circle);
+    cout << fixed << setprecision(10) << circle.r << endl;
+    cout << circle.c.x << " " << circle.c.y << endl;
+}
+```
+
+##  5. 几何公式
+
+### 5.1 三角形
+
+1. 半周长` P=(a+b+c)/2`
+
+2. 面积 `S=aHa/2=absin(C)/2=sqrt(P(P-a)(P-b)(P-c))`
+
+3. 中线 `Ma=sqrt(2(b^2+c^2)-a^2)/2=sqrt(b^2+c^2+2bccos(A))/2`
+
+4. 角平分线 `Ta=sqrt(bc((b+c)^2-a^2))/(b+c)=2bccos(A/2)/(b+c)`
+
+5. 高线 `Ha=bsin(C)=csin(B)=sqrt(b^2-((a^2+b^2-c^2)/(2a))^2)`
+
+6. 内切圆半径 `r=S/P=asin(B/2)sin(C/2)/sin((B+C)/2)`
+
+​        =`4Rsin(A/2)sin(B/2)sin(C/2)=sqrt((P-a)(P-b)(P-c)/P)`
+
+​        =`Ptan(A/2)tan(B/2)tan(C/2)`
+
+7. 外接圆半径 `R=abc/(4S)=a/(2sin(A))=b/(2sin(B))=c/(2sin(C))`
+
+### 5.2 四边形
+
+D1,D2为对角线,M对角线中点连线,A为对角线夹角
+
+1. `a^2+b^2+c^2+d^2=D1^2+D2^2+4M^2`
+
+2. `S=D1D2sin(A)/2`
+
+(以下对圆的内接四边形)
+
+3. `ac+bd=D1D2`
+
+4. `S=sqrt((P-a)(P-b)(P-c)(P-d))` , P为半周长
+
+### 5.3 正n边形
+
+R为外接圆半径,r为内切圆半径
+
+1. 中心角 `A=2PI/n`
+
+2. 内角 `C=(n-2)PI/n`
+
+3. 边长 `a=2sqrt(R^2-r^2)=2Rsin(A/2)=2rtan(A/2)`
+
+4. 面积 `S=nar/2=nr^2tan(A/2)=nR^2sin(A)/2=na^2/(4tan(A/2))`
+
+### 5.4 圆
+
+1. 弧长 `l=rA`
+
+2. 弦长 `a=2sqrt(2hr-h^2)=2rsin(A/2)`
+
+3. 弓形高 `h=r-sqrt(r^2-a^2/4)=r(1-cos(A/2))=atan(A/4)/2`
+
+4. 扇形面积 `S1=rl/2=r^2A/2`
+
+5. 弓形面积 `S2=(rl-a(r-h))/2=r^2(A-sin(A))/2`
+
+### 5.5 棱柱
+
+1. 体积 `V=Ah`,A为底面积,h为高
+
+2. 侧面积 `S=lp` ,l为棱长,p为直截面周长
+
+3. 全面积 `T=S+2A`
+
+### 5.6 棱锥
+
+1. 体积 `V=Ah/3`,A为底面积,h为高
+
+(以下对正棱锥)
+
+2. 侧面积 `S=lp/2`,l为斜高,p为底面周长
+
+3. 全面积 `T=S+A`
+
+### 5.7 棱台
+
+1. 体积 `V=(A1+A2+sqrt(A1A2))h/3`,A1.A2为上下底面积,h为高
+
+(以下为正棱台)
+
+2. 侧面积 `S=(p1+p2)l/2`,p1.p2为上下底面周长,l为斜高
+
+3. 全面积 `T=S+A1+A2`
+
+### 5.8 圆柱
+
+1. 侧面积 `S=2PIrh`
+
+2. 全面积 `T=2PIr(h+r)`
+
+3. 体积 `V=PIr^2h`
+
+### 5.9 圆锥
+
+1. 母线 `l=sqrt(h^2+r^2)`
+
+2. 侧面积 `S=PIrl`
+
+3. 全面积 ` T=PIr(l+r)`
+
+4. 体积 `V=PIr^2h/3`
+
+### 5.10 圆台
+
+1. 母线` l=sqrt(h^2+(r1-r2)^2)`
+
+2. 侧面积 `S=PI(r1+r2)l`
+
+3. 全面积 `T=PIr1(l+r1)+PIr2(l+r2)`
+
+4. 体积 `V=PI(r1^2+r2^2+r1r2)h/3`
+
+### 5.11 球
+
+1. 全面积 `T=4PIr^2`
+
+2. 体积 `V=4PIr^3/3`
+
+### 5.12 球台
+
+1. 侧面积 `S=2PIrh`
+
+2. 全面积 `T=PI(2rh+r1^2+r2^2)`
+
+3. 体积 `V=PIh(3(r1^2+r2^2)+h^2)/6`
+
+### 5.13 球扇形
+
+1. 全面积 `T=PIr(2h+r0)`,h为球冠高,r0为球冠底面半径
+
+2. 体积 `V=2PIr^2h/3`
+
+## 6. 凸包
+
+### 6.1 点凸包
 
 在一个实向量空间 $V$ 中，对于给定集合 $X$ ，所有包含 $X$ 的凸集的交集 $S$ 称为 $X$ 的凸包
 $$
 S=\cap_{X\subset K\subset V,K\text{ is convex}}K
 $$
 
-#### 3.3.1 Graham’s scan算法
+#### 6.1.1 Graham’s scan算法
 
 第一步：找到最下边的点，如果有多个点纵坐标相同的点都在最下方，则选取最左边的，记为点A。这一步只需要扫描一遍所有的点即可，时间复杂度为 $O(n)$ 
 
@@ -497,7 +921,7 @@ void ConvexHull(vector<Point> &P, vector<Point> &H) {
 }
 ```
 
-#### 3.3.2 Andrew's monotone chain 算法
+#### 6.1.2 Andrew's monotone chain 算法
 
 原理与Graham’s scan算法相似，但上下凸包是分开维护的
 
@@ -528,7 +952,6 @@ namespace ConvexHull{
 ```
 
 ```cpp
-
 /**
  *  @Source: Andrew_s_monotone_chain
  *  @Author: Artiprocher(Zhongjie Duan) -> tieway59
@@ -630,289 +1053,185 @@ void ConvexHull(vector <Point> &p, vector <Point> &h) {
 }
 ```
 
-## 4. 圆
-
-### 4.1 圆的参数方程
-
-![圆](template.assets/image-20200719173213778.png)
-
-以$(x_{0},y_{0})$为圆心，$r$为半径的圆的参数方程为
-$$
-\left\{ \begin{matrix}
-x = x_{0} + r\cos\theta \\
-y = y_{0} + r\sin\theta \\
-\end{matrix} \right.\
-$$
-根据圆上一点和圆心连线与$x$轴正向的夹角可求得该点的坐标
-
-### 4.2 两圆交点
-
-![图两圆交点](template.assets/image-20200719173233704.png)
-
-设两圆$C_{1},C_{2}$，其半径为$r_{1},r_{2}(r_{1} \geq r_{2})$，圆心距为$d$，则有
-
-①两圆重合$\Longleftrightarrow d = 0\ \ r_{1} = r_{2}$
-
-②两圆外离$\Longleftrightarrow d > r_{1} + r_{2}$
-
-③两圆外切$\Longleftrightarrow d = r_{1} + r_{2}$
-
-④两圆相交$\Longleftrightarrow r_{1} - r_{2} < d < r_{1} + r_{2}$
-
-⑤两圆内切$\Longleftrightarrow d = r_{1} - r_{2}$
-
-⑥两圆内含$\Longleftrightarrow d < r_{1} - r_{2}$
-
-对于情形④，如下图所示，要求A与B的坐标，只需求$\angle AC_{1}D$与$\angle BC_{1}D$，进而通过圆的参数方程即可求得
-$$
-\angle AC_{1}D = \angle C_{2}C_{1}D + \angle AC_{1}C_{2}
-$$
-
-$$
-\angle BC_{1}D = \angle C_{2}C_{1}D - \angle AC_{1}C_{2}
-$$
-
-$\angle C_{2}C_{1}D$可以通过$C_{1},C_{2}$的坐标求得，而$\angle AC_{1}C_{2}$可以通过$\Delta AC_{1}C_{2}$上的余弦定理求得
-
-对于情形③和情形⑤，上述方法求得的两点坐标是相同的，即为切点的坐标
+### 6.2 直线凸包
 
 ```cpp
-struct Circle
-{
-    Point c;
-    double r;
-    Point point(double a)//基于圆心角求圆上一点坐标
-    {
-        return Point(c.x + cos(a)*r, c.y + sin(a)*r);
+
+/* Author: bnfcc -> tc2000731 -> tieway59
+ * Description:
+ *      维护下凸包，对于每个x维护f(x)=k*x+b的最大值。
+ *      query max value within all f(x) functions.
+ *      c++11 features included.
+ * Problems:
+ *      https://nanti.jisuanke.com/t/41306
+ *      https://nanti.jisuanke.com/t/41097
+ */
+template<typename var=long long, const int SIZE = 1000005, typename ldb=long double>
+struct Hull {
+    struct fx {
+        var k, b;
+
+        fx() {}
+
+        fx(var k, var b) : k(k), b(b) {}
+
+        var f(var x) { return k * x + b; }
+    };
+
+    int cnt;
+    fx arr[SIZE];
+
+    bool empty() {
+        return cnt == 0;
+    }
+
+    void init() {
+        cnt = 0;
+    }
+
+    void add(const fx &p) {
+        arr[cnt++] = p;
+    }
+
+    void pop() {
+        cnt--;
+    }
+
+    bool chek(const fx &a, const fx &b, const fx &c) {
+        ldb ab, ak, bb, bk, cb, ck;
+        tie(ab, ak, bb, bk, cb, ck) =
+                tie(a.b, a.k, b.b, b.k, c.b, c.k);
+        return (ab - bb) / (bk - ak) > (ab - cb) / (ck - ak);
+    }
+
+    void insert(const fx &p) {///k从小到大插入
+        if (cnt && arr[cnt - 1].k == p.k) {
+            if (p.b <= arr[cnt - 1].b)return;
+            else pop();
+        }
+        while (cnt >= 2 && chek(arr[cnt - 2], arr[cnt - 1], p))pop();
+        add(p);
+    }
+
+    /*var query(var x) {///x从大到小查询       从小到大用队列
+        while (cnt > 1 && arr[cnt - 2].f(x) > arr[cnt - 1].f(x))pop();;
+        return arr[cnt - 1].f(x);
+    }*/
+
+    var query(var x) {///二分查询，x顺序任意
+        int l = 0, r = cnt - 1;
+        while (l < r) {
+            int mid = (l + r) >> 1;
+            if (arr[mid].f(x) >= arr[mid + 1].f(x))r = mid;
+            else l = mid + 1;
+        }
+        return arr[l].f(x);
     }
 };
-double Angle(Vector v1)
-{
-    if (v1.y >= 0)return Angle(v1, Vector(1.0, 0.0));
-    else return 2 * pi - Angle(v1, Vector(1.0, 0.0));
-}
-int GetCC(Circle C1, Circle C2)//求两圆交点
-{
-    double d = Length(C1.c - C2.c);
-    if (dcmp(d) == 0)
-    {
-        if (dcmp(C1.r - C2.r) == 0)return -1;//重合
-        else return 0;
+
+// vector stack
+template<typename var=long long, const int SIZE = 1000005, typename ldb=long double>
+struct Hull {
+    struct Line {
+        var k, b;
+
+        Line() {}
+
+        Line(var k, var b) : k(k), b(b) {}
+
+        var f(var x) { return k * x + b; }
+    };
+
+    int cnt;
+    vector <Line> con;//
+
+    bool empty() {
+        return cnt == 0;
     }
-    if (dcmp(C1.r + C2.r - d) < 0)return 0;
-    if (dcmp(fabs(C1.r - C2.r) - d) > 0)return 0;
- 
-    double a = Angle(C2.c - C1.c);
-    double da = acos((C1.r*C1.r + d * d - C2.r*C2.r) / (2 * C1.r*d));
-    Point p1 = C1.point(a - da), p2 = C1.point(a + da);
-    if (p1 == p2)return 1;
-    else return 2;
-}
-```
 
-`// 从这里开始更新`
+    void init(const int &n) {
+        con.clear();
+        if (n > con.capacity())con.reserve(n);
+        cnt = 0;
+    }
 
-### 4.3 不共线三点求圆心（外心）
+    void add(const Line &p) {
+        con.emplace_back(p);
+        cnt++;
+    }
 
-设圆的方程：
-$$
-(x - x_0)^2 + (y - y_0)^2 = r^2
-$$
-然后带入三个点：
-$$
-\begin{cases}
-(x_1 - x_0)^2 + (y_1-y_0)^2 = r^2 & (1)\\
-(x_2 - x_0)^2 + (y_2-y_0)^2 = r^2 & (2)\\
-(x_3 - x_0)^2 + (y_3-y_0)^2 = r^2 & (3)
-\end{cases}
-$$
+    void pop() {
+        cnt--;
+        con.pop_back();
+    }
 
-通过带入和化简，最后可以这样求：
-$$
-\begin{align}
-a &= x_1-x_2\\
-b &= y_1-y_2\\
-c &= x_1-x_3\\
-d &= y_1-y_3\\
-e &= (x_1^2 - x_2^2 + y_1^2 - y_2^2)\div 2\\
-f &= (x_1^2 - x_3^2 + y_1^2 - y_3^2)\div 2 \\
-\\
-x_0 &= \frac{d e - b f}{a d - b c}\\
-y_0 &= \frac{a f - c e}{a d - b c}
-\end{align}
-$$
-```cpp
-template<typename tp>
-inline tp pow2(const tp &x) {
-    return x * x;
-}
+    bool chek(const Line &a, const Line &b, const Line &c) {
+        ldb ab, ak, bb, bk, cb, ck;
+        tie(ab, ak, bb, bk, cb, ck) =
+                tie(a.b, a.k, b.b, b.k, c.b, c.k);
+        return (ab - bb) / (bk - ak) > (ab - cb) / (ck - ak);
+    }
 
-inline Point circumcenter(Point p1, Point p2, Point p3) {
-    double a = p1.x - p2.x;
-    double b = p1.y - p2.y;
-    double c = p1.x - p3.x;
-    double d = p1.y - p3.y;
-    double e = (pow2(p1.x) - pow2(p2.x) +
-                pow2(p1.y) - pow2(p2.y)) / 2;
-    double f = (pow2(p1.x) - pow2(p3.x) +
-                pow2(p1.y) - pow2(p3.y)) / 2;
-    return Point((d * e - b * f) /
-                 (a * d - b * c),
-                 (a * f - c * e) /
-                 (a * d - b * c));
-}
-```
+    void insert(const Line &p) {///k从小到大插入
+        if (cnt && con[cnt - 1].k == p.k) {
+            if (p.b <= con[cnt - 1].b)return;
+            else pop();
+        }
+        while (cnt >= 2 && chek(con[cnt - 2], con[cnt - 1], p))pop();
+        add(p);
+    }
 
-如果你眼力强大：
+    var query(var x) {///二分查询，x顺序任意
+        int l = 0, r = cnt - 1;
+        while (l < r) {
+            int mid = (l + r) >> 1;
+            if (con[mid].f(x) >= con[mid + 1].f(x))r = mid;
+            else l = mid + 1;
+        }
+        return con[l].f(x);
+    }
+};
 
-```cpp
-Point circumcenter(Point a, Point b, Point c) {
-    Point res;
-    res.x = ((a.x * a.x - b.x * b.x + a.y * a.y - b.y * b.y) * (a.y - c.y) -
-             (a.x * a.x - c.x * c.x + a.y * a.y - c.y * c.y) * (a.y - b.y)) /
-            (2 * (a.y - c.y) * (a.x - b.x) - 2 * (a.y - b.y) * (a.x - c.x));
-    res.y = ((a.x * a.x - b.x * b.x + a.y * a.y - b.y * b.y) * (a.x - c.x) -
-             (a.x * a.x - c.x * c.x + a.y * a.y - c.y * c.y) * (a.x - b.x)) /
-            (2 * (a.y - b.y) * (a.x - c.x) - 2 * (a.y - c.y) * (a.x - b.x));
-    return res;
-}
+Hull<> hull;
 ```
 
 
 
-##  5. 几何公式
-
-### 5.1 三角形
-
-1. 半周长` P=(a+b+c)/2`
-
-2. 面积 `S=aHa/2=absin(C)/2=sqrt(P(P-a)(P-b)(P-c))`
-
-3. 中线 `Ma=sqrt(2(b^2+c^2)-a^2)/2=sqrt(b^2+c^2+2bccos(A))/2`
-
-4. 角平分线 `Ta=sqrt(bc((b+c)^2-a^2))/(b+c)=2bccos(A/2)/(b+c)`
-
-5. 高线 `Ha=bsin(C)=csin(B)=sqrt(b^2-((a^2+b^2-c^2)/(2a))^2)`
-
-6. 内切圆半径 `r=S/P=asin(B/2)sin(C/2)/sin((B+C)/2)`
-
-​        =`4Rsin(A/2)sin(B/2)sin(C/2)=sqrt((P-a)(P-b)(P-c)/P)`
-
-​        =`Ptan(A/2)tan(B/2)tan(C/2)`
-
-7. 外接圆半径 `R=abc/(4S)=a/(2sin(A))=b/(2sin(B))=c/(2sin(C))`
-
-### 5.2 四边形
-
-D1,D2为对角线,M对角线中点连线,A为对角线夹角
-
-1. `a^2+b^2+c^2+d^2=D1^2+D2^2+4M^2`
-
-2. `S=D1D2sin(A)/2`
-
-(以下对圆的内接四边形)
-
-3. `ac+bd=D1D2`
-
-4. `S=sqrt((P-a)(P-b)(P-c)(P-d))` , P为半周长
-
-### 5.3 正n边形
-
-R为外接圆半径,r为内切圆半径
-
-1. 中心角 `A=2PI/n`
-
-2. 内角 `C=(n-2)PI/n`
-
-3. 边长 `a=2sqrt(R^2-r^2)=2Rsin(A/2)=2rtan(A/2)`
-
-4. 面积 `S=nar/2=nr^2tan(A/2)=nR^2sin(A)/2=na^2/(4tan(A/2))`
-
-### 5.4 圆
-
-1. 弧长 `l=rA`
-
-2. 弦长 `a=2sqrt(2hr-h^2)=2rsin(A/2)`
-
-3. 弓形高 `h=r-sqrt(r^2-a^2/4)=r(1-cos(A/2))=atan(A/4)/2`
-
-4. 扇形面积 `S1=rl/2=r^2A/2`
-
-5. 弓形面积 `S2=(rl-a(r-h))/2=r^2(A-sin(A))/2`
-
-### 5.5 棱柱
-
-1. 体积 `V=Ah`,A为底面积,h为高
-
-2. 侧面积 `S=lp` ,l为棱长,p为直截面周长
-
-3. 全面积 `T=S+2A`
-
-### 5.6 棱锥
-
-1. 体积 `V=Ah/3`,A为底面积,h为高
-
-(以下对正棱锥)
-
-2. 侧面积 `S=lp/2`,l为斜高,p为底面周长
-
-3. 全面积 `T=S+A`
-
-### 5.7 棱台
-
-1. 体积 `V=(A1+A2+sqrt(A1A2))h/3`,A1.A2为上下底面积,h为高
-
-(以下为正棱台)
-
-2. 侧面积 `S=(p1+p2)l/2`,p1.p2为上下底面周长,l为斜高
-
-3. 全面积 `T=S+A1+A2`
-
-### 5.8 圆柱
-
-1. 侧面积 `S=2PIrh`
-
-2. 全面积 `T=2PIr(h+r)`
-
-3. 体积 `V=PIr^2h`
-
-### 5.9 圆锥
-
-1. 母线 `l=sqrt(h^2+r^2)`
-
-2. 侧面积 `S=PIrl`
-
-3. 全面积 ` T=PIr(l+r)`
-
-4. 体积 `V=PIr^2h/3`
-
-### 5.10 圆台
-
-1. 母线` l=sqrt(h^2+(r1-r2)^2)`
-
-2. 侧面积 `S=PI(r1+r2)l`
-
-3. 全面积 `T=PIr1(l+r1)+PIr2(l+r2)`
-
-4. 体积 `V=PI(r1^2+r2^2+r1r2)h/3`
-
-### 5.11 球
-
-1. 全面积 `T=4PIr^2`
-
-2. 体积 `V=4PIr^3/3`
-
-### 5.12 球台
-
-1. 侧面积 `S=2PIrh`
-
-2. 全面积 `T=PI(2rh+r1^2+r2^2)`
-
-3. 体积 `V=PIh(3(r1^2+r2^2)+h^2)/6`
-
-### 5.13 球扇形
-
-1. 全面积 `T=PIr(2h+r0)`,h为球冠高,r0为球冠底面半径
-
-2. 体积 `V=2PIr^2h/3`
+## #. 附录
+
+### 真题
+
+> 出过的题基本不会再出现，但是可以看看自己板子怎么样。
+
+- [2019 ICPC 沈阳站 E.Capture Stars](https://www.cnblogs.com/AEMShana/p/12452762.html) （没有开放提交平台）
+- [2019 ICPC 南京站 K.Triangle](https://nanti.jisuanke.com/t/42405) [题解](https://www.cnblogs.com/wulitaotao/p/11755964.html) 铜牌题
+- [2019 ICPC 西安站邀请赛 C. Angel's Journey](https://blog.csdn.net/qq_41835683/article/details/90577692)
+- [2019 ICPC 上海站 I](https://ac.nowcoder.com/acm/contest/4370/I)  [一个题解](https://www.cnblogs.com/xiaobuxie/p/12485717.html)
+- [2019 CCPC 秦皇岛 A题（计算几何）](https://www.cnblogs.com/rentu/p/11642537.html)
+- [2018 ICPC 南京站 D.Country Meow](http://www.baidu.com/link?url=pCccIM_daajkd8wfqGEZESGajRSTRpq-M0MsWfwoHTyNIdoZjhkZBT7GWnBxZXqFnZ6XCUAoqWTIkHpoR2yWRq)
+- [2018 ICPC 沈阳站 L Machining Disc Rotors](https://blog.csdn.net/qq_40791842/article/details/100907900)
+- [2017 ICPC 北京站 G.Liaoning Ship's Voyage](https://blog.csdn.net/qq_40791842/article/details/101486595)
+- [2015 ICPC 上海站 I 计算几何+组合计数](https://blog.csdn.net/foreyes_1001/article/details/52228058)
+
+### To-Do
+
+> 一些可以准备的有意思的主题。
+
+- [ ] 最远曼哈顿距离
+- [ ] 包卡壳旋转求出所有对踵点、最远点对
+- [ ] 最近点对
+- [ ] 最近圆对
+- [ ] 求两个圆的交点
+- [ ]  凸包+旋转卡壳求平面面积最大三角
+- [ ] Pick定理
+- [ ] 求多边形面积和重心
+- [ ] 判断一个简单多边形是否有核
+- [ ]  模拟退火
+- [ ] 六边形坐标系
+- [ ]  用一个给定半径的圆覆盖最多的点
+- [ ] 不等大的圆的圆弧表示
+- [ ] 矩形面积并
+- [ ] 矩形的周长并
+- [ ] 求两个圆的面积交
+- [ ] 圆的反演变换
 
