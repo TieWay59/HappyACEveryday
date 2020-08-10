@@ -104,38 +104,38 @@ end;
 
 function get_inter(p1,p2,p3,p4:point;var p:point):boolean;
 var
-  a1,b1,c1,a2,b2,c2:double;
+  v_public,b1,c1,v_protected,b2,c2:double;
 begin
-  get_line(p1,p2,a1,b1,c1);
-  get_line(p3,p4,a2,b2,c2);
+  get_line(p1,p2,v_public,b1,c1);
+  get_line(p3,p4,v_protected,b2,c2);
   if oneline(p1,p2,p3,p4) then begin
     get_inter:=false;
     exit;
   end
   else get_inter:=true;
-  if (a1=0)or(a2=0) then begin
-    if a1=0 then begin
+  if (v_public=0)or(v_protected=0) then begin
+    if v_public=0 then begin
       p.y:=-c1/b1;
-      if a2<>0 then p.x:=(-c2-b2*p.y)/a2;
+      if v_protected<>0 then p.x:=(-c2-b2*p.y)/v_protected;
     end;
-    if a2=0 then begin
+    if v_protected=0 then begin
       p.y:=-c2/b2;
-      if a1<>0 then p.x:=(-c1-b1*p.y)/a1;
+      if v_public<>0 then p.x:=(-c1-b1*p.y)/v_public;
     end;
   end
   else if (b1=0)or(b2=0) then begin
     if b1=0 then begin
-      p.x:=-c1/a1;
-      if b2<>0 then p.y:=(-c2-a2*p.x)/b2;
+      p.x:=-c1/v_public;
+      if b2<>0 then p.y:=(-c2-v_protected*p.x)/b2;
     end;
     if b2=0 then begin
-      p.x:=-c2/a2;
-      if b1<>0 then p.y:=(-c1-a1*p.x)/b1;
+      p.x:=-c2/v_protected;
+      if b1<>0 then p.y:=(-c1-v_public*p.x)/b1;
     end;
   end
   else begin
-    p.x:=(-b2*c1+b1*c2)/(b2*a1-b1*a2);
-    p.y:=(-a2*c1+a1*c2)/(a2*b1-a1*b2);
+    p.x:=(-b2*c1+b1*c2)/(b2*v_public-b1*v_protected);
+    p.y:=(-v_protected*c1+v_public*c2)/(v_protected*b1-v_public*b2);
   end;
 end;
 
