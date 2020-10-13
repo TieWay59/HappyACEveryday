@@ -1,7 +1,18 @@
-/**http://codeforces.com/problemset/problem/185/A
-  * 矩阵快速幂模板题
-  * 难点可能在重载运算符，还有想到对应的矩阵
-  */
+/**
+ *  @Source: myself
+ *  @Author: Tieway59
+ *  @Complexity: $O(N^3logP)$
+ *  @Description:
+ *      n行m列，下标从1开始
+ *
+ *  @Example:
+ *
+ *  @Verification:
+ *      http://codeforces.com/problemset/problem/185/A
+ *      http://codeforces.com/problemset/submission/185/95319533
+ *
+ */
+
 #include<bits/stdc++.h>
 
 using namespace std;

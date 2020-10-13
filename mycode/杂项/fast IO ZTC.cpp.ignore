@@ -3,7 +3,8 @@
 namespace Fast_IO { //orz laofu
     const int MAXL((1 << 18) + 1);
     int iof, iotp;
-    char ioif[MAXL], *ioiS, *ioiT, ioof[MAXL], *iooS = ioof, *iooT = ioof + MAXL - 1, ioc, iost[55];
+    char ioif[MAXL], *ioiS, *ioiT, ioof[MAXL];
+    char *iooS = ioof, *iooT = ioof + MAXL - 1, ioc, iost[55];
 
     char Getchar() {
         if (ioiS == ioiT) {
