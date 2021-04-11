@@ -3,7 +3,7 @@ inline void read(int &x) {
     char ch;
     bool flag = false;
     for (ch = getchar(); !isdigit(ch); ch = getchar())if (ch == '-') flag = true;
-    for (x = 0; isdigit(ch); x = (x << 1) + (x << 3) + ch & 15, ch = getchar());
+    for (x = 0; isdigit(ch); x = (x << 1) + (x << 3) + (ch & 15), ch = getchar());
     x = flag ? -x : x;
 }
 
